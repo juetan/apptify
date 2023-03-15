@@ -4,24 +4,39 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "commit": "git add . && cz",
     "test": "echo \"Error: no test specified\" && exit 1",
     "create:dev": "pnpm --filter @apptify/create dev"
   },
   "simple-git-hooks": {
-    "pre-commit": "nano-staged"
+    "pre-commit": "npx nano-staged",
+    "commit-msg": "npx --no -- commitlint --edit ${1}"
   },
   "nano-staged": {
     "/packages/**/*.{js,ts,tsx}": [
       "eslint --fix",
-      "prettier --write",
       "git add"
     ]
   },
   "eslintConfig": {
+    "ignorePatterns": [
+      "template-*",
+      "dist"
+    ],
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
     "extends": [
-      "eslint:recommended",
       "plugin:prettier/recommended"
-    ]
+    ],
+    "parser": "@typescript-eslint/parser",
+    "overrides": [],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {}
   },
   "prettier": {
     "singleQuote": true,
@@ -43,6 +58,7 @@
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@types/node": "^18.15.3",
+    "@typescript-eslint/parser": "^5.55.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.36.0",

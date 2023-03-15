@@ -12,7 +12,7 @@ export default defineConfig({
       external: [...builtinModules],
       output: {
         banner: `#!/usr/bin/env node`,
-      }
+      },
     },
   },
 });
