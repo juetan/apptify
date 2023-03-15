@@ -1,11 +1,8 @@
 {
   "name": "@apptify/create",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
-  "bin": {
-    "apptify": "dist/index.js",
-    "create-apptify": "dist/index.js"
-  },
+  "bin": "dist/index.js",
   "files": [
     "dist",
     "template-*"
@@ -15,6 +12,7 @@
     "build": "tsc && vite build"
   },
   "devDependencies": {
+    "@types/minimist": "^1.2.2",
     "enquirer": "^2.3.6",
     "kolorist": "^1.7.0",
     "minimist": "^1.2.8",

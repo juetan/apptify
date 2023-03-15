@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
 import { builtinModules } from 'module';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
@@ -10,9 +10,9 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [...builtinModules],
+      output: {
+        banner: `#!/usr/bin/env node`,
+      }
     },
   },
-  esbuild: {
-    // banner: `#!/usr/bin/env node`,
-  }
 });
