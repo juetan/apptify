@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "commit": "git add . && cz",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "create:dev": "pnpm --filter @apptify/create dev"
+    "create:dev": "pnpm --filter @apptify/create dev",
+    "common:build": "pnpm --filter @apptify/common build"
   },
   "simple-git-hooks": {
     "pre-commit": "npx nano-staged",
