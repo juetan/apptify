@@ -1,6 +1,6 @@
 {
-  "name": "@apptify/create",
-  "version": "0.0.4",
+  "name": "create-apptify",
+  "version": "0.0.1",
   "type": "module",
   "bin": "dist/index.js",
   "files": [
