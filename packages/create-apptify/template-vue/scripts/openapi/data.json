@@ -1,0 +1,1655 @@
+{
+  "customer": {
+    "id": "customer",
+    "title": "客户相关接口",
+    "routes": [
+      {
+        "id": "addCustomerUsingPost",
+        "title": "新增客户",
+        "method": "post",
+        "url": "/customer/addCustomer",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "customerDescription": { "id": "customerDescription", "label": "客户描述", "type": "input" },
+          "customerName": { "id": "customerName", "label": "客户名称", "type": "input" },
+          "id": { "id": "id", "label": "客户id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteCustomerUsingDelete",
+        "title": "删除客户",
+        "method": "delete",
+        "url": "/customer/deleteCustomer",
+        "request": { "customerId": { "type": "inputNumber", "label": "客户id", "id": "customerId" } },
+        "response": {}
+      },
+      {
+        "id": "getDeviceListUsingGet",
+        "title": "获取客户列表",
+        "method": "get",
+        "url": "/customer/getCustomerList",
+        "request": {
+          "customerName": { "type": "input", "label": "客户名称", "id": "customerName" },
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "customerDescription": { "id": "customerDescription", "label": "客户描述", "type": "input" },
+          "customerName": { "id": "customerName", "label": "客户名称", "type": "input" },
+          "id": { "id": "id", "label": "客户id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        }
+      },
+      {
+        "id": "getCustomerSelectorUsingGet",
+        "title": "获取客户下拉框",
+        "method": "get",
+        "url": "/customer/getCustomerSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "updateCustomerUsingPost",
+        "title": "修改客户信息",
+        "method": "post",
+        "url": "/customer/updateCustomer",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "customerDescription": { "id": "customerDescription", "label": "客户描述", "type": "input" },
+          "customerName": { "id": "customerName", "label": "客户名称", "type": "input" },
+          "id": { "id": "id", "label": "客户id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "department": {
+    "id": "department",
+    "title": "部门相关接口",
+    "routes": [
+      {
+        "id": "addDepartmentUsingPost",
+        "title": "新增部门",
+        "method": "post",
+        "url": "/department/addDepartment",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "deptDescription": { "id": "deptDescription", "label": "部门描述", "type": "input" },
+          "deptName": { "id": "deptName", "label": "部门名称", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteDepartmentUsingDelete",
+        "title": "删除部门",
+        "method": "delete",
+        "url": "/department/deleteDepartment",
+        "request": { "departmentId": { "type": "inputNumber", "label": "部门id", "id": "departmentId" } },
+        "response": {}
+      },
+      {
+        "id": "getDepartmentListUsingGet",
+        "title": "获取部门列表",
+        "method": "get",
+        "url": "/department/getDepartmentList",
+        "request": {
+          "departmentName": { "type": "input", "label": "部门名称", "id": "departmentName" },
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "deptDescription": { "id": "deptDescription", "label": "部门描述", "type": "input" },
+          "deptName": { "id": "deptName", "label": "部门名称", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        }
+      },
+      {
+        "id": "getDepartmentSelectorUsingGet",
+        "title": "获取部门下拉框",
+        "method": "get",
+        "url": "/department/getDepartmentSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "updateDepartmentUsingPost",
+        "title": "修改部门信息",
+        "method": "post",
+        "url": "/department/updateDepartment",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "deptDescription": { "id": "deptDescription", "label": "部门描述", "type": "input" },
+          "deptName": { "id": "deptName", "label": "部门名称", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "device": {
+    "id": "device",
+    "title": "设备相关接口",
+    "routes": [
+      {
+        "id": "addDeviceUsingPost",
+        "title": "新增设备",
+        "method": "post",
+        "url": "/device/addDevice",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "deviceDecription": { "id": "deviceDecription", "label": "设备描述", "type": "input" },
+          "deviceName": { "id": "deviceName", "label": "设备名称", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteDeviceUsingDelete",
+        "title": "删除设备",
+        "method": "delete",
+        "url": "/device/deleteDevice",
+        "request": { "deviceId": { "type": "inputNumber", "label": "设备id", "id": "deviceId" } },
+        "response": {}
+      },
+      {
+        "id": "getDeviceListUsingGet1",
+        "title": "获取设备列表",
+        "method": "get",
+        "url": "/device/getDeviceList",
+        "request": {
+          "deviceName": { "type": "input", "label": "设备名称", "id": "deviceName" },
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "deviceDecription": { "id": "deviceDecription", "label": "设备描述", "type": "input" },
+          "deviceName": { "id": "deviceName", "label": "设备名称", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        }
+      },
+      {
+        "id": "getDeviceSelectorUsingGet",
+        "title": "获取设备下拉框",
+        "method": "get",
+        "url": "/device/getDeviceSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "updateDeviceUsingPost",
+        "title": "修改设备信息",
+        "method": "post",
+        "url": "/device/updateDevice",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "deviceDecription": { "id": "deviceDecription", "label": "设备描述", "type": "input" },
+          "deviceName": { "id": "deviceName", "label": "设备名称", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "dictionary": {
+    "id": "dictionary",
+    "title": "字典相关接口",
+    "routes": [
+      {
+        "id": "getDictionaryByCodeSelectorUsingGet",
+        "title": "获取字典下拉框",
+        "method": "get",
+        "url": "/dictionary/getDictionaryByCodeSelector",
+        "request": { "code": { "type": "input", "label": "编号", "id": "code" } },
+        "response": {}
+      }
+    ]
+  },
+  "employee": {
+    "id": "employee",
+    "title": "员工相关接口",
+    "routes": [
+      {
+        "id": "addEmployeeUsingPost",
+        "title": "新增员工",
+        "method": "post",
+        "url": "/employee/addEmployee",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "departmentId": { "id": "departmentId", "label": "所在部门id", "type": "inputNumber" },
+          "description": { "id": "description", "label": "其他描述", "type": "input" },
+          "email": { "id": "email", "label": "邮箱地址", "type": "input" },
+          "employeeName": { "id": "employeeName", "label": "员工姓名", "type": "input" },
+          "groupName": { "id": "groupName", "label": "员工所属组", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "sex": { "id": "sex", "label": "性别（1：男，0：女）", "type": "inputNumber" },
+          "telephone": { "id": "telephone", "label": "电话号码", "type": "input" },
+          "title": { "id": "title", "label": "员工职位", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteEmployeeUsingDelete",
+        "title": "删除员工",
+        "method": "delete",
+        "url": "/employee/deleteEmployee",
+        "request": { "employeeId": { "type": "inputNumber", "label": "员工id", "id": "employeeId" } },
+        "response": {}
+      },
+      {
+        "id": "getEmployeeListUsingGet",
+        "title": "获取员工列表",
+        "method": "get",
+        "url": "/employee/getEmployeeList",
+        "request": {
+          "departmentId": { "type": "input", "label": "部门id", "id": "departmentId" },
+          "employeeName": { "type": "input", "label": "员工名称", "id": "employeeName" },
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "departmentId": { "id": "departmentId", "label": "所在部门id", "type": "inputNumber" },
+          "departmentName": { "id": "departmentName", "label": "所在部门名称", "type": "input" },
+          "description": { "id": "description", "label": "其他描述", "type": "input" },
+          "email": { "id": "email", "label": "邮箱地址", "type": "input" },
+          "employeeName": { "id": "employeeName", "label": "员工姓名", "type": "input" },
+          "groupName": { "id": "groupName", "label": "员工所属组", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "sex": { "id": "sex", "label": "性别（1：男，0：女）", "type": "inputNumber" },
+          "telephone": { "id": "telephone", "label": "电话号码", "type": "input" },
+          "title": { "id": "title", "label": "员工职位", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        }
+      },
+      {
+        "id": "getEmployeeSelectorUsingGet",
+        "title": "获取员工下拉框",
+        "method": "get",
+        "url": "/employee/getEmployeeSelector",
+        "request": { "departmentId": { "type": "input", "label": "部门id", "id": "departmentId" } },
+        "response": {}
+      },
+      {
+        "id": "updateEmployeeUsingPost",
+        "title": "修改员工信息",
+        "method": "post",
+        "url": "/employee/updateEmployee",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "departmentId": { "id": "departmentId", "label": "所在部门id", "type": "inputNumber" },
+          "description": { "id": "description", "label": "其他描述", "type": "input" },
+          "email": { "id": "email", "label": "邮箱地址", "type": "input" },
+          "employeeName": { "id": "employeeName", "label": "员工姓名", "type": "input" },
+          "groupName": { "id": "groupName", "label": "员工所属组", "type": "input" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "sex": { "id": "sex", "label": "性别（1：男，0：女）", "type": "inputNumber" },
+          "telephone": { "id": "telephone", "label": "电话号码", "type": "input" },
+          "title": { "id": "title", "label": "员工职位", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "faultExport": {
+    "id": "faultExport",
+    "title": "故障导出相关",
+    "routes": [
+      {
+        "id": "exportNormalFaultListUsingPost",
+        "title": "导出质量数据列表（非重大故障）",
+        "method": "post",
+        "url": "/faultExport/exportNormalFaultList",
+        "request": {
+          "createDateStart": {
+            "id": "createDateStart",
+            "label": "创建时间开始，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "createDateStartEnd": {
+            "id": "createDateStartEnd",
+            "label": "创建时间结束，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "faultDateEnd": { "id": "faultDateEnd", "label": "故障日期结束，yyyy/MM/dd", "type": "datePicker" },
+          "faultDateStart": { "id": "faultDateStart", "label": "故障日期开始，yyyy/MM/dd", "type": "datePicker" },
+          "faultDeviceId": { "id": "faultDeviceId", "label": "故障设备id", "type": "inputNumber" },
+          "faultSystemId": { "id": "faultSystemId", "label": "故障系统id", "type": "inputNumber" },
+          "faultType": {
+            "id": "faultType",
+            "label": "故障类型（1：项目运行过程质量问题，2：进货检验问题，3：生产制造问题）",
+            "type": "inputNumber"
+          },
+          "importUserId": { "id": "importUserId", "label": "故障导入人（手动录入时为填写人）", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "故障项目id", "type": "inputNumber" },
+          "supplierId": { "id": "supplierId", "label": "供应商责任，供应商id", "type": "inputNumber" }
+        },
+        "response": {}
+      },
+      {
+        "id": "exportWorkOrderListUsingPost",
+        "title": "导出重点问题跟踪列表（工单）",
+        "method": "post",
+        "url": "/faultExport/exportWorkOrderList",
+        "request": {
+          "createDateStart": {
+            "id": "createDateStart",
+            "label": "创建时间开始，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "createDateStartEnd": {
+            "id": "createDateStartEnd",
+            "label": "创建时间结束，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "faultDateEnd": { "id": "faultDateEnd", "label": "故障日期结束，yyyy/MM/dd", "type": "datePicker" },
+          "faultDateStart": { "id": "faultDateStart", "label": "故障日期开始，yyyy/MM/dd", "type": "datePicker" },
+          "faultDeviceId": { "id": "faultDeviceId", "label": "故障设备id", "type": "inputNumber" },
+          "faultSystemId": { "id": "faultSystemId", "label": "故障系统id", "type": "inputNumber" },
+          "faultType": {
+            "id": "faultType",
+            "label": "故障类型（1：项目运行过程质量问题，2：进货检验问题，3：生产制造问题）",
+            "type": "inputNumber"
+          },
+          "hiddenFinished": {
+            "id": "hiddenFinished",
+            "label": "隐藏已完成故障（1：隐藏，0：显示，默认为0）",
+            "type": "inputNumber"
+          },
+          "importUserId": { "id": "importUserId", "label": "故障导入人（手动录入时为填写人）", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "故障项目id", "type": "inputNumber" },
+          "step": {
+            "id": "step",
+            "label": "步骤（1：待提交，2：待分配，3：进行中，4：已完成）",
+            "type": "inputNumber"
+          },
+          "supplierId": { "id": "supplierId", "label": "供应商责任，供应商id", "type": "inputNumber" },
+          "urgency": { "id": "urgency", "label": "紧急程度", "type": "input" },
+          "workOrderCode": { "id": "workOrderCode", "label": "故障编号", "type": "input" },
+          "workOrderProcessUserId": { "id": "workOrderProcessUserId", "label": "工单处理人", "type": "inputNumber" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "faultImport": {
+    "id": "faultImport",
+    "title": "故障导入相关接口",
+    "routes": [
+      {
+        "id": "faultDataReVerifyUsingPost",
+        "title": "导入的表格故障数据验证",
+        "method": "post",
+        "url": "/faultImport/faultDataReVerify",
+        "response": {}
+      },
+      {
+        "id": "faultExcelUploadUsingPost",
+        "title": "故障文件导入",
+        "method": "post",
+        "url": "/faultImport/faultExcelUpload",
+        "response": {}
+      },
+      {
+        "id": "submitImportFaultDataUsingPost",
+        "title": "故障导入数据入库",
+        "method": "post",
+        "url": "/faultImport/submitImportFaultData",
+        "response": {}
+      }
+    ]
+  },
+  "faultSystem": {
+    "id": "faultSystem",
+    "title": "故障系统相关接口",
+    "routes": [
+      {
+        "id": "addFaultSystemUsingPost",
+        "title": "新增故障系统",
+        "method": "post",
+        "url": "/faultSystem/addFaultSystem",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "fatherId": {
+            "id": "fatherId",
+            "label": "父级id，当level不为1时此项必填，为1时此项默认为0",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "type": "inputNumber" },
+          "level": { "id": "level", "label": "层级，默认为1，表示第一级", "type": "inputNumber" },
+          "systemDescription": { "id": "systemDescription", "label": "故障系统描述", "type": "input" },
+          "systemName": { "id": "systemName", "label": "故障系统名称", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteFaultSystemUsingDelete",
+        "title": "删除故障系统",
+        "method": "delete",
+        "url": "/faultSystem/deleteFaultSystem",
+        "request": { "faultSystemId": { "type": "inputNumber", "label": "故障系统id", "id": "faultSystemId" } },
+        "response": {}
+      },
+      {
+        "id": "getFaultSystemListUsingGet",
+        "title": "获取故障系统列表",
+        "method": "get",
+        "url": "/faultSystem/getFaultSystemList",
+        "request": {
+          "fatherId": { "type": "inputNumber", "label": "故障系统父级id", "id": "fatherId" },
+          "faultSystemName": { "type": "input", "label": "故障系统名称", "id": "faultSystemName" },
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "fatherId": {
+            "id": "fatherId",
+            "label": "父级id，当level不为1时此项必填，为1时此项默认为0",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "type": "inputNumber" },
+          "level": { "id": "level", "label": "层级，默认为1，表示第一级", "type": "inputNumber" },
+          "systemDescription": { "id": "systemDescription", "label": "故障系统描述", "type": "input" },
+          "systemName": { "id": "systemName", "label": "故障系统名称", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        }
+      },
+      {
+        "id": "getFaultSystemSelectorUsingGet",
+        "title": "获取故障系统下拉框",
+        "method": "get",
+        "url": "/faultSystem/getFaultSystemSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "updateFaultSystemUsingPost",
+        "title": "修改故障系统信息",
+        "method": "post",
+        "url": "/faultSystem/updateFaultSystem",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "fatherId": {
+            "id": "fatherId",
+            "label": "父级id，当level不为1时此项必填，为1时此项默认为0",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "type": "inputNumber" },
+          "level": { "id": "level", "label": "层级，默认为1，表示第一级", "type": "inputNumber" },
+          "systemDescription": { "id": "systemDescription", "label": "故障系统描述", "type": "input" },
+          "systemName": { "id": "systemName", "label": "故障系统名称", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "faultWorkOrder": {
+    "id": "faultWorkOrder",
+    "title": "故障工单相关",
+    "routes": [
+      {
+        "id": "addFaultUsingPost",
+        "title": "新建故障",
+        "method": "post",
+        "url": "/faultWorkOrder/addFault",
+        "request": {
+          "carriageNums": { "id": "carriageNums", "label": "故障车厢号列表", "type": "input" },
+          "closedStatus": { "id": "closedStatus", "label": "关闭情况", "type": "input" },
+          "createAt": { "id": "createAt", "label": "创建时间，后端自动赋值", "type": "datePicker" },
+          "dealStatus": { "id": "dealStatus", "label": "处置情况", "type": "input" },
+          "faultDate": { "id": "faultDate", "label": "故障日期，yyyy/MM/dd", "type": "datePicker" },
+          "faultDescription": { "id": "faultDescription", "label": "故障表述", "type": "input" },
+          "faultDeviceId": { "id": "faultDeviceId", "label": "故障设备id", "type": "inputNumber" },
+          "faultMaterialSerialNum": {
+            "id": "faultMaterialSerialNum",
+            "label": "更换配件旧件序列号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "faultSystemId": { "id": "faultSystemId", "label": "故障系统id", "type": "inputNumber" },
+          "faultType": {
+            "id": "faultType",
+            "label": "故障类型（1：项目运行过程质量问题，2：进货检验问题，3：生产制造问题）",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "label": "故障流程id", "type": "input" },
+          "importUserId": { "id": "importUserId", "label": "故障导入人（手动录入时为填写人）", "type": "inputNumber" },
+          "informationFeedbackNum": {
+            "id": "informationFeedbackNum",
+            "label": "信息反馈编号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "kilometers": { "id": "kilometers", "label": "公里数", "type": "" },
+          "newMaterialSerialNum": {
+            "id": "newMaterialSerialNum",
+            "label": "更换配件新件序列号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "originFaultId": { "id": "originFaultId", "label": "原始故障记录id（手动录入数据时为空）", "type": "input" },
+          "ownResponsibility": { "id": "ownResponsibility", "label": "公司内部责任", "type": "input" },
+          "personNum": { "id": "personNum", "label": "故障处理人数", "type": "inputNumber" },
+          "processingCompany": { "id": "processingCompany", "label": "处理单位", "type": "input" },
+          "processingDuration": { "id": "processingDuration", "label": "故障处理耗时", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "故障项目id", "type": "inputNumber" },
+          "remark": { "id": "remark", "label": "备注", "type": "input" },
+          "replaceDescription": {
+            "id": "replaceDescription",
+            "label": "更换依据（根据维修手册的章节内容），清客、救援、下线时必填",
+            "type": "input"
+          },
+          "responsibility": { "id": "responsibility", "label": "责任划分", "type": "input" },
+          "step": {
+            "id": "step",
+            "label": "步骤（1：待提交，2：待分配，3：进行中，4：已完成）",
+            "type": "inputNumber"
+          },
+          "supplierId": { "id": "supplierId", "label": "供应商责任，供应商id", "type": "inputNumber" },
+          "trainIds": { "id": "trainIds", "label": "故障列车id列表", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间，后端自动赋值", "type": "datePicker" },
+          "urgency": {
+            "id": "urgency",
+            "label": "紧急程度（清客、救援、下线为重大故障，一般为普通故障）",
+            "type": "input"
+          },
+          "workOrderCode": { "id": "workOrderCode", "label": "故障编号", "type": "input" },
+          "workOrderProcessUserId": { "id": "workOrderProcessUserId", "label": "工单处理人", "type": "inputNumber" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteNormalFaultsUsingPost",
+        "title": "删除质量数据（非重大故障）",
+        "method": "post",
+        "url": "/faultWorkOrder/deleteNormalFaults",
+        "response": {}
+      },
+      {
+        "id": "deleteWorkOrdersUsingPost",
+        "title": "删除故障工单（重大故障）",
+        "method": "post",
+        "url": "/faultWorkOrder/deleteWorkOrders",
+        "response": {}
+      },
+      {
+        "id": "getNormalFaultListUsingPost",
+        "title": "获取质量数据列表（非重大故障）",
+        "method": "post",
+        "url": "/faultWorkOrder/getNormalFaultList",
+        "request": {
+          "createDateStart": {
+            "id": "createDateStart",
+            "label": "创建时间开始，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "createDateStartEnd": {
+            "id": "createDateStartEnd",
+            "label": "创建时间结束，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "faultDateEnd": { "id": "faultDateEnd", "label": "故障日期结束，yyyy/MM/dd", "type": "datePicker" },
+          "faultDateStart": { "id": "faultDateStart", "label": "故障日期开始，yyyy/MM/dd", "type": "datePicker" },
+          "faultDeviceId": { "id": "faultDeviceId", "label": "故障设备id", "type": "inputNumber" },
+          "faultSystemId": { "id": "faultSystemId", "label": "故障系统id", "type": "inputNumber" },
+          "faultType": {
+            "id": "faultType",
+            "label": "故障类型（1：项目运行过程质量问题，2：进货检验问题，3：生产制造问题）",
+            "type": "inputNumber"
+          },
+          "importUserId": { "id": "importUserId", "label": "故障导入人（手动录入时为填写人）", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "故障项目id", "type": "inputNumber" },
+          "supplierId": { "id": "supplierId", "label": "供应商责任，供应商id", "type": "inputNumber" }
+        },
+        "response": {}
+      },
+      {
+        "id": "getWorkOrderByIdUsingGet",
+        "title": "根据工单id获取工单详情信息（重大故障）",
+        "method": "get",
+        "url": "/faultWorkOrder/getWorkOrderById",
+        "request": { "workOrderId": { "type": "input", "label": "重大故障id", "id": "workOrderId" } },
+        "response": {}
+      },
+      {
+        "id": "getWorkOrderListUsingPost",
+        "title": "获取重点问题跟踪列表（重大故障）",
+        "method": "post",
+        "url": "/faultWorkOrder/getWorkOrderList",
+        "request": {
+          "createDateStart": {
+            "id": "createDateStart",
+            "label": "创建时间开始，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "createDateStartEnd": {
+            "id": "createDateStartEnd",
+            "label": "创建时间结束，yyyy/MM/dd HH:mm:ss",
+            "type": "datePicker"
+          },
+          "faultDateEnd": { "id": "faultDateEnd", "label": "故障日期结束，yyyy/MM/dd", "type": "datePicker" },
+          "faultDateStart": { "id": "faultDateStart", "label": "故障日期开始，yyyy/MM/dd", "type": "datePicker" },
+          "faultDeviceId": { "id": "faultDeviceId", "label": "故障设备id", "type": "inputNumber" },
+          "faultSystemId": { "id": "faultSystemId", "label": "故障系统id", "type": "inputNumber" },
+          "faultType": {
+            "id": "faultType",
+            "label": "故障类型（1：项目运行过程质量问题，2：进货检验问题，3：生产制造问题）",
+            "type": "inputNumber"
+          },
+          "hiddenFinished": {
+            "id": "hiddenFinished",
+            "label": "隐藏已完成故障（1：隐藏，0：显示，默认为0）",
+            "type": "inputNumber"
+          },
+          "importUserId": { "id": "importUserId", "label": "故障导入人（手动录入时为填写人）", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "故障项目id", "type": "inputNumber" },
+          "step": {
+            "id": "step",
+            "label": "步骤（1：待提交，2：待分配，3：进行中，4：已完成）",
+            "type": "inputNumber"
+          },
+          "supplierId": { "id": "supplierId", "label": "供应商责任，供应商id", "type": "inputNumber" },
+          "urgency": { "id": "urgency", "label": "紧急程度", "type": "input" },
+          "workOrderCode": { "id": "workOrderCode", "label": "故障编号", "type": "input" },
+          "workOrderProcessUserId": { "id": "workOrderProcessUserId", "label": "工单处理人", "type": "inputNumber" }
+        },
+        "response": {}
+      },
+      {
+        "id": "getWorkOrderTrackUsingGet",
+        "title": "获取故障工单步骤记录",
+        "method": "get",
+        "url": "/faultWorkOrder/getWorkOrderTrack",
+        "request": { "workOrderId": { "type": "input", "label": "工单id", "id": "workOrderId" } },
+        "response": {}
+      },
+      {
+        "id": "updateNormalFaultUsingPost",
+        "title": "修改质量数据（非重大故障）",
+        "method": "post",
+        "url": "/faultWorkOrder/updateNormalFault",
+        "request": {
+          "carriageNums": { "id": "carriageNums", "label": "故障车厢号列表", "type": "input" },
+          "closedStatus": { "id": "closedStatus", "label": "关闭情况", "type": "input" },
+          "createAt": { "id": "createAt", "label": "创建时间，后端自动赋值", "type": "datePicker" },
+          "dealStatus": { "id": "dealStatus", "label": "处置情况", "type": "input" },
+          "faultDate": { "id": "faultDate", "label": "故障日期，yyyy/MM/dd", "type": "datePicker" },
+          "faultDescription": { "id": "faultDescription", "label": "故障表述", "type": "input" },
+          "faultDeviceId": { "id": "faultDeviceId", "label": "故障设备id", "type": "inputNumber" },
+          "faultMaterialSerialNum": {
+            "id": "faultMaterialSerialNum",
+            "label": "更换配件旧件序列号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "faultSystemId": { "id": "faultSystemId", "label": "故障系统id", "type": "inputNumber" },
+          "faultType": {
+            "id": "faultType",
+            "label": "故障类型（1：项目运行过程质量问题，2：进货检验问题，3：生产制造问题）",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "label": "非重大故障历史id", "type": "inputNumber" },
+          "importUserId": { "id": "importUserId", "label": "故障导入人（手动录入时为填写人）", "type": "inputNumber" },
+          "informationFeedbackNum": {
+            "id": "informationFeedbackNum",
+            "label": "信息反馈编号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "kilometers": { "id": "kilometers", "label": "公里数", "type": "" },
+          "newMaterialSerialNum": {
+            "id": "newMaterialSerialNum",
+            "label": "更换配件新件序列号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "originFaultId": { "id": "originFaultId", "label": "原始故障记录id（手动录入数据时为空）", "type": "input" },
+          "ownResponsibility": { "id": "ownResponsibility", "label": "公司内部责任", "type": "input" },
+          "personNum": { "id": "personNum", "label": "故障处理人数", "type": "inputNumber" },
+          "processingCompany": { "id": "processingCompany", "label": "处理单位", "type": "input" },
+          "processingDuration": { "id": "processingDuration", "label": "故障处理耗时", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "故障项目id", "type": "inputNumber" },
+          "remark": { "id": "remark", "label": "备注", "type": "input" },
+          "replaceDescription": {
+            "id": "replaceDescription",
+            "label": "更换依据（根据维修手册的章节内容），清客、救援、下线时必填",
+            "type": "input"
+          },
+          "responsibility": { "id": "responsibility", "label": "责任划分", "type": "input" },
+          "supplierId": { "id": "supplierId", "label": "供应商责任，供应商id", "type": "inputNumber" },
+          "trainIds": { "id": "trainIds", "label": "故障列车id列表", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间，后端自动赋值", "type": "datePicker" },
+          "urgency": { "id": "urgency", "label": "紧急程度", "type": "input" }
+        },
+        "response": {}
+      },
+      {
+        "id": "updateWorkOrderUsingPost",
+        "title": "修改重点问题（重大故障）",
+        "method": "post",
+        "url": "/faultWorkOrder/updateWorkOrder",
+        "request": {
+          "carriageNums": { "id": "carriageNums", "label": "故障车厢号列表", "type": "input" },
+          "closedStatus": { "id": "closedStatus", "label": "关闭情况", "type": "input" },
+          "createAt": { "id": "createAt", "label": "创建时间，后端自动赋值", "type": "datePicker" },
+          "dealStatus": { "id": "dealStatus", "label": "处置情况", "type": "input" },
+          "faultDate": { "id": "faultDate", "label": "故障日期，yyyy/MM/dd", "type": "datePicker" },
+          "faultDescription": { "id": "faultDescription", "label": "故障表述", "type": "input" },
+          "faultDeviceId": { "id": "faultDeviceId", "label": "故障设备id", "type": "inputNumber" },
+          "faultMaterialSerialNum": {
+            "id": "faultMaterialSerialNum",
+            "label": "更换配件旧件序列号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "faultSystemId": { "id": "faultSystemId", "label": "故障系统id", "type": "inputNumber" },
+          "faultType": {
+            "id": "faultType",
+            "label": "故障类型（1：项目运行过程质量问题，2：进货检验问题，3：生产制造问题）",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "label": "故障流程id", "type": "input" },
+          "importUserId": { "id": "importUserId", "label": "故障导入人（手动录入时为填写人）", "type": "inputNumber" },
+          "informationFeedbackNum": {
+            "id": "informationFeedbackNum",
+            "label": "信息反馈编号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "kilometers": { "id": "kilometers", "label": "公里数", "type": "" },
+          "newMaterialSerialNum": {
+            "id": "newMaterialSerialNum",
+            "label": "更换配件新件序列号，清客、救援、下线时必填",
+            "type": "input"
+          },
+          "originFaultId": { "id": "originFaultId", "label": "原始故障记录id（手动录入数据时为空）", "type": "input" },
+          "ownResponsibility": { "id": "ownResponsibility", "label": "公司内部责任", "type": "input" },
+          "personNum": { "id": "personNum", "label": "故障处理人数", "type": "inputNumber" },
+          "processingCompany": { "id": "processingCompany", "label": "处理单位", "type": "input" },
+          "processingDuration": { "id": "processingDuration", "label": "故障处理耗时", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "故障项目id", "type": "inputNumber" },
+          "remark": { "id": "remark", "label": "备注", "type": "input" },
+          "replaceDescription": {
+            "id": "replaceDescription",
+            "label": "更换依据（根据维修手册的章节内容），清客、救援、下线时必填",
+            "type": "input"
+          },
+          "responsibility": { "id": "responsibility", "label": "责任划分", "type": "input" },
+          "step": {
+            "id": "step",
+            "label": "步骤（1：待提交，2：待分配，3：进行中，4：已完成）",
+            "type": "inputNumber"
+          },
+          "supplierId": { "id": "supplierId", "label": "供应商责任，供应商id", "type": "inputNumber" },
+          "trainIds": { "id": "trainIds", "label": "故障列车id列表", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间，后端自动赋值", "type": "datePicker" },
+          "urgency": {
+            "id": "urgency",
+            "label": "紧急程度（清客、救援、下线为重大故障，一般为普通故障）",
+            "type": "input"
+          },
+          "workOrderCode": { "id": "workOrderCode", "label": "故障编号", "type": "input" },
+          "workOrderProcessUserId": { "id": "workOrderProcessUserId", "label": "工单处理人", "type": "inputNumber" }
+        },
+        "response": {}
+      },
+      {
+        "id": "workOrderNextStepUsingPost",
+        "title": "故障下一步",
+        "method": "post",
+        "url": "/faultWorkOrder/workOrderNextStep",
+        "request": {
+          "currentStepNum": { "id": "currentStepNum", "label": "工单当前步骤编号", "type": "inputNumber" },
+          "nextStepNum": { "id": "nextStepNum", "label": "工单下一步编号", "type": "inputNumber" },
+          "operationContent": { "id": "operationContent", "label": "操作内容", "type": "input" },
+          "processUserId": { "id": "processUserId", "label": "处理人，当工单分配处理人时填写", "type": "inputNumber" },
+          "workOrderId": { "id": "workOrderId", "label": "工单id", "type": "input" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "faultWorkOrderEnclosure": {
+    "id": "faultWorkOrderEnclosure",
+    "title": "故障工单附件相关",
+    "routes": [
+      {
+        "id": "deleteEnclosureUsingDelete",
+        "title": "根据附件id删除附件",
+        "method": "delete",
+        "url": "/faultWorkOrderEnclosure/deleteEnclosure",
+        "request": { "enclosureId": { "type": "inputNumber", "label": "附件id", "id": "enclosureId" } },
+        "response": {}
+      },
+      {
+        "id": "downloadFaultEnclosureUsingGet",
+        "title": "故障工单附件下载",
+        "method": "get",
+        "url": "/faultWorkOrderEnclosure/downloadFaultEnclosure",
+        "request": { "enclosureId": { "type": "inputNumber", "label": "故障附件id", "id": "enclosureId" } },
+        "response": {}
+      },
+      {
+        "id": "getFinishedEnclosureListByWorkOrderIdUsingGet",
+        "title": "获取故障工单完结附件列表",
+        "method": "get",
+        "url": "/faultWorkOrderEnclosure/getFinishedEnclosureListByWorkOrderId",
+        "request": { "workOrderId": { "type": "input", "label": "故障工单id", "id": "workOrderId" } },
+        "response": {}
+      },
+      {
+        "id": "uploadEnclosureUsingPost",
+        "title": "附件上传",
+        "method": "post",
+        "url": "/faultWorkOrderEnclosure/uploadEnclosure",
+        "response": {}
+      }
+    ]
+  },
+  "faultWorkOrderReply": {
+    "id": "faultWorkOrderReply",
+    "title": "故障工单回复相关",
+    "routes": [
+      {
+        "id": "addReplyUsingPost",
+        "title": "添加回复",
+        "method": "post",
+        "url": "/faultWorkOrderReply/addReply",
+        "request": {
+          "drawInferencesContent": { "id": "drawInferencesContent", "label": "举一反三情况", "type": "input" },
+          "fileIdList": {},
+          "processContent": { "id": "processContent", "label": "问题处理情况", "type": "input" },
+          "reasonContent": { "id": "reasonContent", "label": "原因分析情况", "type": "input" },
+          "supplierExamineContent": { "id": "supplierExamineContent", "label": "供应商考核情况", "type": "input" },
+          "supplierHandoverContent": { "id": "supplierHandoverContent", "label": "供应商交班情况", "type": "input" },
+          "workOrderId": { "id": "workOrderId", "label": "故障工单id", "type": "input" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteReplyUsingDelete",
+        "title": "删除工单回复",
+        "method": "delete",
+        "url": "/faultWorkOrderReply/deleteReply",
+        "request": { "replyId": { "type": "inputNumber", "label": "工单回复id", "id": "replyId" } },
+        "response": {}
+      },
+      {
+        "id": "getReplyListByWorkOrderIdUsingGet",
+        "title": "根据工单id获取回复列表",
+        "method": "get",
+        "url": "/faultWorkOrderReply/getReplyListByWorkOrderId",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" },
+          "workOrderId": { "type": "input", "label": "工单id", "id": "workOrderId" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "drawInferencesContent": { "id": "drawInferencesContent", "label": "举一反三情况", "type": "input" },
+          "enclosureVoList": {
+            "fileType": {
+              "id": "fileType",
+              "label": "附件类型（0：完结附件，1：问题处理情况附件，2：原因分析情况附件，3：供应商考核情况附件，4：供应商交班情况附件，5：举一反三情况附件）",
+              "type": "inputNumber"
+            },
+            "url": { "id": "url", "label": "故障工单附件下载地址", "type": "input" },
+            "workOrderEnclosureId": { "id": "workOrderEnclosureId", "label": "故障工单附件id", "type": "inputNumber" },
+            "workOrderEnclosureName": { "id": "workOrderEnclosureName", "label": "故障工单附件名称", "type": "input" }
+          },
+          "id": { "id": "id", "label": "故障回复id", "type": "inputNumber" },
+          "operationEmployeeName": { "id": "operationEmployeeName", "label": "故障回复员工名称", "type": "input" },
+          "operationUserId": { "id": "operationUserId", "label": "故障回复用户id", "type": "inputNumber" },
+          "processContent": { "id": "processContent", "label": "问题处理情况", "type": "input" },
+          "reasonContent": { "id": "reasonContent", "label": "原因分析情况", "type": "input" },
+          "supplierExamineContent": { "id": "supplierExamineContent", "label": "供应商考核情况", "type": "input" },
+          "supplierHandoverContent": { "id": "supplierHandoverContent", "label": "供应商交班情况", "type": "input" },
+          "workOrderId": { "id": "workOrderId", "label": "故障工单id", "type": "input" }
+        }
+      }
+    ]
+  },
+  "login": {
+    "id": "login",
+    "title": "登录相关接口",
+    "routes": [
+      {
+        "id": "loginUsingPost",
+        "title": "登录接口",
+        "method": "post",
+        "url": "/login",
+        "request": {
+          "password": { "id": "password", "label": "用户密码", "type": "input" },
+          "username": { "id": "username", "label": "用户账号", "type": "input" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "logout": {
+    "id": "logout",
+    "title": "登录相关接口",
+    "routes": [
+      {
+        "id": "logOutUsingGet",
+        "title": "退出登录接口",
+        "method": "get",
+        "url": "/logout",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": { "id": "data", "type": "input" },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      }
+    ]
+  },
+  "project": {
+    "id": "project",
+    "title": "项目相关接口",
+    "routes": [
+      {
+        "id": "addProjectUsingPost",
+        "title": "新增项目",
+        "method": "post",
+        "url": "/project/addProject",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "customerId": { "id": "customerId", "label": "客户id", "type": "inputNumber" },
+          "employeeId": { "id": "employeeId", "label": "项目负责人", "type": "inputNumber" },
+          "fullTrainWarranty": {
+            "id": "fullTrainWarranty",
+            "label": "是否整车出质保，默认否（0：否，1：是）",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "label": "id", "type": "inputNumber" },
+          "projectCity": { "id": "projectCity", "label": "项目所在城市编号", "type": "input" },
+          "projectCode": { "id": "projectCode", "label": "项目编号", "type": "input" },
+          "projectDescription": { "id": "projectDescription", "label": "项目描述", "type": "input" },
+          "projectName": { "id": "projectName", "label": "项目名称", "type": "input" },
+          "projectProvince": { "id": "projectProvince", "label": "项目所在省份编号", "type": "input" },
+          "projectTown": { "id": "projectTown", "label": "项目所在区县编号", "type": "input" },
+          "projectType": {
+            "id": "projectType",
+            "label": "项目类型（1：城轨车辆，2：磁浮车，3：市域动车，4：有轨电车）",
+            "type": "inputNumber"
+          },
+          "trainNum": { "id": "trainNum", "label": "到段列数", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteProjectUsingDelete",
+        "title": "删除项目",
+        "method": "delete",
+        "url": "/project/deleteProject",
+        "request": { "projectId": { "type": "inputNumber", "label": "项目id", "id": "projectId" } },
+        "response": {}
+      },
+      {
+        "id": "getProjectListUsingGet",
+        "title": "获取项目列表",
+        "method": "get",
+        "url": "/project/getProjectList",
+        "request": {
+          "customerId": { "type": "inputNumber", "label": "所属客户id", "id": "customerId" },
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" },
+          "projectCity": { "type": "input", "label": "项目所在城市编号", "id": "projectCity" },
+          "projectCode": { "type": "input", "label": "项目编号", "id": "projectCode" },
+          "projectName": { "type": "input", "label": "项目名称", "id": "projectName" },
+          "projectProvince": { "type": "input", "label": "项目所在省份编号", "id": "projectProvince" },
+          "projectTown": { "type": "input", "label": "项目所在区县编号", "id": "projectTown" }
+        },
+        "response": {
+          "cityName": { "id": "cityName", "label": "城市名称", "type": "input" },
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "customerId": { "id": "customerId", "label": "客户id", "type": "inputNumber" },
+          "customerName": { "id": "customerName", "label": "所属客户名称", "type": "input" },
+          "employeeId": { "id": "employeeId", "label": "项目负责人", "type": "inputNumber" },
+          "employeeName": { "id": "employeeName", "label": "项目负责人名称", "type": "input" },
+          "fullTrainWarranty": {
+            "id": "fullTrainWarranty",
+            "label": "是否整车出质保，默认否（0：否，1：是）",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "label": "id", "type": "inputNumber" },
+          "projectCity": { "id": "projectCity", "label": "项目所在城市编号", "type": "input" },
+          "projectCode": { "id": "projectCode", "label": "项目编号", "type": "input" },
+          "projectDescription": { "id": "projectDescription", "label": "项目描述", "type": "input" },
+          "projectName": { "id": "projectName", "label": "项目名称", "type": "input" },
+          "projectProvince": { "id": "projectProvince", "label": "项目所在省份编号", "type": "input" },
+          "projectTown": { "id": "projectTown", "label": "项目所在区县编号", "type": "input" },
+          "projectType": {
+            "id": "projectType",
+            "label": "项目类型（1：城轨车辆，2：磁浮车，3：市域动车，4：有轨电车）",
+            "type": "inputNumber"
+          },
+          "provinceName": { "id": "provinceName", "label": "省份名称", "type": "input" },
+          "townName": { "id": "townName", "label": "区县名称", "type": "input" },
+          "trainNum": { "id": "trainNum", "label": "到段列数", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        }
+      },
+      {
+        "id": "getProjectSelectorUsingGet",
+        "title": "获取项目下拉框",
+        "method": "get",
+        "url": "/project/getProjectSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "updateProjectUsingPost",
+        "title": "修改项目信息",
+        "method": "post",
+        "url": "/project/updateProject",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "customerId": { "id": "customerId", "label": "客户id", "type": "inputNumber" },
+          "employeeId": { "id": "employeeId", "label": "项目负责人", "type": "inputNumber" },
+          "fullTrainWarranty": {
+            "id": "fullTrainWarranty",
+            "label": "是否整车出质保，默认否（0：否，1：是）",
+            "type": "inputNumber"
+          },
+          "id": { "id": "id", "label": "id", "type": "inputNumber" },
+          "projectCity": { "id": "projectCity", "label": "项目所在城市编号", "type": "input" },
+          "projectCode": { "id": "projectCode", "label": "项目编号", "type": "input" },
+          "projectDescription": { "id": "projectDescription", "label": "项目描述", "type": "input" },
+          "projectName": { "id": "projectName", "label": "项目名称", "type": "input" },
+          "projectProvince": { "id": "projectProvince", "label": "项目所在省份编号", "type": "input" },
+          "projectTown": { "id": "projectTown", "label": "项目所在区县编号", "type": "input" },
+          "projectType": {
+            "id": "projectType",
+            "label": "项目类型（1：城轨车辆，2：磁浮车，3：市域动车，4：有轨电车）",
+            "type": "inputNumber"
+          },
+          "trainNum": { "id": "trainNum", "label": "到段列数", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "provinceCityTown": {
+    "id": "provinceCityTown",
+    "title": "省市县三级联动相关接口",
+    "routes": [
+      {
+        "id": "getAllProvinceUsingGet",
+        "title": "获取省份下拉框",
+        "method": "get",
+        "url": "/provinceCityTown/getAllProvince",
+        "request": { "searchKey": { "type": "input", "label": "省份模糊查询关键字", "id": "searchKey" } },
+        "response": {}
+      },
+      {
+        "id": "getAllProvinceCityTownListUsingGet",
+        "title": "获取所有省市县三级联动下拉框",
+        "method": "get",
+        "url": "/provinceCityTown/getAllProvinceCityTownList",
+        "request": {
+          "cityCode": { "type": "input", "label": "城市编号", "id": "cityCode" },
+          "provinceCode": { "type": "input", "label": "省份编号", "id": "provinceCode" },
+          "townCode": { "type": "input", "label": "区县编号", "id": "townCode" }
+        },
+        "response": {}
+      },
+      {
+        "id": "getCityByProvinceCodeUsingGet",
+        "title": "根据省份编号获取城市下拉框",
+        "method": "get",
+        "url": "/provinceCityTown/getCityByProvinceCode",
+        "request": {
+          "provinceCode": { "type": "input", "label": "省份编号", "id": "provinceCode" },
+          "searchKey": { "type": "input", "label": "城市模糊查询关键字", "id": "searchKey" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "report": {
+    "id": "report",
+    "title": "报表相关接口",
+    "routes": [
+      {
+        "id": "getCountTrainNumReportUsingGet",
+        "title": "获取上线列车数量（上线列车数）",
+        "method": "get",
+        "url": "/report/getCountTrainNumReport",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": { "id": "data", "type": "inputNumber" },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "getFaultCityCountReportUsingGet",
+        "title": "获取故障城市分布统计信息（地区分布）",
+        "method": "get",
+        "url": "/report/getFaultCityCountReport",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "name": { "id": "name", "label": "名称", "type": "input" },
+          "num": { "id": "num", "label": "数量", "type": "inputNumber" },
+          "percent": { "id": "percent", "label": "占比", "type": "input" }
+        }
+      },
+      {
+        "id": "getFaultProjectCountReportUsingGet",
+        "title": "获取故障项目分布统计信息",
+        "method": "get",
+        "url": "/report/getFaultProjectCountReport",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "name": { "id": "name", "label": "名称", "type": "input" },
+          "num": { "id": "num", "label": "数量", "type": "inputNumber" },
+          "percent": { "id": "percent", "label": "占比", "type": "input" }
+        }
+      },
+      {
+        "id": "getFaultSupplierCountReportUsingGet",
+        "title": "获取最近一年内故障供应商分布统计信息（供应商分布）",
+        "method": "get",
+        "url": "/report/getFaultSupplierCountReport",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "name": { "id": "name", "label": "名称", "type": "input" },
+          "num": { "id": "num", "label": "数量", "type": "inputNumber" },
+          "percent": { "id": "percent", "label": "占比", "type": "input" }
+        }
+      },
+      {
+        "id": "getFaultSystemCountReportUsingGet",
+        "title": "获取故障系统分布统计信息",
+        "method": "get",
+        "url": "/report/getFaultSystemCountReport",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "name": { "id": "name", "label": "名称", "type": "input" },
+          "num": { "id": "num", "label": "数量", "type": "inputNumber" },
+          "percent": { "id": "percent", "label": "占比", "type": "input" }
+        }
+      },
+      {
+        "id": "getFaultUrgencyCountThisYearAndLastYearUsingGet",
+        "title": "获取今年和去年同期不同故障紧急程度统计数量（年度累计故障报表）",
+        "method": "get",
+        "url": "/report/getFaultUrgencyCountThisYearAndLastYear",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "num": { "id": "num", "label": "数量", "type": "inputNumber" },
+            "urgency": { "id": "urgency", "label": "故障紧急程度（清客、救援、下线）", "type": "input" },
+            "year": { "id": "year", "label": "年份", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "getMajorFaultThisMonthUsingGet",
+        "title": "获取本月发生的重大故障（默认显示50条）",
+        "method": "get",
+        "url": "/report/getMajorFaultThisMonth",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "faultDate": { "id": "faultDate", "label": "故障日期", "type": "datePicker" },
+            "faultDescription": { "id": "faultDescription", "label": "故障表述", "type": "input" },
+            "id": { "id": "id", "label": "重大故障id", "type": "input" },
+            "projectName": { "id": "projectName", "label": "故障项目名称", "type": "input" },
+            "urgency": { "id": "urgency", "label": "紧急程度", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "getMajorFaultTodayInHistoryUsingGet",
+        "title": "获取历史上的今天发生的重大故障（默认显示50条）",
+        "method": "get",
+        "url": "/report/getMajorFaultTodayInHistory",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "faultDate": { "id": "faultDate", "label": "故障日期", "type": "datePicker" },
+            "faultDescription": { "id": "faultDescription", "label": "故障表述", "type": "input" },
+            "id": { "id": "id", "label": "重大故障id", "type": "input" },
+            "projectName": { "id": "projectName", "label": "故障项目名称", "type": "input" },
+            "urgency": { "id": "urgency", "label": "紧急程度", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "getProjectAndTrainNumInCityAndProvinceUsingGet",
+        "title": "获取各省份和城市的项目和列车数量（全国分布）",
+        "method": "get",
+        "url": "/report/getProjectAndTrainNumInProvinceAndCity",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "cityProjectAndTrainNums": {
+              "cityName": { "id": "cityName", "label": "城市名称", "type": "input" },
+              "projectNum": { "id": "projectNum", "label": "项目数量", "type": "inputNumber" },
+              "trainNum": { "id": "trainNum", "label": "列车数量", "type": "inputNumber" }
+            },
+            "projectNum": { "id": "projectNum", "label": "项目数量", "type": "inputNumber" },
+            "provinceName": { "id": "provinceName", "label": "省份名称", "type": "input" },
+            "trainNum": { "id": "trainNum", "label": "列车数量", "type": "inputNumber" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "getTrainTypeCountReportUsingGet",
+        "title": "获取车辆类型统计信息",
+        "method": "get",
+        "url": "/report/getTrainTypeCountReport",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" }
+        },
+        "response": {
+          "name": { "id": "name", "label": "名称", "type": "input" },
+          "num": { "id": "num", "label": "数量", "type": "inputNumber" },
+          "percent": { "id": "percent", "label": "占比", "type": "input" }
+        }
+      }
+    ]
+  },
+  "supplier": {
+    "id": "supplier",
+    "title": "供应商相关接口",
+    "routes": [
+      {
+        "id": "addSupplierUsingPost",
+        "title": "新增供应商",
+        "method": "post",
+        "url": "/supplier/addSupplier",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "supplierAliasName": { "id": "supplierAliasName", "label": "供应商别名", "type": "input" },
+          "supplierDescription": { "id": "supplierDescription", "label": "供应商描述", "type": "input" },
+          "supplierFullName": { "id": "supplierFullName", "label": "供应商公司全称", "type": "input" },
+          "supplierName": { "id": "supplierName", "label": "供应商名称", "type": "input" },
+          "supplierOtherNames": {
+            "id": "supplierOtherNames",
+            "label": "供应商其他别名（多个，英文逗号分割）",
+            "type": "input"
+          },
+          "supplierTelephone": { "id": "supplierTelephone", "label": "供应商联系人电话", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteSupplierUsingDelete",
+        "title": "删除供应商",
+        "method": "delete",
+        "url": "/supplier/deleteSupplier",
+        "request": { "supplierId": { "type": "inputNumber", "label": "供应商id", "id": "supplierId" } },
+        "response": {}
+      },
+      {
+        "id": "getSupplierListUsingGet",
+        "title": "获取供应商列表",
+        "method": "get",
+        "url": "/supplier/getSupplierList",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" },
+          "supplierName": { "type": "input", "label": "供应商名称", "id": "supplierName" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "supplierAliasName": { "id": "supplierAliasName", "label": "供应商别名", "type": "input" },
+          "supplierDescription": { "id": "supplierDescription", "label": "供应商描述", "type": "input" },
+          "supplierFullName": { "id": "supplierFullName", "label": "供应商公司全称", "type": "input" },
+          "supplierName": { "id": "supplierName", "label": "供应商名称", "type": "input" },
+          "supplierOtherNames": {
+            "id": "supplierOtherNames",
+            "label": "供应商其他别名（多个，英文逗号分割）",
+            "type": "input"
+          },
+          "supplierTelephone": { "id": "supplierTelephone", "label": "供应商联系人电话", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        }
+      },
+      {
+        "id": "getSupplierSelectorUsingGet",
+        "title": "获取供应商下拉框",
+        "method": "get",
+        "url": "/supplier/getSupplierSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "updateSupplierUsingPost",
+        "title": "修改供应商信息",
+        "method": "post",
+        "url": "/supplier/updateSupplier",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "supplierAliasName": { "id": "supplierAliasName", "label": "供应商别名", "type": "input" },
+          "supplierDescription": { "id": "supplierDescription", "label": "供应商描述", "type": "input" },
+          "supplierFullName": { "id": "supplierFullName", "label": "供应商公司全称", "type": "input" },
+          "supplierName": { "id": "supplierName", "label": "供应商名称", "type": "input" },
+          "supplierOtherNames": {
+            "id": "supplierOtherNames",
+            "label": "供应商其他别名（多个，英文逗号分割）",
+            "type": "input"
+          },
+          "supplierTelephone": { "id": "supplierTelephone", "label": "供应商联系人电话", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "sysRoleAndAuth": {
+    "id": "sysRoleAndAuth",
+    "title": "角色相关接口",
+    "routes": [
+      {
+        "id": "addRoleUsingPost",
+        "title": "新增角色",
+        "method": "post",
+        "url": "/sysRoleAndAuth/addRole",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "id": { "id": "id", "type": "inputNumber" },
+          "roleDescription": { "id": "roleDescription", "label": "角色描述", "type": "input" },
+          "roleName": { "id": "roleName", "label": "角色名称", "type": "input" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "bindAuthToRoleUsingPost",
+        "title": "角色绑定权限",
+        "method": "post",
+        "url": "/sysRoleAndAuth/bindAuthToRole",
+        "request": { "authIds": {}, "roleId": { "id": "roleId", "label": "角色id", "type": "inputNumber" } },
+        "response": {}
+      },
+      {
+        "id": "deleteRoleUsingDelete",
+        "title": "删除角色",
+        "method": "delete",
+        "url": "/sysRoleAndAuth/deleteRole",
+        "request": { "roleId": { "type": "inputNumber", "label": "角色id", "id": "roleId" } },
+        "response": {}
+      },
+      {
+        "id": "getAuthSelectorUsingGet",
+        "title": "获取权限下拉列表",
+        "method": "get",
+        "url": "/sysRoleAndAuth/getAuthSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      },
+      {
+        "id": "getRolesListUsingGet",
+        "title": "获取角色列表",
+        "method": "get",
+        "url": "/sysRoleAndAuth/getRolesList",
+        "request": { "roleName": { "type": "input", "label": "角色名称", "id": "roleName" } },
+        "response": {}
+      },
+      {
+        "id": "getRolesSelectorUsingGet",
+        "title": "获取角色下拉列表",
+        "method": "get",
+        "url": "/sysRoleAndAuth/getRolesSelector",
+        "request": {},
+        "response": {
+          "code": { "id": "code", "type": "inputNumber" },
+          "data": {
+            "id": { "id": "id", "label": "id", "type": "inputNumber" },
+            "name": { "id": "name", "label": "名称", "type": "input" }
+          },
+          "msg": { "id": "msg", "type": "input" }
+        }
+      }
+    ]
+  },
+  "sysUser": {
+    "id": "sysUser",
+    "title": "用户信息相关接口",
+    "routes": [
+      {
+        "id": "addUserUsingPost",
+        "title": "新增用户",
+        "method": "post",
+        "url": "/sysUser/addUser",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "createUser": { "id": "createUser", "label": "创建人", "type": "inputNumber" },
+          "employeeId": { "id": "employeeId", "label": "员工id", "type": "inputNumber" },
+          "id": { "id": "id", "label": "用户id", "type": "inputNumber" },
+          "password": { "id": "password", "label": "用户密码", "type": "input" },
+          "sysRoleId": { "id": "sysRoleId", "label": "用户角色id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" },
+          "username": { "id": "username", "label": "用户账号", "type": "input" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteUserUsingDelete",
+        "title": "删除用户",
+        "method": "delete",
+        "url": "/sysUser/deleteUser",
+        "request": { "userId": { "type": "inputNumber", "label": "用户id", "id": "userId" } },
+        "response": {}
+      },
+      {
+        "id": "getUserListUsingGet",
+        "title": "查询用户列表",
+        "method": "get",
+        "url": "/sysUser/getUserList",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" },
+          "roleId": { "type": "inputNumber", "label": "角色id", "id": "roleId" },
+          "searchKey": { "type": "input", "label": "模糊查询关键字（用户名称、员工名称）", "id": "searchKey" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "employeeId": { "id": "employeeId", "label": "员工id", "type": "inputNumber" },
+          "employeeName": { "id": "employeeName", "label": "用户对应员工名", "type": "input" },
+          "id": { "id": "id", "label": "系统账户id", "type": "inputNumber" },
+          "roleId": { "id": "roleId", "label": "角色id", "type": "inputNumber" },
+          "roleName": { "id": "roleName", "label": "角色名称", "type": "input" },
+          "username": { "id": "username", "label": "用户名称，登录时账号", "type": "input" }
+        }
+      },
+      {
+        "id": "updateUserUsingPost",
+        "title": "修改用户信息",
+        "method": "post",
+        "url": "/sysUser/updateUser",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "createUser": { "id": "createUser", "label": "创建人", "type": "inputNumber" },
+          "employeeId": { "id": "employeeId", "label": "员工id", "type": "inputNumber" },
+          "id": { "id": "id", "label": "用户id", "type": "inputNumber" },
+          "password": { "id": "password", "label": "用户密码", "type": "input" },
+          "sysRoleId": { "id": "sysRoleId", "label": "用户角色id", "type": "inputNumber" },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" },
+          "username": { "id": "username", "label": "用户账号", "type": "input" }
+        },
+        "response": {}
+      },
+      {
+        "id": "verifyPasswordUsingPost",
+        "title": "验证账户密码",
+        "method": "post",
+        "url": "/sysUser/verifyPassword",
+        "request": {
+          "password": { "id": "password", "label": "用户密码", "type": "input" },
+          "userId": { "id": "userId", "label": "用户id", "type": "inputNumber" }
+        },
+        "response": {}
+      }
+    ]
+  },
+  "train": {
+    "id": "train",
+    "title": "列车相关接口",
+    "routes": [
+      {
+        "id": "addTrainUsingPost",
+        "title": "新增列车",
+        "method": "post",
+        "url": "/train/addTrain",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "id": { "id": "id", "label": "列车id", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "列车所属项目id", "type": "inputNumber" },
+          "trainCode": { "id": "trainCode", "label": "列车编号", "type": "input" },
+          "trainType": {
+            "id": "trainType",
+            "label": "列车类型（1：地铁，2：有轨电车，3：动车，4：大巴，5：高铁）",
+            "type": "inputNumber"
+          },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      },
+      {
+        "id": "deleteTrainUsingDelete",
+        "title": "删除列车",
+        "method": "delete",
+        "url": "/train/deleteTrain",
+        "request": { "trainId": { "type": "inputNumber", "label": "列车id", "id": "trainId" } },
+        "response": {}
+      },
+      {
+        "id": "getTrainListUsingGet",
+        "title": "获取列车列表",
+        "method": "get",
+        "url": "/train/getTrainList",
+        "request": {
+          "pageNum": { "type": "inputNumber", "label": "页码", "id": "pageNum" },
+          "pageSize": { "type": "inputNumber", "label": "每页条数", "id": "pageSize" },
+          "projectId": { "type": "inputNumber", "label": "项目id", "id": "projectId" },
+          "trainCode": { "type": "input", "label": "列车编号", "id": "trainCode" }
+        },
+        "response": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "id": { "id": "id", "label": "列车id", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "列车所属项目id", "type": "inputNumber" },
+          "projectName": { "id": "projectName", "label": "所属项目名称", "type": "input" },
+          "trainCode": { "id": "trainCode", "label": "列车编号", "type": "input" }
+        }
+      },
+      {
+        "id": "getTrainSelectorUsingGet",
+        "title": "获取列车下拉框",
+        "method": "get",
+        "url": "/train/getTrainSelector",
+        "request": { "projectId": { "type": "inputNumber", "label": "项目id", "id": "projectId" } },
+        "response": {}
+      },
+      {
+        "id": "updateTrainUsingPost",
+        "title": "修改列车信息",
+        "method": "post",
+        "url": "/train/updateTrain",
+        "request": {
+          "createAt": { "id": "createAt", "label": "创建时间", "type": "datePicker" },
+          "id": { "id": "id", "label": "列车id", "type": "inputNumber" },
+          "projectId": { "id": "projectId", "label": "列车所属项目id", "type": "inputNumber" },
+          "trainCode": { "id": "trainCode", "label": "列车编号", "type": "input" },
+          "trainType": {
+            "id": "trainType",
+            "label": "列车类型（1：地铁，2：有轨电车，3：动车，4：大巴，5：高铁）",
+            "type": "inputNumber"
+          },
+          "updateAt": { "id": "updateAt", "label": "修改时间", "type": "datePicker" }
+        },
+        "response": {}
+      }
+    ]
+  }
+}

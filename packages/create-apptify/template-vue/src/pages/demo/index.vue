@@ -1,5 +1,5 @@
 <template>
-  <div>Home Page</div>
+  <div>Demo Page</div>
 </template>
 
 <script setup lang="ts"></script>
@@ -9,9 +9,9 @@
 <route lang="json">
 {
   "meta": {
-    "sort": 10101,
-    "title": "首页",
-    "icon": "icon-park-outline-home"
+    "sort": 10201,
+    "title": "测试页面1",
+    "icon": "icon-park-outline-add-subtract"
   }
 }
 </route>
