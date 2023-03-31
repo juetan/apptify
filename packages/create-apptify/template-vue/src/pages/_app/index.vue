@@ -1,9 +1,11 @@
 <template>
   <a-layout class="layout">
-    <a-layout-header class="flex justify-between items-center gap-4 px-6 border-b border-slate-200">
+    <a-layout-header
+      class="flex justify-between items-center gap-4 px-6 border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+    >
       <router-link to="/" class="flex items-center gap-3 text-slate-700">
         <img src="/favicon.ico" alt="" width="28" height="28" />
-        <h1 class="text-base font-normal">
+        <h1 class="text-base font-normal dark:text-white">
           {{ appTitle }}
         </h1>
       </router-link>
@@ -18,14 +20,24 @@
       </div>
     </a-layout-header>
     <a-layout class="flex">
-      <a-layout-sider class="layout-sider" breakpoint="xl" :collapsible="true" :hide-trigger="true">
-        <div class="menu-wrapper">
-          <Menu />
-        </div>
+      <a-layout-sider
+        class="overflow-hidden border-r border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800"
+        :width="208"
+        :collapsed-width="48"
+        :collapsible="true"
+        :collapsed="isCollapsed"
+        :hide-trigger="false"
+        @collapse="onCollapse"
+      >
+        <Menu />
       </a-layout-sider>
       <a-layout class="layout-content flex-1">
         <a-layout-content>
-          <router-view></router-view>
+          <router-view v-slot="{ Component }">
+            <transition name="fade-transform">
+              <component :is="Component"></component>
+            </transition>
+          </router-view>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -34,15 +46,22 @@
 
 <script lang="ts" setup>
 import Menu from './components/menu.vue';
+import { useAppStore } from '@/store';
 
 const appTitle = import.meta.env.VITE_APP_TITLE;
+const appStore = useAppStore();
+const isCollapsed = ref(false);
+
+const onCollapse = (val: boolean) => {
+  isCollapsed.value = val;
+}
 
 const buttons = [
   {
     icon: 'icon-park-outline-moon',
     tooltip: '点击切换主题色',
     onClick: () => {
-      console.log('click');
+      appStore.toggleDark();
     },
   },
   {
@@ -79,16 +98,6 @@ const buttons = [
   height: 100%;
   overflow: hidden;
   transition: all 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-  &::after {
-    position: absolute;
-    top: 0;
-    right: -1px;
-    display: block;
-    width: 1px;
-    height: 100%;
-    background-color: var(--color-border);
-    content: '';
-  }
   > :deep(.arco-layout-sider-children) {
     overflow-y: hidden;
   }

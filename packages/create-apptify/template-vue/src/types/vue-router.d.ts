@@ -1,6 +1,23 @@
 import 'vue-router';
 
 declare module 'vue-router' {
+  interface RouteRecordRaw {
+    parentMeta: {
+      /**
+       * 页面标题
+       */
+      title?: string;
+      /**
+       * 页面图标
+       */
+      icon?: string;
+      /**
+       * 页面排序，越小越靠前
+       */
+      sort?: number;
+    };
+  }
+
   interface RouteMeta {
     /**
      * 页面标题

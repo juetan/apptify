@@ -1,22 +1,28 @@
 <script lang="tsx">
+import { RouteRecordRaw } from 'vue-router';
 import { menuItems, MenuItem } from '../../../router/index';
 
 export default defineComponent({
   name: 'LayoutMenu',
   methods: {
-    goto(path: string) {
-      this.$router.push(path);
+    goto(route: MenuItem) {
+      if (route.external) {
+        location.href = route.path;
+        return;
+      }
+
+      this.$router.push(route);
     },
 
-    renderItem(routes: MenuItem[]) {
+    renderItem(routes: MenuItem[], isTop = false) {
       return routes.map((route) => {
         const icon = route.icon ? () => <i class={route.icon} /> : null;
         const node = route.children?.length ? (
-          <a-sub-menu key={route.title} v-slots={{ icon, title: () => route.title }}>
+          <a-menu-item-group key={route.id} v-slots={{ icon, title: () => route.title }}>
             {this.renderItem(route?.children)}
-          </a-sub-menu>
+          </a-menu-item-group>
         ) : (
-          <a-menu-item key={route.title} v-slots={{ icon }} onClick={() => this.goto(route.path)}>
+          <a-menu-item key={route.id} v-slots={{ icon }} onClick={() => this.goto(route)}>
             {route.title}
           </a-menu-item>
         );
@@ -29,13 +35,14 @@ export default defineComponent({
   render() {
     return (
       <a-menu
-        style={{ width: '200px', height: '100%' }}
+        style={{ width: '100%', height: '100%' }}
         default-open-keys={['0']}
         default-selected-keys={['0_2']}
-        show-collapse-button
+        // show-collapse-button
         breakpoint="xl"
+        levelIndent={0}
       >
-        {this.renderItem(menuItems)}
+        {this.renderItem(menuItems, true)}
       </a-menu>
     );
   },

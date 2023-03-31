@@ -7,16 +7,19 @@ import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import AutoComponent from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 import Page from 'vite-plugin-pages';
-import Layout from 'vite-plugin-vue-layouts';
+import html from './scripts/vite/plugin';
 
 export default defineConfig({
   resolve: {
     alias: [
       {
-        find: '@app',
-        replacement: 'src',
+        find: '@',
+        replacement: '/src',
       },
     ],
+  },
+  server: {
+    port: 3030,
   },
   plugins: [
     /**
@@ -54,15 +57,11 @@ export default defineConfig({
       exclude: ['**/components/*.vue'],
     }),
     /**
-     * 提供路由布局
-     * @see todo
-     */
-    Layout(),
-    /**
-     * 提供按需生成的CSS引擎
+     * 提供CSS和图标的按需加载
      * @see https://github.com/unocss/unocss#readme
      */
     Unocss({
+      include: ['src/**/*.{vue,ts,tsx,css,scss,sass,less,styl}'],
       presets: [
         presetUno(),
         presetIcons({
@@ -76,5 +75,10 @@ export default defineConfig({
         }),
       ],
     }),
+    /**
+     * 提供html模板
+     * @see ./scripts/vite/plugin.ts
+     */
+    html(),
   ],
 });

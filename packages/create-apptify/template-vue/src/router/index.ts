@@ -1,13 +1,14 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import generatedRoutes from 'virtual:generated-pages';
 import { useNprogress, useTitle, useAuth } from './guards';
 import { transformToMenuItems } from './menus';
 export type { MenuItem } from './menus';
-import { transformRoutes } from './util';
+import { transformRoutes, getAppRoutes } from './util';
+import { linkItems } from './links';
 
 const routes = transformRoutes(generatedRoutes);
-
-const menuItems = transformToMenuItems(routes.find((i) => i.name === 'app')?.children || []);
+const menuItems = transformToMenuItems(getAppRoutes(routes));
+menuItems.push(...linkItems);
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -21,9 +22,7 @@ const router = createRouter({
 });
 
 useNprogress(router);
-
 useTitle(router);
-
 useAuth(router);
 
 export { router, menuItems };
