@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useDark } from '@vueuse/core';
+import {} from 'unocss'
 
 export const useAppStore = defineStore({
   id: 'app',

@@ -11,6 +11,9 @@ export class User extends BaseEntity {
   @ApiHideProperty()
   posts: string;
 
+  @Column({ length: 48 })
+  tod2222o22: string;
+
   /**
    * 登录账号
    * @example 'juetan'

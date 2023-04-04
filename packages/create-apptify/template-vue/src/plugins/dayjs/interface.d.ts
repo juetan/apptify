@@ -11,6 +11,6 @@ declare module 'dayjs' {
   export var TIME: 'HH:mm:ss';
 
   interface Dayjs {
-    _format: (format?: string) => string;
+    _format: Dayjs['format'];
   }
 }

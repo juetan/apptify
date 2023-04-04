@@ -19,7 +19,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node --project ./tsconfig.json ./node_modules/typeorm/cli.js",
+    "typeorm:create": "typeorm-ts-node-commonjs -d ./database/typeorm.config.ts migration:create ./database/migrations/$npm_config_name",
+    "typeorm:gen-migration": "npm run typeorm -- migration:generate -d ./database/typeorm.config.ts ./database/migrations/$npm_config_name"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "endOfLine": "auto"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -51,6 +60,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
