@@ -7,7 +7,42 @@
     <title>Vue Template</title>
   </head>
   <body>
-    <div id="app" class="dark:bg-slate-900 dark:text-slate-200"></div>
+    <div id="app" class="dark:bg-slate-900 dark:text-slate-200">
+      <style>
+        body,html {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        #app {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          font-size: 14px;
+          background: linear-gradient(45deg,#222428,#444856);
+        }
+        img {
+          vertical-align: middle;
+        }
+        .spin {
+          text-align: center;
+        }
+        .title {
+          color: #f8f9fb;
+        }
+        .tip {
+          color: #7c818d
+        }
+      </style>
+      <div class="spin">
+        <img src="./assets/loading.svg" alt="" width="80" height="80">
+        <h1 class="title">Apptify应用</h1>
+        <p class="tip">正在加载中, 请稍后...</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
