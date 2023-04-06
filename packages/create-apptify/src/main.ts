@@ -41,8 +41,8 @@ const start = async () => {
       type: 'select',
       choices: [
         { name: 'vue', value: 'vue', hint: '  - 基于vite, 包含自动导入、自动路由和初始布局的vue项目模板' },
-        { name: 'react', value: 'react', hint: '- React 项目' },
-        { name: 'node', value: 'node', hint: ' - Node 项目' },
+        { name: 'nest', value: 'nest', hint: '- 创建NestJS项目' },
+        { name: 'monkey', value: 'monkey', hint: '创建油猴脚本(Tampermonkey)项目' },
       ],
       initial: 0,
       skip: () => !!$template,
@@ -76,7 +76,7 @@ const start = async () => {
   fs.cpSync(templateDir, targetDir, { recursive: true });
 
   print(`${bold(green('\n创建完成!'))} 接下来你可以参照如下命令启动项目：`);
-  print('  cd ./demo');
+  print(`  cd ./${name}`);
   print('  npm install');
   print('  npm run dev\n');
 };
