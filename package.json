@@ -89,6 +89,12 @@
           "host": "https://github1.com",
           "owner": "juetan1",
           "repository": "apptify1"
+        },
+        "writerOpts": {
+          "transform": {
+            "header": "## ${version} (${date})",
+            "body": "- ${text}"
+          }
         }
       }
     }
