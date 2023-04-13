@@ -70,6 +70,7 @@
     },
     "plugins": {
       "@release-it/conventional-changelog": {
+        "ignoreRecommendedBump": true,
         "infile": "CHANGELOG.md",
         "header": "# 版本记录",
         "preset": {
