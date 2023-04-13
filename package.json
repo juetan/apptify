@@ -91,10 +91,7 @@
           "repository": "apptify1"
         },
         "writerOpts": {
-          "transform": {
-            "header": "## ${version} (${date})",
-            "body": "- ${text}"
-          }
+          "groupBy": false
         }
       }
     }
