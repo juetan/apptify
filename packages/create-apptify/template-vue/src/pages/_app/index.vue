@@ -34,9 +34,7 @@
       <a-layout class="layout-content flex-1">
         <a-layout-content>
           <router-view v-slot="{ Component }">
-            <transition name="fade-transform">
-              <component :is="Component"></component>
-            </transition>
+            <component :is="Component"></component>
           </router-view>
         </a-layout-content>
       </a-layout>
@@ -54,7 +52,7 @@ const isCollapsed = ref(false);
 
 const onCollapse = (val: boolean) => {
   isCollapsed.value = val;
-}
+};
 
 const buttons = [
   {

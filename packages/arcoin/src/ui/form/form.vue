@@ -1,70 +1,115 @@
 <template>
-  <Form ref="FormRef" model="{this.model}" {...this.$attrs}>
-    {items.map((item) => (
-    <BhFormItem item="{item}" {...props}></BhFormItem>
-    ))}
-  </Form>
+  <AForm ref="FormRef" :model="model" v-bind="formProps">
+    <FormItem v-for="item in innerItems" :key="item.field" :item="item" :model="model" :slots="$slots"></FormItem>
+    <AFormItem v-if="actions?.length" style="display: flex; gap: 8px">
+      <AButton
+        v-for="action in actions"
+        v-bind="action.buttonProps"
+        :key="action.label"
+        :loading="loading"
+        @click="onActionClick(action)"
+      >
+        {{ action.label }}
+      </AButton>
+    </AFormItem>
+  </AForm>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from 'vue';
-import { BhFormItem as IFormItem, BhFormModel } from './interface';
+import { defineComponent, ref, PropType, computed } from 'vue';
+import { Form as AForm, FormItem as AFormItem, Button as AButton } from '@arco-design/web-vue';
+import { IFormItem } from './interface';
+import FormItem from './form-item.vue';
+
+
 
 export default defineComponent({
   name: 'Form',
+  components: {
+    AForm,
+    AFormItem,
+    AButton,
+    FormItem,
+  },
   props: {
+    /**
+     * 表单数据
+     * @description 默认根据表单项中的field和defaultValue生成，传入值将会合并默认值
+     */
+    model: {
+      type: Object as PropType<Record<string, any>>,
+      required: true,
+    },
     /**
      * 表单项
      * @description 传入表单项数组，每一项为一个表单项，具体配置参考BhFormItemProps
      */
     items: {
       type: Array as PropType<IFormItem[]>,
-      default: () => [],
+      required: true,
     },
-
     /**
-     * 表单数据
-     * @description 默认根据表单项中的field和defaultValue生成，传入值将会合并默认值
+     * 表单操作
+     * @description
      */
-    model: {
-      type: Object as PropType<BhFormModel>,
+    actions: {
+      type: Array as PropType<any>,
+    },
+    /**
+     * 提交表单
+     *  @description
+     */
+    submit: {
+      type: Function as PropType<(model: Record<string, any>, items: IFormItem[]) => Promise<any>>,
+    },
+    /**
+     * 表单额外Props
+     */
+    formProps: {
+      type: Object as PropType<Record<string, any>>,
       default: () => ({}),
     },
-
-    /**
-     * 表单底部
-     * @description 默认为提交按钮，传入false则不显示，传入element则显示传入的element
-     */
-    footer: {
-      type: [Boolean, () => Element],
+  },
+  computed: {
+    innerItems(): IFormItem[] {
+      return this.items.filter((item) => {
+        if (typeof item.visible === 'function') {
+          return item.visible(this.model, item, this.items);
+        }
+        return true;
+      });
     },
   },
-  setup(props) {
-    const FormRef = ref<FormInstance>();
+  setup(props, { attrs }) {
+    const loading = ref(false);
+    const FormRef = ref<InstanceType<typeof AForm>>();
 
-    props.items.forEach((item) => {
-      const args = { props: item.inputProps, item, model: props.model };
-      if (!item.inputProps) item.inputProps = {};
-      inputer.init(args);
-      Object.assign(props.model, { [item.field]: item.defaultValue });
+    const formProps = computed(() => {
+      return { ...props.formProps, ...attrs };
     });
 
-    const getItem = (field: string) => props.items.find((item) => item.field === field);
-
-    const updateOptions = (field: string) => getItem(field)?._updateOptions?.();
-
-    return {
-      FormRef,
-      updateOptions,
-    };
+    return { formProps, loading, FormRef };
   },
   methods: {
-    /**
-     * 获取表单项
-     * @description 获取表单，如果传入field则获取指定表单项
-     */
-    getItem(field: string) {
-      return this.items.find((item) => item.field === field);
+    async onActionClick(action: any) {
+      if (action.type === 'submit') {
+        await this.FormRef?.validate();
+        this.loading = true;
+        this.submit?.(this.model, this.items).finally(() => {
+          this.loading = false;
+        });
+      }
+      if (action.type === 'reset') {
+        Object.assign(this.model, {});
+      }
+    },
+
+    getFormRef() {
+      return this.$refs.FormRef;
+    },
+
+    getFormItemRef(field: string) {
+      return this.$refs.FormRef;
     },
   },
 });

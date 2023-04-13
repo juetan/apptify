@@ -47,5 +47,9 @@ declare module 'vue-router' {
      * 是否缓存页面
      */
     keepAlive?: boolean;
+    /**
+     * 是否显示loading
+     */
+    loading?: boolean | string;
   }
 }

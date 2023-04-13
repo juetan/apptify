@@ -1,12 +1,63 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { AnForm, useAnForm } from './ui/form';
+
+const form = useAnForm({
+  formProps: {
+    layout: 'vertical',
+  },
+  items: [
+    {
+      field: 'tod',
+      value: '10',
+      type: 'input',
+      label: 'slot:todo',
+      required: true,
+      slotname: 'todo',
+      itemProps: {},
+      nodeProps: {
+        type: 'text',
+      },
+    },
+    {
+      field: 'to1d',
+      value: 110,
+      label: '名称',
+      type: 'number',
+      visible: (model) => model.tod === 'changed',
+      nodeProps: {
+        min: 0,
+      },
+    },
+  ],
+  actions: [
+    {
+      type: 'submit',
+      label: '提交表单',
+    },
+    {
+      type: 'reset',
+    },
+  ],
+  submit: async (model) => {
+    const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
+    await delay(2000);
+    console.log('model', model);
+  },
+});
+console.log(form);
+const changeModel = () => {
+  form.model.tod = 'changed';
+};
 </script>
 
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <AnForm v-bind="form" style="width: 880px; margin: 0 auto">
+    <template #todo>
+      <span>11</span>
+    </template>
+  </AnForm>
+  <button @click="changeModel">修改表单值</button>
 </template>
 
 <style>

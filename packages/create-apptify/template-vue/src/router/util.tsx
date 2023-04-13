@@ -17,6 +17,14 @@ export const transformRoutes = (routes: RouteRecordRaw[]) => {
       topRoutes.push(route);
       return;
     }
+    console.log({defineAsyncComponent, route});
+    route.component = defineAsyncComponent({
+      loader: route.component as any,
+      loadingComponent: () => <div>loading...</div>,
+      errorComponent: () => <div>error...</div>,
+      delay: 200,
+      timeout: 3000,
+    });
     appRoutes.push(route);
   });
 
