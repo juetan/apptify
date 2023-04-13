@@ -62,6 +62,9 @@
     "npm": {
       "publish": false
     },
+    "github": {
+      "release": false
+    },
     "gitlab": {
       "release": false
     },
