@@ -1,5 +1,6 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Exclude, Transform } from 'class-transformer';
-import { dayjs } from 'src/plugins';
+import { dayjs } from 'src/common';
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +9,19 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+
+/**
+ * 连接数据库
+ */
+export const TypeormModule = TypeOrmModule.forRoot({
+  type: 'sqlite',
+  database: 'database/sqlite/db.sqlite',
+  synchronize: true,
+  logging: false,
+  autoLoadEntities: true,
+  namingStrategy: new SnakeNamingStrategy(),
+});
 
 /**
  * 基础实体

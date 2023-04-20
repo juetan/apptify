@@ -243,8 +243,8 @@
         </svg>
       </div>
       <div>
-        <h2>404</h2>
-        <p>页面未找到，你访问的地址不存在!</p>
+        <h2>403</h2>
+        <p>您没有权限访问该页面</p>
         <div>
           <router-link to="/">
             <a-button type="primary" href="/">返回首页</a-button>

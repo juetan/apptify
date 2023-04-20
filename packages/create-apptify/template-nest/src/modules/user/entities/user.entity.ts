@@ -1,6 +1,6 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from 'src/common';
+import { BaseEntity } from 'src/features';
 import { Column, Entity } from 'typeorm';
 
 @Entity()

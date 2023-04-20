@@ -6,5 +6,4 @@ export const ConfigModule = configModule.forRoot({
   isGlobal: true,
 });
 
-console.log({ __dirname, __filename, rootPath: resolve(__dirname, '..', '..', '..') });
 export const rootPath = resolve(__dirname, '..', '..', '..');

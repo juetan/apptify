@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from '../logger';
 
 /**
  * 基础控制器

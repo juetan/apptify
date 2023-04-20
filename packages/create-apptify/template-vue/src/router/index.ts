@@ -1,21 +1,21 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import generatedRoutes from 'virtual:generated-pages';
-import { useNprogress, useTitle, useAuth } from './guards';
-import { transformToMenuItems } from './menus';
-export type { MenuItem } from './menus';
-import { transformRoutes, getAppRoutes } from './util';
-import { linkItems } from './links';
+import generatedRoutes from "virtual:generated-pages";
+import { createRouter, createWebHashHistory } from "vue-router";
+import { useAuth, useNprogress, useTitle } from "./guards";
+import { transformToMenuItems } from "./menus";
+import { getAppRoutes, transformRoutes } from "./util";
+export type { MenuItem } from "./menus";
+export { router, menuItems };
 
 const routes = transformRoutes(generatedRoutes);
 const menuItems = transformToMenuItems(getAppRoutes(routes));
-menuItems.push(...linkItems);
+// menuItems.push(...linkItems);
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      path: '/',
-      redirect: '/home',
+      path: "/",
+      redirect: "/home",
     },
     ...routes,
   ],
@@ -24,5 +24,3 @@ const router = createRouter({
 useNprogress(router);
 useTitle(router);
 useAuth(router);
-
-export { router, menuItems };

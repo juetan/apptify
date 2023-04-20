@@ -1,25 +1,27 @@
-import { defineStore } from 'pinia';
-import { useDark } from '@vueuse/core';
-import {} from 'unocss'
+import { useDark } from "@vueuse/core";
+import { defineStore } from "pinia";
+import {} from "unocss";
 
 export const useAppStore = defineStore({
-  id: 'app',
+  id: "app",
   state: () => {
     const isDark = useDark({
       onChanged: (isDark) => {
         if (isDark) {
-          document.body.setAttribute('arco-theme', 'dark');
-          document.body.classList.add('dark');
+          document.body.setAttribute("arco-theme", "dark");
+          document.body.classList.add("dark");
           return;
         }
-        document.body.setAttribute('arco-theme', 'light');
-        document.body.classList.remove('dark');
+        document.body.setAttribute("arco-theme", "light");
+        document.body.classList.remove("dark");
       },
     });
 
     return {
       count: 0,
       isDark,
+      title: import.meta.env.VITE_APP_TITLE,
+      subtitle: import.meta.env.VITE_APP_SUBTITLE,
     };
   },
   getters: {

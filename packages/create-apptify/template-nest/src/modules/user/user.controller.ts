@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { BaseController } from 'src/common';
+import { BaseController } from 'src/features';
 import { Public } from '../account/jwt';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './entities';
@@ -24,8 +24,6 @@ export class UserController extends BaseController {
   @ApiOkResponse({ isArray: true, type: User })
   @ApiOperation({ summary: '批量查询', operationId: 'selectUsers' })
   findMany() {
-    this.logger.setContext(this.constructor.name);
-    this.logger.log('ok');
     return this.userService.findAll();
   }
 

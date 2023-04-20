@@ -1,0 +1,58 @@
+@import url('@arco-design/web-vue/es/index.less');
+
+@blue-6: #09f;
+
+@arcoblue-6:#f66;
+
+body {
+  .arco-layout-sider {
+    box-shadow: none;
+  }
+  .arco-menu,
+  .arco-menu-item {
+    background-color: transparent;
+  }
+  .arco-menu-group-title {
+    background-color: transparent;
+  }
+
+  .arco-menu {
+    .arco-menu-item {
+      &:hover {
+        background-color: transparent;
+      }
+      &.arco-menu-selected {
+        background-color: @arcoblue-1;
+      }
+    }
+    .arco-menu-inner {
+      .arco-menu-icon {
+        margin-right: 8px;
+      }
+      .arco-menu-inline-header:hover {
+        background-color: transparent;
+      }
+    }
+  }
+  .arco-menu-light .arco-menu-inline-header {
+    background-color: transparent;
+  }
+  .arco-layout-sider-trigger-light {
+    background: transparent;
+  }
+}
+.dark {
+  .arco-menu-item.arco-menu-selected {
+    background-color: hsl(204 100% 35% / 1);
+  }
+  .arco-menu-light .arco-menu-item {
+    background-color: transparent;
+  }
+  .arco-menu {
+    .arco-menu-item {
+      &.arco-menu-selected {
+        background-color: @arcoblue-10;
+      }
+    }
+  }
+}

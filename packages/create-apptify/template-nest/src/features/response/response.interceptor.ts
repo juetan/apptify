@@ -1,9 +1,9 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { Observable, map } from 'rxjs';
-import { RESPONSE_KEY, ResponseType } from './response.decorator';
-import { Response } from './response';
-import { LoggerService } from 'src/common';
 import { Reflector } from '@nestjs/core';
+import { Observable, map } from 'rxjs';
+import { LoggerService } from '../logger';
+import { Response } from './response';
+import { RESPONSE_KEY, ResponseType } from './response.decorator';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
@@ -15,8 +15,7 @@ export class ResponseInterceptor implements NestInterceptor {
     const metadata = this.reflector.getAllAndOverride(RESPONSE_KEY, [controller, handler]);
     const { method, url } = context.switchToHttp().getRequest();
 
-    this.logger.log(`${method} ${url} +1`, controller.name);
-
+    this.logger.log(`${method} ${url} 访问+1`, controller.name);
     const maper = (data: any) => {
       if (metadata?.type === ResponseType.RAW) {
         return data;

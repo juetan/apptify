@@ -7,17 +7,21 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    403: typeof import('./../components/403.vue')['default']
+    AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     AButton: typeof import('@arco-design/web-vue')['Button']
     AConfigProvider: typeof import('@arco-design/web-vue')['ConfigProvider']
+    ADoption: typeof import('@arco-design/web-vue')['Doption']
+    ADrawer: typeof import('@arco-design/web-vue')['Drawer']
+    ADropdown: typeof import('@arco-design/web-vue')['Dropdown']
     ALayout: typeof import('@arco-design/web-vue')['Layout']
     ALayoutContent: typeof import('@arco-design/web-vue')['LayoutContent']
     ALayoutHeader: typeof import('@arco-design/web-vue')['LayoutHeader']
     ALayoutSider: typeof import('@arco-design/web-vue')['LayoutSider']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
-    AMenuItemGroup: typeof import('@arco-design/web-vue')['MenuItemGroup']
-    ASubItem: typeof import('@arco-design/web-vue')['SubItem']
     ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
+    ATag: typeof import('@arco-design/web-vue')['Tag']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
