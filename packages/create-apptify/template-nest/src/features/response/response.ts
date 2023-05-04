@@ -30,6 +30,11 @@ export class Response<T = any> {
   @ApiProperty({})
   data: T;
   /**
+   * 响应元数据
+   * @example { total: 100 }
+   */
+  meta?: any;
+  /**
    * 创建成功响应结果
    */
   static success(data: any, message = '请求成功') {
@@ -45,6 +50,8 @@ export class Response<T = any> {
    * 创建响应结果
    */
   static create(result: Response) {
-    return Object.assign(new Response(), result);
+    const response = new Response();
+    const data = Object.assign(response, result);
+    return data;
   }
 }

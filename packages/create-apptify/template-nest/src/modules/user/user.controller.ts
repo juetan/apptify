@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Version } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { BaseController } from 'src/features';
-import { Public } from '../account/jwt';
+import { BaseController, Pagination } from 'src/features';
+import { Public } from '../auth/jwt';
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { FindUserDto } from './dto/find-user.dto';
 import { User } from './entities';
 import { UserService } from './user.service';
 
@@ -23,8 +24,10 @@ export class UserController extends BaseController {
   @Get()
   @ApiOkResponse({ isArray: true, type: User })
   @ApiOperation({ summary: '批量查询', operationId: 'selectUsers' })
-  findMany() {
-    return this.userService.findAll();
+  async findMany(@Query() query: FindUserDto) {
+    const [data, total] = await this.userService.findAll(query);
+    const { page, size } = query;
+    return Pagination.wrap({ page, size, total, data });
   }
 
   @Version('2')

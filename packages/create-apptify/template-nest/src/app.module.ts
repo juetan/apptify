@@ -1,10 +1,11 @@
-import { Global, Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Global, Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import {
   AllExecptionFilter,
   BaseModule,
   ConfigModule,
   HttpExecptionFilter,
+  LoggerInterceptor,
   LoggerModule,
   ResponseInterceptor,
   ServeStaticModule,
@@ -12,7 +13,7 @@ import {
   ValidationExecptionFilter,
   validationPipeFactory,
 } from './features';
-import { AccountModule, UserModule } from './modules';
+import { AuthModule, UserModule } from './modules';
 
 @Global()
 @Module({
@@ -44,18 +45,36 @@ import { AccountModule, UserModule } from './modules';
     /**
      * 账户模块
      */
-    AccountModule,
+    AuthModule,
   ],
   providers: [
     /**
-     * 全局拦截器
+     * 全局序列化拦截器
+     * @description 由于中间件的洋葱机制，需放在响应拦截器之前，否则无法检测到实例类型
+     */
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+    /**
+     * 全局响应拦截器
+     * @description 将返回值统一包装成{code, message, data, meta}格式
      */
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
     },
     /**
+     * 全局日志拦截器
+     * @description 将请求和响应日志打印到控制台
+     */
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerInterceptor,
+    },
+    /**
      * 全局异常过滤器
+     * @description 将异常统一包装成{code, message, data, meta}格式
      */
     {
       provide: APP_FILTER,
@@ -63,6 +82,7 @@ import { AccountModule, UserModule } from './modules';
     },
     /**
      * 全局HTTP异常过滤器
+     * @description 将HTTP异常统一包装成{code, message, data, meta}格式
      */
     {
       provide: APP_FILTER,
@@ -70,6 +90,7 @@ import { AccountModule, UserModule } from './modules';
     },
     /**
      * 全局验证管道
+     * @description 校验和转换输入数据
      */
     {
       provide: APP_PIPE,
@@ -77,6 +98,7 @@ import { AccountModule, UserModule } from './modules';
     },
     /**
      * 全局验证异常过滤器
+     * @description 将验证异常统一包装成{code, message, data, meta}格式
      */
     {
       provide: APP_FILTER,

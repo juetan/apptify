@@ -3,11 +3,23 @@
  */
 export enum ResponseCode {
   /**
-   * 成功
+   * 操作成功
    */
   SUCESS = 2000,
   /**
-   * 失败
+   * 客户端未知错误
    */
   ERROR = 4000,
+  /**
+   * 参数错误
+   */
+  PARAM_ERROR = 4001,
+  /**
+   * 服务端未知错误
+   */
+  UNKNOWN_ERROR = 5000,
+  /**
+   * 未授权
+   */
+  UNAUTHORIZED = 4003,
 }

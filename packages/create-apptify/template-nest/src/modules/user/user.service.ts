@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Pagination } from 'src/features';
 import { Repository } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { FindUserDto } from './dto/find-user.dto';
 import { User } from './entities';
 
 @Injectable()
@@ -20,8 +22,9 @@ export class UserService {
   /**
    * 查找所有用户
    */
-  async findAll() {
-    return this.userRepository.findAndCount();
+  async findAll(dto: FindUserDto) {
+    const options = Pagination.optionize(dto);
+    return this.userRepository.findAndCount(options);
   }
 
   /**

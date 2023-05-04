@@ -1,13 +1,13 @@
 import { Controller, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AccountService } from './account.service';
+import { AuthService } from './auth.service';
 import { Public } from './jwt';
 import { LocalAuthGuard } from './local';
 
 @ApiTags('用户')
-@Controller('account')
-export class AccountController {
-  constructor(private accountService: AccountService) {}
+@Controller('auth')
+export class AuthController {
+  constructor(private accountService: AuthService) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)

@@ -3,7 +3,7 @@ declare namespace NodeJS {
     /**
      * 运行端口
      */
-    SERVER_PORT: string;
+    SERVER_PORT: number;
     /**
      * 运行IP
      */
