@@ -1,16 +1,17 @@
-const { generateApi } = require('swagger-typescript-api');
-const path = require('path');
-const fs = require('fs');
+import fs from 'fs';
+import path from 'path';
+import { generateApi } from 'swagger-typescript-api';
 
 const resolve = (p) => path.resolve(process.cwd(), p);
 
 const run = async () => {
   const arg = await generateApi({
-    url: 'http://example.com/api/v1/api.json',
-    output: './src/api/service',
+    url: 'http://127.0.0.1:3030/openapi-json',
+    output: resolve('./src/api/service'),
     name: 'index.ts',
     templates: './template',
     httpClientType: 'axios',
+    moduleNameIndex: 1,
     prettier: {
       printWidth: 120,
       tabWidth: 2,
@@ -20,6 +21,8 @@ const run = async () => {
     cleanOutput: true,
     unwrapResponseData: true,
   });
+
+  return;
 
   const { modelTypes, routes: _routes } = arg.configuration;
   const travel = (obj) => {

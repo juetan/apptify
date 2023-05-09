@@ -20,7 +20,7 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 3030,
+    port: 3020,
   },
   plugins: [
     /**
@@ -50,9 +50,6 @@ export default defineConfig({
       resolvers: [ArcoResolver({ sideEffect: false })],
       dts: "./src/types/auto-component.d.ts",
     }),
-    // AutoStyle({
-
-    // }),
     /**
      * 提供基于文件系统的路由
      * @see https://github.com/hannoeru/vite-plugin-pages

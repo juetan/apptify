@@ -5,6 +5,6 @@ import "./style.less";
 import "./transition.less";
 import "./uno.less";
 
-export const styler: Plugin = {
+export const style: Plugin = {
   install(app) {},
 };

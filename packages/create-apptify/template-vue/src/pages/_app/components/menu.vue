@@ -1,18 +1,21 @@
 <script lang="tsx">
-import { MenuItem, menuItems } from '../../../router/index';
+import { MenuItem, menus } from "@/router";
 
 export default defineComponent({
-  name: 'LayoutMenu',
+  name: "LayoutMenu",
   setup() {
-    const selectedKeys = ref<string[]>([])
-    const route = useRoute()
+    const selectedKeys = ref<string[]>([]);
+    const route = useRoute();
 
-    watch(() => route.path, () => {
-      selectedKeys.value = route.matched.map(i => i.path)
-      console.log(selectedKeys.value);
-    }, { immediate: true })
+    watch(
+      () => route.path,
+      () => {
+        selectedKeys.value = route.matched.map((i) => i.path);
+      },
+      { immediate: true }
+    );
 
-    return { selectedKeys }
+    return { selectedKeys };
   },
   methods: {
     goto(route: MenuItem) {
@@ -26,13 +29,21 @@ export default defineComponent({
 
     renderItem(routes: MenuItem[], isTop = false) {
       return routes.map((route) => {
-        const icon = route.icon && isTop ? () => <i class={route.icon} /> : null;
+        const icon =
+          route.icon && isTop ? () => <i class={route.icon} /> : null;
         const node = route.children?.length ? (
-          <a-sub-menu key={route.path} v-slots={{ icon, title: () => route.title }}>
+          <a-sub-menu
+            key={route.path}
+            v-slots={{ icon, title: () => route.title }}
+          >
             {this.renderItem(route?.children)}
           </a-sub-menu>
         ) : (
-          <a-menu-item key={route.path} v-slots={{ icon }} onClick={() => this.goto(route)}>
+          <a-menu-item
+            key={route.path}
+            v-slots={{ icon }}
+            onClick={() => this.goto(route)}
+          >
             {route.title}
           </a-menu-item>
         );
@@ -45,13 +56,12 @@ export default defineComponent({
   render() {
     return (
       <a-menu
-        style={{ width: '100%', height: '100%' }}
-        // show-collapse-button
+        style={{ width: "100%", height: "100%" }}
         breakpoint="xl"
         selectedKeys={this.selectedKeys}
         autoOpenSelected={true}
       >
-        {this.renderItem(menuItems, true)}
+        {this.renderItem(menus, true)}
       </a-menu>
     );
   },

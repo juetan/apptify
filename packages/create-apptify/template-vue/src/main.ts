@@ -1,17 +1,16 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import { store } from './store';
-import { styler } from './style';
-import { router } from './router';
+import { createApp } from "vue";
+import App from "./App.vue";
+import { router } from "./router";
+import { store } from "./store";
+import { style } from "./style";
 
 const run = async () => {
   const app = createApp(App);
-
   app.use(store);
-  app.use(styler);
+  app.use(style);
   app.use(router);
-
-  app.mount('#app');
+  await router.isReady();
+  app.mount("#app");
 };
 
 run();

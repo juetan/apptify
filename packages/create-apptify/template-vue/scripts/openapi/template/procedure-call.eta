@@ -96,5 +96,4 @@ const describeReturnType = () => {
         <%~ bodyContentKindTmpl ? `type: ${bodyContentKindTmpl},` : '' %>
         <%~ responseFormatTmpl ? `format: ${responseFormatTmpl},` : '' %>
         ...<%~ _.get(requestConfigParam, "name") %>,
-        to: 'fdsfs',
     })<%~ route.namespace ? ',' : '' %>

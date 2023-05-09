@@ -1,73 +1,79 @@
 <template>
   <a-layout class="layout">
-    <a-layout-sider
-      class="h-full overflow-hidden border-r border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800"
-      :width="208"
-      :collapsed-width="52"
-      :collapsible="true"
-      :collapsed="isCollapsed"
-      :hide-trigger="false"
-      @collapse="onCollapse"
+    <a-layout-header
+      class="h-13 overflow-hidden flex justify-between items-center gap-4 px-4 border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700"
     >
-      <div>
-        <div
-          class="h-13 flex items-center px-2 border-b border-slate-50 dark:border-slate-800"
-        >
-          <router-link to="/" class="flex items-center gap-3 text-slate-700">
-            <img src="/favicon.ico" alt="" width="32" height="32" />
-            <h1 class="text-base dark:text-white" v-show="!isCollapsed">
-              {{ appStore.title }}
-            </h1>
-          </router-link>
-        </div>
-        <Menu />
-      </div>
-    </a-layout-sider>
-    <a-layout class="flex flex-1 overflow-hidden">
-      <a-layout-header
-        class="h-13 overflow-hidden flex justify-between items-center gap-4 px-6 border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+      <div
+        class="h-13 flex items-center border-b border-slate-200 dark:border-slate-800"
       >
-        <div></div>
-        <div class="flex items-center gap-4">
-          <a-tooltip
-            v-for="btn in buttons"
-            :key="btn.icon"
-            :content="btn.tooltip"
-          >
-            <a-button shape="round" @click="btn.onClick">
-              <template #icon>
-                <i :class="btn.icon"></i>
-              </template>
-            </a-button>
-          </a-tooltip>
-          <a-dropdown>
-            <span class="cursor-pointer">
-              <a-avatar :size="28">A</a-avatar>
-              <span class="mx-2">admin</span>
-              <i class="icon-park-outline-down"></i>
-            </span>
-            <template #content>
-              <a-doption>
-                <template #icon>
-                  <i class="icon-park-outline-config"></i>
-                </template>
-                个人设置
-              </a-doption>
-              <a-doption>
-                <template #icon>
-                  <i class="icon-park-outline-logout"></i>
-                </template>
-                退出登录
-              </a-doption>
-            </template>
-          </a-dropdown>
-          <a-drawer v-model:visible="themeConfig.visible" title="主题设置" :width="280"></a-drawer>
+        <div to="/" class="ml-1 flex items-center gap-2 text-slate-700 select-none">
+          <img src="/favicon.ico" alt="" width="28" height="28" />
+          <h1 class="text-lg leading-[21px] dark:text-white m-0 p-0 font-bold">
+            {{ appStore.title }}
+          </h1>
         </div>
-      </a-layout-header>
+      </div>
+      <div class="flex items-center gap-4">
+        <a-tooltip
+          v-for="btn in buttons"
+          :key="btn.icon"
+          :content="btn.tooltip"
+        >
+          <a-button shape="round" @click="btn.onClick">
+            <template #icon>
+              <i :class="btn.icon"></i>
+            </template>
+          </a-button>
+        </a-tooltip>
+        <a-dropdown>
+          <span class="cursor-pointer">
+            <a-avatar :size="28">A</a-avatar>
+            <span class="mx-2">admin</span>
+            <i class="icon-park-outline-down"></i>
+          </span>
+          <template #content>
+            <a-doption>
+              <template #icon>
+                <i class="icon-park-outline-config"></i>
+              </template>
+              个人设置
+            </a-doption>
+            <a-doption>
+              <template #icon>
+                <i class="icon-park-outline-logout"></i>
+              </template>
+              退出登录
+            </a-doption>
+          </template>
+        </a-dropdown>
+        <a-drawer
+          v-model:visible="themeConfig.visible"
+          title="主题设置"
+          :width="280"
+        ></a-drawer>
+      </div>
+    </a-layout-header>
+
+    <a-layout class="flex flex-1 overflow-hidden">
+      <a-layout-sider
+        class="h-full overflow-hidden dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700"
+        :width="208"
+        :collapsed-width="52"
+        :collapsible="true"
+        :collapsed="isCollapsed"
+        :hide-trigger="false"
+        @collapse="onCollapse"
+      >
+        <div class="">
+          <Menu />
+        </div>
+      </a-layout-sider>
       <a-layout class="layout-content flex-1">
-        <a-layout-header class="h-8 bg-white border-b border-slate-200">
+        <a-layout-header
+          class="h-8 bg-white border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+        >
           <div class="h-full flex items-center gap-2 px-4">
-            <a-tag>首页</a-tag>
+            <a-tag class="cursor-pointer">首页</a-tag>
           </div>
         </a-layout-header>
         <a-layout-content>
@@ -87,8 +93,8 @@ import Menu from "./components/menu.vue";
 const appStore = useAppStore();
 const isCollapsed = ref(false);
 const themeConfig = ref({
-  visible: false
-})
+  visible: false,
+});
 
 const onCollapse = (val: boolean) => {
   isCollapsed.value = val;
@@ -179,7 +185,7 @@ const buttons = [
 {
   "meta": {
     "sort": 101,
-    "title": "登录",
+    "title": "首页",
     "icon": "icon-park-outline-home"
   }
 }

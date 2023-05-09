@@ -1,8 +1,8 @@
 @import url('@arco-design/web-vue/es/index.less');
 
-@blue-6: #09f;
+// @blue-6: #09f;
 
-@arcoblue-6:#f66;
+// @arcoblue-6:#2288f1;
 
 body {
   .arco-layout-sider {
@@ -39,6 +39,7 @@ body {
   }
   .arco-layout-sider-trigger-light {
     background: transparent;
+    border-color: var(--color-neutral-2);
   }
 }
 .dark {
@@ -51,8 +52,11 @@ body {
   .arco-menu {
     .arco-menu-item {
       &.arco-menu-selected {
-        background-color: @arcoblue-10;
+        background-color: @arcoblue-8;
       }
     }
+  }
+  .arco-layout-sider-trigger-light {
+    border-color: var(--color-neutral-2);
   }
 }
