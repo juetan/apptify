@@ -1,7 +1,7 @@
 <template>
   <a-layout class="layout">
     <a-layout-header
-      class="h-13 overflow-hidden flex justify-between items-center gap-4 px-4 border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700"
+      class="h-13 overflow-hidden flex justify-between items-center gap-4 px-4 border-b border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700"
     >
       <div
         class="h-13 flex items-center border-b border-slate-200 dark:border-slate-800"

@@ -1,15 +1,13 @@
 <template>
-  <bread-page>
-    <div>
-      {{ appStore.count }}
+  <div class="m-4 p-4 bg-white">
+    <div class="mt-3">
       <a-button type="primary" @click="appStore.increment()">增加+1</a-button>
-    </div>
-    <div>
+      {{ appStore.count }}
       {{ dayjs().from("2023-03-31 09:08:12") }} -
       {{ dayjs("2022-11-10 01:02:03", dayjs.DATETIME).format() }}
     </div>
-    <a-table :columns="columns" :data="users"></a-table>
-  </bread-page>
+    <a-table :columns="columns" :data="users" class="mt-4"></a-table>
+  </div>
 </template>
 
 <script setup lang="ts">

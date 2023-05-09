@@ -1,7 +1,7 @@
 <template>
   <div>
     <BreadCrumb></BreadCrumb>
-  <div class="mx-5 mt-4 p-4 rounded bg-white">
+  <div class="mx-4 mt-4 p-4 bg-white">
     <slot></slot>
   </div>
   </div>

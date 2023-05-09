@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
+import localData from "dayjs/plugin/localeData";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 /**
@@ -30,6 +31,12 @@ dayjs.locale("zh-cn");
 dayjs.extend(relativeTime);
 
 /**
+ * 本地化插件
+ * @see https://dayjs.gitee.io/docs/zh-CN/plugin/locale-data
+ */
+dayjs.extend(localData);
+
+/**
  *
  * 默认时间格式
  */
@@ -57,3 +64,4 @@ dayjs.prototype.format = function (format?: string) {
 };
 
 export { dayjs, DATETIME, DATE, TIME };
+
