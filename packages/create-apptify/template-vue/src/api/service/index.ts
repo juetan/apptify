@@ -15,7 +15,6 @@ export interface CreateUserDto {
 }
 
 export interface User {
-  tod2222o22: string;
   /**
    * 登录账号
    * @example "juetan"
@@ -48,17 +47,11 @@ export interface UpdateUserDto {
   password?: string;
 }
 
-import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  HeadersDefaults,
-  ResponseType,
-} from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType } from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
-export interface FullRequestParams
-  extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
+export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
   /** set parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
@@ -69,19 +62,15 @@ export interface FullRequestParams
   query?: QueryParamsType;
   /** format of response (i.e. response.json() -> format: "json") */
   format?: ResponseType;
-  /** request body 12322233 */
+  /** request body */
   body?: unknown;
 }
 
-export type RequestParams = Omit<
-  FullRequestParams,
-  "body" | "method" | "query" | "path"
->;
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
-export interface ApiConfig<SecurityDataType = unknown>
-  extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
+export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
   securityWorker?: (
-    securityData: SecurityDataType | null
+    securityData: SecurityDataType | null,
   ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
   secure?: boolean;
   format?: ResponseType;
@@ -91,6 +80,7 @@ export enum ContentType {
   Json = "application/json",
   FormData = "multipart/form-data",
   UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -100,16 +90,8 @@ export class HttpClient<SecurityDataType = unknown> {
   private secure?: boolean;
   private format?: ResponseType;
 
-  constructor({
-    securityWorker,
-    secure,
-    format,
-    ...axiosConfig
-  }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({
-      ...axiosConfig,
-      baseURL: axiosConfig.baseURL || "",
-    });
+  constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "" });
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
@@ -119,10 +101,7 @@ export class HttpClient<SecurityDataType = unknown> {
     this.securityData = data;
   };
 
-  protected mergeRequestParams(
-    params1: AxiosRequestConfig,
-    params2?: AxiosRequestConfig
-  ): AxiosRequestConfig {
+  protected mergeRequestParams(params1: AxiosRequestConfig, params2?: AxiosRequestConfig): AxiosRequestConfig {
     const method = params1.method || (params2 && params2.method);
 
     return {
@@ -130,11 +109,7 @@ export class HttpClient<SecurityDataType = unknown> {
       ...params1,
       ...(params2 || {}),
       headers: {
-        ...((method &&
-          this.instance.defaults.headers[
-            method.toLowerCase() as keyof HeadersDefaults
-          ]) ||
-          {}),
+        ...((method && this.instance.defaults.headers[method.toLowerCase() as keyof HeadersDefaults]) || {}),
         ...(params1.headers || {}),
         ...((params2 && params2.headers) || {}),
       },
@@ -152,29 +127,13 @@ export class HttpClient<SecurityDataType = unknown> {
   protected createFormData(input: Record<string, unknown>): FormData {
     return Object.keys(input || {}).reduce((formData, key) => {
       const property = input[key];
-      const propertyContent: Iterable<any> =
-        property instanceof Array ? property : [property];
+      const propertyContent: any[] = property instanceof Array ? property : [property];
 
       for (const formItem of propertyContent) {
         const isFileType = formItem instanceof Blob || formItem instanceof File;
-        formData.append(
-          key,
-          isFileType ? formItem : this.stringifyFormItem(formItem)
-        );
+        formData.append(key, isFileType ? formItem : this.stringifyFormItem(formItem));
       }
 
-      return formData;
-    }, new FormData());
-    return Object.keys(input || {}).reduce((formData, key) => {
-      const property = input[key];
-      formData.append(
-        key,
-        property instanceof Blob
-          ? property
-          : typeof property === "object" && property !== null
-          ? JSON.stringify(property)
-          : `${property}`
-      );
       return formData;
     }, new FormData());
   }
@@ -196,23 +155,20 @@ export class HttpClient<SecurityDataType = unknown> {
     const requestParams = this.mergeRequestParams(params, secureParams);
     const responseFormat = format || this.format || undefined;
 
-    if (
-      type === ContentType.FormData &&
-      body &&
-      body !== null &&
-      typeof body === "object"
-    ) {
+    if (type === ContentType.FormData && body && body !== null && typeof body === "object") {
       body = this.createFormData(body as Record<string, unknown>);
+    }
+
+    if (type === ContentType.Text && body && body !== null && typeof body !== "string") {
+      body = JSON.stringify(body);
     }
 
     return this.instance
       .request({
         ...requestParams,
         headers: {
-          ...(type && type !== ContentType.FormData
-            ? { "Content-Type": type }
-            : {}),
           ...(requestParams.headers || {}),
+          ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
         },
         params: query,
         responseType: responseFormat,
@@ -231,10 +187,8 @@ export class HttpClient<SecurityDataType = unknown> {
  *
  * Openapi 3.0文档
  */
-export class Api<
-  SecurityDataType extends unknown
-> extends HttpClient<SecurityDataType> {
-  api = {
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  v1 = {
     /**
      * No description
      *
@@ -261,26 +215,25 @@ export class Api<
      * @summary 批量查询
      * @request GET:/api/v1/users
      */
-    selectUsers: (params: RequestParams = {}) =>
+    selectUsers: (
+      query: {
+        /**
+         * 页码
+         * @min 1
+         */
+        page: number;
+        /**
+         * 每页条数
+         * @min 1
+         */
+        size: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<User[], any>({
         path: `/api/v1/users`,
         method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags 用户管理
-     * @name SelectUser
-     * @summary 查询用户
-     * @request GET:/api/v2/users/{id}
-     */
-    selectUser: (id: number, params: RequestParams = {}) =>
-      this.request<User, any>({
-        path: `/api/v2/users/${id}`,
-        method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -329,6 +282,23 @@ export class Api<
       this.request<void, void>({
         path: `/api/v1/auth/login`,
         method: "POST",
+        ...params,
+      }),
+  };
+  v2 = {
+    /**
+     * No description
+     *
+     * @tags 用户管理
+     * @name SelectUser
+     * @summary 查询用户
+     * @request GET:/api/v2/users/{id}
+     */
+    selectUser: (id: number, params: RequestParams = {}) =>
+      this.request<User, any>({
+        path: `/api/v2/users/${id}`,
+        method: "GET",
+        format: "json",
         ...params,
       }),
   };

@@ -6,12 +6,12 @@
       <div
         class="h-13 flex items-center border-b border-slate-200 dark:border-slate-800"
       >
-        <div to="/" class="ml-1 flex items-center gap-2 text-slate-700 select-none">
-          <img src="/favicon.ico" alt="" width="28" height="28" />
-          <h1 class="text-lg leading-[21px] dark:text-white m-0 p-0 font-bold">
+        <router-link to="/" class="ml-1 flex items-center gap-1 text-slate-700">
+          <img src="/favicon.ico" alt="" width="20" height="20" />
+          <h1 class="text-lg leading-[18px] dark:text-white m-0 p-0 font-bold text-[#09f]">
             {{ appStore.title }}
           </h1>
-        </div>
+        </router-link>
       </div>
       <div class="flex items-center gap-4">
         <a-tooltip

@@ -67,7 +67,7 @@
       <use xlink:href="#SvgjsPath1035" x="210" y="570" stroke="#1c538e"></use>
       <use xlink:href="#SvgjsPath1033" x="210" y="630" stroke="#1c538e"></use>
       <use xlink:href="#SvgjsPath1037" x="210" y="690" stroke="#1c538e"></use>
-      <use xlink:href="#SvgjsPath1038" x="270" y="30" stroke="#1c538e" stroke-width="3"></use>
+      <!-- <use xlink:href="#SvgjsPath1038" x="270" y="30" stroke="#1c538e" ></use> -->
       <use xlink:href="#SvgjsPath1035" x="270" y="90" stroke="#1c538e"></use>
       <use xlink:href="#SvgjsPath1034" x="270" y="150" stroke="#1c538e"></use>
       <use xlink:href="#SvgjsPath1037" x="270" y="210" stroke="#1c538e"></use>

@@ -11,8 +11,11 @@ class Service extends Api<any> {
 
 const api = new Service({
   baseURL: "http://127.0.0.1:3030",
+  securityWorker: (data) => {
+    console.log(data);
+    return data;
+  },
 });
 
-api.use(api.api.selectUsers);
-
 export { api };
+
