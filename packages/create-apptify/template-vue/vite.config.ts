@@ -8,8 +8,12 @@ import { ArcoResolver } from "unplugin-vue-components/resolvers";
 import AutoComponent from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
 import Page from "vite-plugin-pages";
-import html from "./scripts/vite/plugin";
+import plugin from "./scripts/vite/plugin";
 
+/**
+ * vite 配置
+ * @see https://cn.vitejs.dev/config/
+ */
 export default defineConfig({
   resolve: {
     alias: [
@@ -55,7 +59,7 @@ export default defineConfig({
      * @see https://github.com/hannoeru/vite-plugin-pages
      */
     Page({
-      exclude: ["**/components/*.vue"],
+      exclude: ["**/components/*.vue", "**/*.*.vue"],
     }),
     /**
      * 提供CSS和图标的按需加载
@@ -77,19 +81,17 @@ export default defineConfig({
       ],
     }),
     /**
-     * 提供html模板
+     * 项目插件，打包时注入版本信息、打包信息等内容
      * @see ./scripts/vite/plugin.ts
      */
-    html(),
+    plugin(),
   ],
   css: {
     preprocessorOptions: {
       less: {
         javascriptEnabled: true,
         modifyVars: {
-          hack: `true; @import (reference) "${resolve(
-            "src/style/arco.less"
-          )}";`,
+          hack: `true; @import (reference) "${resolve("src/style/arco.less")}";`,
           arcoblue: "#66f",
         },
       },

@@ -7,6 +7,7 @@ import {
   HttpExecptionFilter,
   LoggerInterceptor,
   LoggerModule,
+  MulterModule,
   ResponseInterceptor,
   ServeStaticModule,
   TypeormModule,
@@ -14,6 +15,8 @@ import {
   validationPipeFactory,
 } from './features';
 import { AuthModule, UserModule } from './modules';
+import { RoleModule } from './modules/role/role.module';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Global()
 @Module({
@@ -35,6 +38,10 @@ import { AuthModule, UserModule } from './modules';
      */
     BaseModule,
     /**
+     * 文件上传配置模块(全局)
+     */
+    MulterModule,
+    /**
      * 数据库ORM
      */
     TypeormModule,
@@ -46,6 +53,8 @@ import { AuthModule, UserModule } from './modules';
      * 账户模块
      */
     AuthModule,
+    RoleModule,
+    UploadModule,
   ],
   providers: [
     /**

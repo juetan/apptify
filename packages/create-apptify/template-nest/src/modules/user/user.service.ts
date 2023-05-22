@@ -14,6 +14,7 @@ export class UserService {
    * 创建用户
    */
   async create(createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     const user = this.userRepository.create(createUserDto);
     await this.userRepository.save(user);
     return user.id;
@@ -24,7 +25,7 @@ export class UserService {
    */
   async findAll(dto: FindUserDto) {
     const options = Pagination.optionize(dto);
-    return this.userRepository.findAndCount(options);
+    return this.userRepository.findAndCount({ ...options, order: { createAt: 'DESC' } });
   }
 
   /**

@@ -7,7 +7,9 @@ import { BhTable, BhTableColumn, BhTableProps } from "../table";
 import { USE_ACTION, USE_COLUMN, USE_DELETE, USE_INDEX, USE_MODULE, USE_SEARCH } from "./config";
 import { UseTableOptions } from "./type";
 
-/** 构建1个传给BhTable组件的参数 */
+/**
+ * 提供便捷语法，构建传给Table组件的参数
+ */
 export const useTable = (options: UseTableOptions): BhTableProps => {
   const columns: BhTableColumn[] = [];
 

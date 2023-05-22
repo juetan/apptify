@@ -39,7 +39,7 @@
               <a-checkbox checked="rememberPassword">记住我</a-checkbox>
               <a-link @click="onForgetPasswordClick">忘记密码?</a-link>
             </div>
-            <a-button type="primary" html-type="submit" long class="mt-2"> 立即登录 </a-button>
+            <a-button type="primary" html-type="submit" long class="mt-2" @click="onSubmitClick"> 立即登录 </a-button>
             <p type="text" long class="text-gray-400 text-center m-0">暂不支持其他方式登录</p>
           </a-space>
         </a-form>
@@ -56,10 +56,8 @@ import { reactive } from "vue";
 
 const meridiem = dayjs.localeData().meridiem(dayjs().hour(), dayjs().minute());
 const appStore = useAppStore();
-const model = reactive({
-  username: "",
-  password: "",
-});
+const model = reactive({ username: "", password: "" });
+const router = useRouter();
 
 const onForgetPasswordClick = () => {
   Modal.info({
@@ -68,6 +66,10 @@ const onForgetPasswordClick = () => {
     modalClass: "text-center",
     maskClosable: false,
   });
+};
+
+const onSubmitClick = () => {
+  router.push({ path: "/" });
 };
 </script>
 

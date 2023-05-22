@@ -3,22 +3,16 @@
     <a-layout-header
       class="h-13 overflow-hidden flex justify-between items-center gap-4 px-4 border-b border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700"
     >
-      <div
-        class="h-13 flex items-center border-b border-slate-200 dark:border-slate-800"
-      >
-        <router-link to="/" class="ml-1 flex items-center gap-1 text-slate-700">
+      <div class="h-13 flex items-center border-b border-slate-200 dark:border-slate-800">
+        <router-link to="/" class="ml-1 flex items-center gap-2 text-slate-700">
           <img src="/favicon.ico" alt="" width="20" height="20" />
-          <h1 class="text-lg leading-[18px] dark:text-white m-0 p-0 font-bold text-[#09f]">
+          <h1 class="text-lg leading-[19px] dark:text-white m-0 p-0">
             {{ appStore.title }}
           </h1>
         </router-link>
       </div>
       <div class="flex items-center gap-4">
-        <a-tooltip
-          v-for="btn in buttons"
-          :key="btn.icon"
-          :content="btn.tooltip"
-        >
+        <a-tooltip v-for="btn in buttons" :key="btn.icon" :content="btn.tooltip">
           <a-button shape="round" @click="btn.onClick">
             <template #icon>
               <i :class="btn.icon"></i>
@@ -32,25 +26,15 @@
             <i class="icon-park-outline-down"></i>
           </span>
           <template #content>
-            <a-doption>
+            <a-doption v-for="item in userButtons" :key="item.text" @click="item.onClick">
               <template #icon>
-                <i class="icon-park-outline-config"></i>
+                <i :class="item.icon"></i>
               </template>
-              个人设置
-            </a-doption>
-            <a-doption>
-              <template #icon>
-                <i class="icon-park-outline-logout"></i>
-              </template>
-              退出登录
+              {{ item.text }}
             </a-doption>
           </template>
         </a-dropdown>
-        <a-drawer
-          v-model:visible="themeConfig.visible"
-          title="主题设置"
-          :width="280"
-        ></a-drawer>
+        <a-drawer v-model:visible="themeConfig.visible" title="主题设置" :width="280"></a-drawer>
       </div>
     </a-layout-header>
 
@@ -69,9 +53,7 @@
         </div>
       </a-layout-sider>
       <a-layout class="layout-content flex-1">
-        <a-layout-header
-          class="h-8 bg-white border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700"
-        >
+        <a-layout-header class="h-8 bg-white border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700">
           <div class="h-full flex items-center gap-2 px-4">
             <a-tag class="cursor-pointer">首页</a-tag>
           </div>
@@ -92,10 +74,8 @@ import Menu from "./components/menu.vue";
 
 const appStore = useAppStore();
 const isCollapsed = ref(false);
-const themeConfig = ref({
-  visible: false,
-});
-
+const router = useRouter();
+const themeConfig = ref({ visible: false });
 const onCollapse = (val: boolean) => {
   isCollapsed.value = val;
 };
@@ -113,6 +93,23 @@ const buttons = [
     tooltip: "点击打开设置",
     onClick: () => {
       themeConfig.value.visible = true;
+    },
+  },
+];
+
+const userButtons = [
+  {
+    icon: "icon-park-outline-config",
+    text: "个人设置",
+    onClick: () => {
+      console.log("个人设置");
+    },
+  },
+  {
+    icon: "icon-park-outline-logout",
+    text: "退出登录",
+    onClick: () => {
+      router.push({ name: "_login" });
     },
   },
 ];

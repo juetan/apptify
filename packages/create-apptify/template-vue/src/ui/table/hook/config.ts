@@ -1,27 +1,35 @@
-/** 搜索表单默认参数 */
+/**
+ * 搜索表单默认参数
+ */
 export const USE_SEARCH = {
-  labelAlign: 'left',
+  labelAlign: "left",
   autoLabelWidth: true,
   model: {},
 };
 
-/** 表格列默认参数 */
+/**
+ * 表格列默认参数
+ */
 export const USE_COLUMN = {
   ellipsis: true,
   tooltip: true,
-  render: ({ record, column }: any) => record[column.dataIndex] || '-',
+  render: ({ record, column }: any) => record[column.dataIndex] || "-",
 };
 
-/** 行操作按钮默认参数 */
+/**
+ * 行操作按钮默认参数
+ */
 export const USE_ACTION = {
-  type: 'primary',
+  type: "primary",
 };
 
-/** 删除弹窗默认参数 */
+/**
+ * 删除弹窗默认参数
+ */
 export const USE_DELETE = {
-  title: '删除确认',
-  content: '确认删除当前数据吗?',
-  modalClass: 'text-center',
+  title: "删除确认",
+  content: "确认删除当前数据吗?",
+  modalClass: "text-center",
   hideCancel: false,
   maskClosable: false,
 };
@@ -29,8 +37,8 @@ export const USE_DELETE = {
 export const USE_MODULE = (item: any): any => (item ? { items: [], ...item } : null);
 
 export const USE_INDEX = {
-  title: '#',
+  title: "#",
   width: 60,
-  align: 'center',
+  align: "center",
   render: ({ rowIndex }: any) => rowIndex + 1,
 };

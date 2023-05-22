@@ -1,21 +1,32 @@
-import { Form, FormInstance } from '@arco-design/web-vue';
-import { defineComponent, PropType, reactive, ref } from 'vue';
-import { BhFormItem } from '../item';
-import { isVisibled } from '../helper';
-import { BhFormItem as IFormItem, BhFormModel } from '../interface';
-import { inputer } from '../input';
+import { Form, FormInstance } from "@arco-design/web-vue";
+import { PropType, defineComponent, reactive, ref } from "vue";
+import { isVisibled } from "../helper";
+import { BhFormModel, BhFormItem as IFormItem } from "../interface";
+import { BhFormItem } from "../item";
 
+/**
+ * 表单组件
+ */
 export const BhForm = defineComponent({
-  name: 'BhForm',
+  name: "Form",
   props: {
+    /**
+     * 表单项
+     */
     items: {
       type: Array as PropType<IFormItem[]>,
       default: () => [],
     },
+    /**
+     * 表单数据
+     */
     model: {
       type: Object as PropType<BhFormModel>,
       default: () => reactive({}),
     },
+    /**
+     * 表单底部
+     */
     footer: {
       type: [Boolean, () => Element],
     },
@@ -23,17 +34,27 @@ export const BhForm = defineComponent({
   setup(props) {
     const FormRef = ref<FormInstance>();
 
-    console.log(props);
-
-    const getItem = (field: string) => props.items.find((item) => item.field === field);
-
-    const updateOptions = (field: string) => getItem(field)?._updateOptions?.();
-
     return {
       FormRef,
-      getItem,
-      updateOptions,
     };
+  },
+  methods: {
+    /**
+     * 根据字段名获取表单项
+     * @param field 字段名
+     * @returns
+     */
+    getItem(field: string) {
+      return this.items.find((item) => item.field === field);
+    },
+
+    /**
+     * 根据字段名获取表单项的选项列表(用于下拉框等)
+     * @param field 字段名
+     */
+    updateOptions(field: string) {
+      this.getItem(field)?._updateOptions?.();
+    },
   },
   render() {
     (this.items as any).instance = this;
@@ -50,6 +71,12 @@ export const BhForm = defineComponent({
   },
 });
 
+/**
+ * 表单实例类型
+ */
 export type BhFormInstance = InstanceType<typeof BhForm>;
 
-export type BhFormProps = BhFormInstance['$props'] & InstanceType<typeof Form>['$props'];
+/**
+ * 表单组件参数
+ */
+export type BhFormProps = BhFormInstance["$props"] & InstanceType<typeof Form>["$props"];

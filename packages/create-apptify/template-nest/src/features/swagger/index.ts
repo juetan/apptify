@@ -7,7 +7,7 @@ export const initSwagger = (app: INestApplication) => {
     .setVersion('1.0')
     .setDescription('Openapi 3.0文档')
     .setExternalDoc('JSON数据', '/openapi-json')
-    .addTag('用户管理', 'user')
+    .addTag('user', '用户管理')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('openapi', app, document);

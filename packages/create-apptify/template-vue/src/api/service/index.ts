@@ -12,9 +12,13 @@
 export interface CreateUserDto {
   username: string;
   password: string;
+  nickname: string;
+  avatar: string;
 }
 
 export interface User {
+  /** 用户角色 */
+  roles: Role[];
   /**
    * 登录账号
    * @example "juetan"
@@ -42,9 +46,37 @@ export interface User {
   password: string;
 }
 
+export interface Role {
+  id: number;
+  user: User;
+}
+
 export interface UpdateUserDto {
   username?: string;
   password?: string;
+  nickname?: string;
+  avatar?: string;
+}
+
+export type CreateRoleDto = object;
+
+export type UpdateRoleDto = object;
+
+export type CreateUploadDto = object;
+
+export type UpdateUploadDto = object;
+
+export interface SelectUsersParams {
+  /**
+   * 页码
+   * @min 1
+   */
+  page: number;
+  /**
+   * 每页条数
+   * @min 1
+   */
+  size: number;
 }
 
 import axios, { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType } from "axios";
@@ -52,7 +84,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType
 export type QueryParamsType = Record<string | number, any>;
 
 export interface FullRequestParams extends Omit<AxiosRequestConfig, "data" | "params" | "url" | "responseType"> {
-  /** set parameter to `true` for call `securityWorker` for this request */
+  /** set11 parameter to `true` for call `securityWorker` for this request */
   secure?: boolean;
   /** request path */
   path: string;
@@ -188,118 +220,280 @@ export class HttpClient<SecurityDataType = unknown> {
  * Openapi 3.0文档
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  v1 = {
+  user = {
     /**
      * No description
      *
-     * @tags 用户管理
+     * @tags user
      * @name CreateUser
      * @summary 创建用户
      * @request POST:/api/v1/users
      */
-    createUser: (data: CreateUserDto, params: RequestParams = {}) =>
-      this.request<number, any>({
+    createUser: (data: CreateUserDto, params: RequestParams = {}) => {
+      return this.request<number, any>({
         path: `/api/v1/users`,
         method: "POST",
         body: data,
         type: ContentType.Json,
         format: "json",
         ...params,
-      }),
+      });
+    },
 
     /**
      * No description
      *
-     * @tags 用户管理
+     * @tags user
      * @name SelectUsers
      * @summary 批量查询
      * @request GET:/api/v1/users
      */
-    selectUsers: (
-      query: {
-        /**
-         * 页码
-         * @min 1
-         */
-        page: number;
-        /**
-         * 每页条数
-         * @min 1
-         */
-        size: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<User[], any>({
+    selectUsers: (query: SelectUsersParams, params: RequestParams = {}) => {
+      return this.request<User[], any>({
         path: `/api/v1/users`,
         method: "GET",
         query: query,
         format: "json",
         ...params,
-      }),
+      });
+    },
 
     /**
      * No description
      *
-     * @tags 用户管理
+     * @tags user
+     * @name SelectUserv2
+     * @summary 查询用户
+     * @request GET:/api/v2/users/{id}
+     */
+    selectUserv2: (id: number, params: RequestParams = {}) => {
+      return this.request<User, any>({
+        path: `/api/v2/users/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags user
      * @name UpdateUser
      * @summary 更新用户
      * @request PATCH:/api/v1/users/{id}
      */
-    updateUser: (id: number, data: UpdateUserDto, params: RequestParams = {}) =>
-      this.request<void, any>({
+    updateUser: (id: number, data: UpdateUserDto, params: RequestParams = {}) => {
+      return this.request<void, any>({
         path: `/api/v1/users/${id}`,
         method: "PATCH",
         body: data,
         type: ContentType.Json,
         ...params,
-      }),
+      });
+    },
 
     /**
      * No description
      *
-     * @tags 用户管理
+     * @tags user
      * @name DeleteUser
      * @summary 删除用户
      * @request DELETE:/api/v1/users/{id}
      */
-    deleteUser: (id: number, params: RequestParams = {}) =>
-      this.request<void, any>({
+    deleteUser: (id: number, params: RequestParams = {}) => {
+      return this.request<void, any>({
         path: `/api/v1/users/${id}`,
         method: "DELETE",
         ...params,
-      }),
-
+      });
+    },
+  };
+  auth = {
     /**
      * No description
      *
-     * @tags 用户
+     * @tags auth
      * @name Login
      * @summary 账号登录
      * @request POST:/api/v1/auth/login
      */
-    login: (params: RequestParams = {}) =>
-      this.request<void, void>({
+    login: (params: RequestParams = {}) => {
+      return this.request<void, void>({
         path: `/api/v1/auth/login`,
         method: "POST",
         ...params,
-      }),
+      });
+    },
   };
-  v2 = {
+  role = {
     /**
      * No description
      *
-     * @tags 用户管理
-     * @name SelectUser
-     * @summary 查询用户
-     * @request GET:/api/v2/users/{id}
+     * @tags role
+     * @name RoleControllerCreate
+     * @request POST:/api/v1/role
      */
-    selectUser: (id: number, params: RequestParams = {}) =>
-      this.request<User, any>({
-        path: `/api/v2/users/${id}`,
+    roleControllerCreate: (data: CreateRoleDto, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/role`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags role
+     * @name RoleControllerFindAll
+     * @request GET:/api/v1/role
+     */
+    roleControllerFindAll: (params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/role`,
         method: "GET",
         format: "json",
         ...params,
-      }),
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags role
+     * @name RoleControllerFindOne
+     * @request GET:/api/v1/role/{id}
+     */
+    roleControllerFindOne: (id: string, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/role/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags role
+     * @name RoleControllerUpdate
+     * @request PATCH:/api/v1/role/{id}
+     */
+    roleControllerUpdate: (id: string, data: UpdateRoleDto, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/role/${id}`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags role
+     * @name RoleControllerRemove
+     * @request DELETE:/api/v1/role/{id}
+     */
+    roleControllerRemove: (id: string, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/role/${id}`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      });
+    },
+  };
+  upload = {
+    /**
+     * No description
+     *
+     * @tags upload
+     * @name UploadControllerCreate
+     * @request POST:/api/v1/upload
+     */
+    uploadControllerCreate: (data: CreateUploadDto, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/upload`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags upload
+     * @name UploadControllerFindAll
+     * @request GET:/api/v1/upload
+     */
+    uploadControllerFindAll: (params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/upload`,
+        method: "GET",
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags upload
+     * @name UploadControllerFindOne
+     * @request GET:/api/v1/upload/{id}
+     */
+    uploadControllerFindOne: (id: string, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/upload/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags upload
+     * @name UploadControllerUpdate
+     * @request PATCH:/api/v1/upload/{id}
+     */
+    uploadControllerUpdate: (id: string, data: UpdateUploadDto, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/upload/${id}`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags upload
+     * @name UploadControllerRemove
+     * @request DELETE:/api/v1/upload/{id}
+     */
+    uploadControllerRemove: (id: string, params: RequestParams = {}) => {
+      return this.request<string, any>({
+        path: `/api/v1/upload/${id}`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      });
+    },
   };
 }

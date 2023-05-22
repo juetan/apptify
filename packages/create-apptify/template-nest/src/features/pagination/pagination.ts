@@ -6,12 +6,12 @@ interface Options {
   [key: string]: any;
 }
 
-interface WrapOptions {
+type WrapOptions<T> = {
   page: number;
   size: number;
   total: number;
-  data: any[];
-}
+  data: T[];
+};
 
 export const defaultPage = 1;
 
@@ -24,7 +24,7 @@ export class Pagination {
   /**
    * 包装响应结果
    */
-  static wrap(options: WrapOptions) {
+  static wrap<T>(options: WrapOptions<T>) {
     const { page = defaultPage, size = defaultSize, total, data } = options;
     return Response.create({
       code: ResponseCode.SUCESS,

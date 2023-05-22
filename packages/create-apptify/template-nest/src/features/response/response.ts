@@ -49,7 +49,7 @@ export class Response<T = any> {
   /**
    * 创建响应结果
    */
-  static create(result: Response) {
+  static create<T>(result: Response<T>) {
     const response = new Response();
     const data = Object.assign(response, result);
     return data;

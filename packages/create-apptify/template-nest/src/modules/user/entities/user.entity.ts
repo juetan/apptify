@@ -1,7 +1,8 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import { BaseEntity } from 'src/features';
-import { Column, Entity } from 'typeorm';
+import { Role } from 'src/modules/role/entities/role.entity';
+import { Column, Entity, ManyToMany } from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -10,6 +11,12 @@ export class User extends BaseEntity {
    */
   @ApiHideProperty()
   posts: string;
+
+  /**
+   * 用户角色
+   */
+  @ManyToMany(() => Role, (role) => role.user)
+  roles: Role[];
 
   /**
    * 登录账号
@@ -36,7 +43,8 @@ export class User extends BaseEntity {
    * 用户头像(URL)
    * @example './assets/222421415123.png '
    */
-  @Column()
+  @Transform(({ value }) => `http://localhost:3030${value}`)
+  @Column({ nullable: true })
   avatar: string;
 
   /**

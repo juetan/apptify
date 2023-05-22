@@ -1,7 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { CreateUsersTable1682693329275 } from '../migrations/1682693329275-CreateUsersTable';
 
 /**
  * 基本配置
@@ -20,6 +19,7 @@ export const ormConfig: TypeOrmModuleOptions = {
   ...baseConfig,
   synchronize: true,
   autoLoadEntities: true,
+  logging: true,
 };
 
 /**
@@ -28,7 +28,7 @@ export const ormConfig: TypeOrmModuleOptions = {
 export const cliConfig: DataSourceOptions = {
   ...baseConfig,
   entities: ['src/**/*.entity.ts'],
-  migrations: [CreateUsersTable1682693329275],
+  migrations: [],
 };
 
 /**

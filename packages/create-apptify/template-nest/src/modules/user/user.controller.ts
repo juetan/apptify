@@ -1,4 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Version } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+  Version,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BaseController, Pagination } from 'src/features';
 import { Public } from '../auth/jwt';
@@ -7,16 +20,19 @@ import { FindUserDto } from './dto/find-user.dto';
 import { User } from './entities';
 import { UserService } from './user.service';
 
-@ApiTags('用户管理')
+@ApiTags('user')
 @Controller('users')
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
     super();
   }
 
+  @UseInterceptors(FileInterceptor('avatar'))
   @Post()
   @ApiOperation({ summary: '创建用户', operationId: 'createUser' })
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto, @UploadedFile() file: Express.Multer.File) {
+    createUserDto.avatar = `upload/${file.filename}`;
+    console.log(createUserDto, file);
     return this.userService.create(createUserDto);
   }
 
@@ -32,7 +48,7 @@ export class UserController extends BaseController {
 
   @Version('2')
   @Get(':id')
-  @ApiOperation({ summary: '查询用户', operationId: 'selectUser' })
+  @ApiOperation({ summary: '查询用户', operationId: 'selectUserv2' })
   findOne(@Param('id') id: number) {
     return this.userService.findOne(+id);
   }

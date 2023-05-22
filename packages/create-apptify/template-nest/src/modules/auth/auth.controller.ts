@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { Public } from './jwt';
 import { LocalAuthGuard } from './local';
 
-@ApiTags('用户')
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private accountService: AuthService) {}

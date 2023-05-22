@@ -44,6 +44,20 @@ body {
   .arco-btn-icon {
     display: flex;
   }
+
+  input::file-selector-button {
+    height: 32px;
+    background-color: transparent;
+    padding: 0 15px;
+    color: @arcoblue-6;
+    border: 1px solid @arcoblue-6;
+    border-radius: 2px;
+    cursor: pointer;
+    &:hover {
+      color: @arcoblue-4;
+      border-color: @arcoblue-4;
+    }
+  }
 }
 .dark {
   .arco-menu-item.arco-menu-selected {

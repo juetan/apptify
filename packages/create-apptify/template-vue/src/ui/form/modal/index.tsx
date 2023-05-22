@@ -1,7 +1,7 @@
 import { Button, ButtonInstance, FormInstance, Message, Modal } from "@arco-design/web-vue";
-import { assign, cloneDeep, isBoolean, isFunction, isObject, omit } from "lodash-es";
+import { assign, cloneDeep, isBoolean, isFunction, omit } from "lodash-es";
 import { PropType, defineComponent, reactive } from "vue";
-import { BhForm } from "../form";
+import { BhForm } from "../form/index";
 import { BhFormAction, BhFormItem, BhFormModel } from "../interface";
 
 const omitKeys = ["visible", "onBeforeOk", "width", "okLoading", "title"];
@@ -93,9 +93,14 @@ export const BhFormModal = defineComponent({
       if (errors) {
         return false;
       }
-      const res = await this.submit?.({ items: this.items, model: this.model });
-      if (res?.message) {
-        Message.success(`提示: ${res.message}`);
+      try {
+        const res = await this.submit?.({ items: this.items, model: this.model });
+        if (res?.message) {
+          Message.success(`提示: ${res.message}`);
+        }
+      } catch (error: any) {
+        error.message && Message.error(`提示: ${error.message}`);
+        return false;
       }
       return true;
     },
@@ -132,7 +137,7 @@ export const BhFormModal = defineComponent({
           </Button>
         );
       }
-      if (isObject(this.trigger)) {
+      if (typeof this.trigger === "object") {
         content = (
           <Button type="primary" {...omit(this.trigger, "text")}>
             {this.trigger?.text || "新建"}
