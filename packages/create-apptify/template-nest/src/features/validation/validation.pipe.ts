@@ -27,14 +27,12 @@ export const validationPipeFactory = () => {
     transform: true,
     whitelist: true,
     exceptionFactory: (errors) => {
-      const error = new AppValidationError('参数校验失败');
+      const error = new AppValidationError('参数错误');
       const messages: string[] = [];
       for (const error of errors) {
         const { property, constraints } = error;
         Object.keys(constraints).forEach((key) => {
-          if (MessageMap[key]) {
-            messages.push(`参数(${property})${MessageMap[key]}`);
-          }
+          messages.push(MessageMap[key] ? `参数(${property})${MessageMap[key]}` : constraints[key]);
         });
       }
       error.setMessages(messages);

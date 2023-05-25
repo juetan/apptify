@@ -1,9 +1,10 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from "vue-router";
+import { appRoutes } from "../routes";
 
 /**
  * 菜单项类型
  */
-export interface MenuItem {
+interface MenuItem {
   id: string;
   parentId?: string;
   path: string;
@@ -23,23 +24,23 @@ function routesToItems(routes: RouteRecordRaw[]): MenuItem[] {
   const items: MenuItem[] = [];
 
   routes.forEach((route) => {
-    let paths = route.path.split('/');
+    let paths = route.path.split("/");
     let id = route.path;
-    let parentId = paths.slice(0, -1).join('/');
+    let parentId = paths.slice(0, -1).join("/");
 
     if ((route as any).parentMeta) {
       id = `${route.path}/index`;
       parentId = route.path;
       items.push({
         id: route.path,
-        parentId: paths.slice(0, -1).join('/'),
-        path: `${route.path}/_`,
+        parentId: paths.slice(0, -1).join("/"),
+        path: `${route.path}`,
         title: (route as any).parentMeta.title,
         icon: (route as any).parentMeta.icon,
         sort: (route as any).parentMeta.sort,
       });
     } else {
-      const p = paths.slice(0, -1).join('/');
+      const p = paths.slice(0, -1).join("/");
       if (routes.some((i) => i.path === p && (i as any).parentMeta)) {
         parentId = p;
       }
@@ -89,7 +90,10 @@ function listToTree(list: MenuItem[]) {
  * @param key 排序字段
  * @returns
  */
-function sort<T extends { children?: T[]; [key: string]: any }>(routes: T[], key = 'sort') {
+function sort<T extends { children?: T[]; [key: string]: any }>(
+  routes: T[],
+  key = "sort"
+) {
   return routes.sort((a, b) => {
     if (Array.isArray(a.children)) {
       a.children = sort(a.children);
@@ -106,7 +110,15 @@ function sort<T extends { children?: T[]; [key: string]: any }>(routes: T[], key
  * @param routes 路由配置
  * @returns
  */
-export function transformToMenuItems(routes: RouteRecordRaw[]) {
+function transformToMenuItems(routes: RouteRecordRaw[]) {
   const items = sort(listToTree(routesToItems(routes)));
   return items;
 }
+
+/**
+ * 由应用路由生成的菜单项
+ */
+const menus = transformToMenuItems(appRoutes);
+
+export { menus };
+export type { MenuItem };

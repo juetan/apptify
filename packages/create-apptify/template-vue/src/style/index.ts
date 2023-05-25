@@ -1,10 +1,10 @@
-import { Plugin } from 'vue';
-import './style.less';
-import 'uno.css';
-import './transition.less';
-import './uno.less'
-import './arco-design.less'
+import "uno.css";
+import { Plugin } from "vue";
+import "./arco.less";
+import "./style.less";
+import "./transition.less";
+import "./uno.less";
 
-export const styler: Plugin = {
+export const style: Plugin = {
   install(app) {},
 };

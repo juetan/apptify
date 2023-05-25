@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">demo/test Page</div>
+  <bread-page class="">Demo/test Page</bread-page>
 </template>
 
 <script setup lang="ts"></script>

@@ -15,7 +15,7 @@
   "devDependencies": {
     "@types/uuid": "^9.0.1",
     "await-to-js": "^3.0.0",
-    "nanoid": "^4.0.1",
-    "uuid": "^9.0.0"
+    "mitt": "^3.0.0",
+    "nanoid": "^4.0.1"
   }
 }

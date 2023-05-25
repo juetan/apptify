@@ -4,43 +4,60 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vue Template</title>
+    <title>__APP_TITLE__ - __APP_SUBTITLE__</title>
   </head>
   <body>
     <div id="app" class="dark:bg-slate-900 dark:text-slate-200">
       <style>
-        body,html {
-          width: 100%;
-          height: 100%;
+        html,
+        body {
           margin: 0;
           padding: 0;
-        }
-        #app {
-          display: flex;
-          justify-content: center;
-          align-items: center;
           width: 100%;
           height: 100%;
+          overflow: hidden;
           font-size: 14px;
-          background: linear-gradient(45deg,#222428,#444856);
+          font-family: Inter, "-apple-system", BlinkMacSystemFont, "PingFang SC",
+            "Hiragino Sans GB", "noto sans", "Microsoft YaHei", "Helvetica Neue",
+            Helvetica, Arial, sans-serif;
         }
-        img {
-          vertical-align: middle;
+        #app {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
-        .spin {
-          text-align: center;
+        .loading {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
         }
-        .title {
-          color: #f8f9fb;
+        .loading-image {
+          width: 64px;
+          height: 64px;
         }
-        .tip {
-          color: #7c818d
+        .loading-title {
+          margin: 0;
+          margin-top: 20px;
+          font-size: 22px;
+          font-weight: 400;
+          line-height: 1;
+        }
+        .loading-tip {
+          margin-top: 16px;
+          line-height: 1;
         }
       </style>
-      <div class="spin">
-        <img src="./assets/loading.svg" alt="" width="80" height="80">
-        <h1 class="title">Apptify应用</h1>
-        <p class="tip">正在加载中, 请稍后...</p>
+      <div class="loading">
+        <img
+          src="/assets/loading.svg"
+          alt="loading"
+          class="loading-image"
+        />
+        <h1 class="loading-title">欢迎访问__APP_TITLE__</h1>
+        <div class="loading-tip">正在加载中, 请稍后...</div>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>

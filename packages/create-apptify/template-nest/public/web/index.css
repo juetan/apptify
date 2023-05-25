@@ -4347,6 +4347,7 @@ textarea.form-control {
 
   .presentation-subtitle {
     margin-top: 40px;
+    text-align: center;
   }
 
   .title-brand {
@@ -5910,6 +5911,7 @@ textarea.form-control {
 .presentation-subtitle {
   font-size: 1.7em;
   color: #FFFFFF;
+  text-align: center;
 }
 
 .category-absolute {
@@ -5943,10 +5945,6 @@ textarea.form-control {
 .fog-low.right {
   margin-left: 30%;
   opacity: 1;
-}
-
-.page-header .content-center {
-  margin-top: 85px;
 }
 
 .moving-clouds {
@@ -7671,6 +7669,11 @@ License - nucleoapp.com/license/
 
 .nc-zoom-split::before {
     content: "\ea64";
+}
+
+html,body {
+  margin: 0;
+  padding: 0;
 }
 
 

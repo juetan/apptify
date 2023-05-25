@@ -1,8 +1,3 @@
-import { createPinia } from 'pinia';
-export * from './module-app'
+export * from "./app";
+export * from "./main";
 
-const store = createPinia();
-
-console.log(store);
-
-export { store };
