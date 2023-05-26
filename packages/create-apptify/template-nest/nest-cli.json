@@ -11,7 +11,7 @@
         }
       }
     ],
-    "webpack": true
+    "webpack": false
   },
   "generateOptions": {
     "spec": false

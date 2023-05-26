@@ -1,13 +1,15 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { CreateUsersTable1682693329275 } from '../migrations/1682693329275-CreateUsersTable';
+import { MockPosts1685026010848 } from '../migrations/1685026010848-MockPosts';
 
 /**
  * 基本配置
  */
 export const baseConfig: DataSourceOptions = {
   type: 'sqlite',
-  database: 'public/sqlite/data.db',
+  database: 'db/database.sqlite',
   logging: false,
   namingStrategy: new SnakeNamingStrategy(),
 };
@@ -28,7 +30,7 @@ export const ormConfig: TypeOrmModuleOptions = {
 export const cliConfig: DataSourceOptions = {
   ...baseConfig,
   entities: ['src/**/*.entity.ts'],
-  migrations: [],
+  migrations: [CreateUsersTable1682693329275, MockPosts1685026010848],
 };
 
 /**

@@ -15,6 +15,7 @@ import {
   validationPipeFactory,
 } from './features';
 import { AuthModule, UserModule } from './modules';
+import { PostModule } from './modules/post/post.module';
 import { RoleModule } from './modules/role/role.module';
 import { UploadModule } from './modules/upload/upload.module';
 
@@ -53,8 +54,18 @@ import { UploadModule } from './modules/upload/upload.module';
      * 账户模块
      */
     AuthModule,
+    /**
+     * 角色模块
+     */
     RoleModule,
+    /**
+     * 上传模块
+     */
     UploadModule,
+    /**
+     * 文章模块
+     */
+    PostModule,
   ],
   providers: [
     /**
