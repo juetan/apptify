@@ -1,5 +1,5 @@
 import { Api } from "../service";
-import { useRequest } from "./use-request";
+import { useRequest } from "./useRequest";
 
 class Service extends Api<any> {
   use = useRequest;
@@ -44,3 +44,4 @@ api.instance.interceptors.response.use(
 );
 
 export { api };
+

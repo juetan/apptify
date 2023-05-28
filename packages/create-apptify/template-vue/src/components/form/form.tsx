@@ -1,4 +1,4 @@
-import { Form as BaseForm, FormInstance as BaseFormInstance } from "@arco-design/web-vue";
+import { Form as BaseForm, FormInstance as BaseFormInstance, Message } from "@arco-design/web-vue";
 import { defaultsDeep } from "lodash-es";
 import { PropType } from "vue";
 import { FormItem, IFormItem } from "./form-item";
@@ -34,7 +34,7 @@ export const Form = defineComponent({
      * 传给Form组件的参数
      */
     formProps: {
-      type: Object as PropType<Omit<BaseFormInstance["$props"], 'model'>>,
+      type: Object as PropType<Omit<BaseFormInstance["$props"], "model">>,
     },
   },
   setup(props) {
@@ -54,11 +54,14 @@ export const Form = defineComponent({
       return props.items.find((item) => item.field === field);
     };
 
-    const submitForm = () => {
-      loading.value = true;
-      setTimeout(() => {
+    const submitForm = async () => {
+      try {
+        loading.value = true;
+        const res = await props.submit?.({ model: props.model, items: props.items });
+        res.message && Message.success(`提示: ${res.message}`);
+      } finally {
         loading.value = false;
-      }, 2000);
+      }
     };
 
     return {

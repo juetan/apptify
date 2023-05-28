@@ -1,8 +1,8 @@
 import {
-  Divider,
-  Table as BaseTable,
   TableColumnData as BaseColumn,
   TableData as BaseData,
+  Table as BaseTable,
+  Divider,
 } from "@arco-design/web-vue";
 import { PropType, computed, defineComponent, reactive, ref, watch } from "vue";
 import { Form, FormModal, FormModalInstance, FormModalProps, FormProps } from "../form";
@@ -20,7 +20,7 @@ export const Table = defineComponent({
      * 获取数据的函数
      */
     api: {
-      type: Function as PropType<any>,
+      type: Function as PropType<(model: Record<string, any>, paging: { page: number; size: number }) => Promise<any>>,
     },
     /**
      * 表格列设置

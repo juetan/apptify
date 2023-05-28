@@ -1,13 +1,13 @@
 <template>
-  <bread-page>
-    <Table v-bind="table"></Table>
-  </bread-page>
+  <div class="m-4 p-4 bg-white">
+    Post Page
+  </div>
 </template>
 
-<script setup lang="tsx">
+<script setup lang="tsx" name="PostPage">
 import { ContentType, api } from "@/api";
-import { Table, useTable } from "@/components";
 import { dayjs } from "@/plugins";
+import { useTable } from "@/ui";
 import { Avatar } from "@arco-design/web-vue";
 
 const url = ref<any>(null);
@@ -58,9 +58,9 @@ const table = useTable({
     },
     {
       title: "操作",
-      type: "buttons",
+      type: "action",
       width: 70,
-      buttons: [],
+      action: [],
     },
   ],
   common: {
@@ -89,12 +89,12 @@ const table = useTable({
       {
         field: "description",
         label: "个人描述",
-        type: "input",
+        type: "textarea",
       },
       {
         field: "password",
         label: "密码",
-        type: "password",
+        type: "inputPassword",
       },
       {
         label: "头像",
@@ -141,7 +141,7 @@ const table = useTable({
   create: {
     title: "新建用户",
     submit: ({ model }) => {
-      return api.user.createUser(model as any, {
+      return api.user.createUser(model, {
         type: ContentType.FormData,
       });
     },
@@ -160,9 +160,9 @@ const table = useTable({
 <route lang="json">
 {
   "meta": {
-    "sort": 10301,
-    "title": "用户管理",
-    "icon": "icon-park-outline-user"
+    "sort": 10401,
+    "title": "文章管理",
+    "icon": "icon-park-outline-document-folder"
   }
 }
 </route>

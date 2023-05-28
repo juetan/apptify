@@ -11,6 +11,8 @@ export const FormItem = (props: any, { emit }: any) => {
     field: item.field,
   };
 
+  console.log("itemprops", props.itemProps);
+
   const rules = computed(() => {
     return item.rules?.filter((rule: any) => {
       if (rule.when === undefined) {
@@ -35,11 +37,11 @@ export const FormItem = (props: any, { emit }: any) => {
 
   return (
     <BaseFormItem
-      {...props.itemProps}
       rules={rules.value}
       disabled={disabled.value}
       label={item.label}
       field={item.field}
+      {...item.itemProps}
     >
       {{
         default: () => {
@@ -47,7 +49,7 @@ export const FormItem = (props: any, { emit }: any) => {
             return item.render(args);
           }
           const comp = nodeMap[item.type as NodeType]?.component;
-          if (item.type === "footer") {
+          if (item.type === "submit") {
             return <comp loading={props.loading} onSubmit={() => emit("submit")} onCancel={emit("cancel")} />;
           }
           return <comp v-model={props.model[item.field]} {...item.nodeProps} />;

@@ -2,19 +2,19 @@ import { Button, Link, Message, Modal, TableColumnData } from "@arco-design/web-
 import { IconRefresh, IconSearch } from "@arco-design/web-vue/es/icon";
 import { defaultsDeep, isArray, isFunction, mergeWith, omit } from "lodash-es";
 import { reactive } from "vue";
+import { TableInstance } from "./table";
 import {
   TABLE_ACTION_DEFAULTS,
   TABLE_COLUMN_DEFAULTS,
   TABLE_DELTE_DEFAULTS,
   TALBE_INDEX_DEFAULTS,
 } from "./table.config";
-import { TableInstance } from "./table";
 import { UseTableOptions } from "./use-interface";
 
 /**
  * 提供便捷语法，构建传给Table组件的参数
  */
-export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions)) => {
+export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions)): any => {
   const options: UseTableOptions = typeof optionsOrFn === "function" ? optionsOrFn() : optionsOrFn;
   const columns: TableColumnData[] = [];
 
@@ -98,14 +98,16 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
       field: "id",
       type: "custom",
       itemProps: {
-        class: "col-start-4 mr-0 grid grid-cols-[0_1fr]",
+        class: "table-search-item col-start-4 !mr-0 grid grid-cols-[0_1fr]",
       },
       render: () => (
-        <div class="w-full flex justify-end">
-          <Button disabled={getTable().loading} onClick={() => getTable().reloadData()}>
-            {{ icon: () => <IconRefresh></IconRefresh>, default: () => "重置" }}
-          </Button>
-          <Button type="primary" loading={getTable().loading} onClick={() => getTable().loadData()} class={"ml-2"}>
+        <div class="w-full flex gap-x-2 justify-end">
+          {(options.search?.items?.length || 0) > 3 && (
+            <Button disabled={getTable().loading} onClick={() => getTable().reloadData()}>
+              {{ icon: () => <IconRefresh></IconRefresh>, default: () => "重置" }}
+            </Button>
+          )}
+          <Button type="primary" loading={getTable().loading} onClick={() => getTable().loadData()}>
             {{ icon: () => <IconSearch></IconSearch>, default: () => "查询" }}
           </Button>
         </div>

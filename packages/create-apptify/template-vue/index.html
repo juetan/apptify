@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>__APP_TITLE__ - __APP_SUBTITLE__</title>
+    <title>%VITE_APP_TITLE% - %VITE_APP_SUBTITLE%</title>
   </head>
   <body>
     <div id="app" class="dark:bg-slate-900 dark:text-slate-200">
@@ -17,9 +17,8 @@
           height: 100%;
           overflow: hidden;
           font-size: 14px;
-          font-family: Inter, "-apple-system", BlinkMacSystemFont, "PingFang SC",
-            "Hiragino Sans GB", "noto sans", "Microsoft YaHei", "Helvetica Neue",
-            Helvetica, Arial, sans-serif;
+          font-family: Inter, "-apple-system", BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "noto sans",
+            "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
         #app {
           width: 100%;
@@ -46,17 +45,13 @@
           line-height: 1;
         }
         .loading-tip {
-          margin-top: 16px;
+          margin-top: 12px;
           line-height: 1;
         }
       </style>
       <div class="loading">
-        <img
-          src="/assets/loading.svg"
-          alt="loading"
-          class="loading-image"
-        />
-        <h1 class="loading-title">欢迎访问__APP_TITLE__</h1>
+        <img src="/assets/loading.svg" alt="loading" class="loading-image" />
+        <h1 class="loading-title">欢迎访问%VITE_APP_TITLE%</h1>
         <div class="loading-tip">正在加载中, 请稍后...</div>
       </div>
     </div>

@@ -97,6 +97,7 @@ export function useRequest<T extends PromiseFn>(fn: T, options: Options<T> = {})
       inner.intervalTimer && clearTimeout(inner.intervalTimer);
     },
   };
+
   const _send: any = async (...args: Parameters<T>) => {
     let data;
     let error;
@@ -105,11 +106,11 @@ export function useRequest<T extends PromiseFn>(fn: T, options: Options<T> = {})
       state.loading = true;
       onBefore?.(args);
       const res = await fn(...args);
+      inner.retryCount = 0;
       if (!inner.canceled) {
         onSuccess?.(res.data);
         data = res.data;
       }
-      inner.retryCount = 0;
     } catch (err) {
       if (!inner.canceled) {
         error = err;
@@ -139,10 +140,12 @@ export function useRequest<T extends PromiseFn>(fn: T, options: Options<T> = {})
     }
     return [error, data];
   };
+
   state.cancel = () => {
     inner.canceled = true;
     inner.clearAllTimer();
   };
+
   state.send = (...args: Parameters<T>) => {
     inner.canceled = false;
     inner.retryCount = 0;
@@ -150,14 +153,16 @@ export function useRequest<T extends PromiseFn>(fn: T, options: Options<T> = {})
     inner.clearAllTimer();
     return _send(...args);
   };
+
   onMounted(() => {
     if (initialParams) {
       state.send(...(Array.isArray(initialParams) ? initialParams : ([] as any)));
     }
   });
+
   onUnmounted(() => {
-    log("onUnmounted");
     state.cancel();
   });
+
   return state;
 }

@@ -35,7 +35,7 @@ declare module '@vue/runtime-core' {
     BreadCrumb: typeof import('./../components/breadcrumb/bread-crumb.vue')['default']
     BreadPage: typeof import('./../components/breadcrumb/bread-page.vue')['default']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
-    Page403: typeof import('./../components/page-403.vue')['default']
+    Page403: typeof import('./../components/error/page-403.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

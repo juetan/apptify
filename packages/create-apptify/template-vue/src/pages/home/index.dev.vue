@@ -5,9 +5,11 @@
 </template>
 
 <script setup lang="tsx">
-import { Form, useForm } from "@/ui/ap-form";
+import { Form, useForm } from "@/components";
 
 const url = ref<any>(null);
+
+const sleep = (wait: number) => new Promise((res) => setTimeout(res, wait));
 
 const form = useForm({
   items: [
@@ -22,7 +24,6 @@ const form = useForm({
       field: "nickname",
       label: "昵称",
       type: "input",
-
     },
     {
       field: "password",
@@ -30,7 +31,7 @@ const form = useForm({
       type: "password",
       nodeProps: {
         class: "w-full",
-      }
+      },
     },
     {
       label: "头像",
@@ -64,6 +65,10 @@ const form = useForm({
       },
     },
   ],
+  submit: async ({ model }) => {
+    await sleep(3000);
+    return { message: 'ok' }
+  },
 });
 </script>
 

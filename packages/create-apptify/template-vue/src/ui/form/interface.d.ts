@@ -53,7 +53,7 @@ export interface BhFormItem {
   /**
    * 传递给`FormItem`组件的参数
    */
-  itemProps: any;
+  itemProps?: any;
 
   /**
    * 校验规则数组
