@@ -21,21 +21,19 @@ const table = useTable({
       title: "姓名",
       dataIndex: "username",
       width: 200,
-      render: ({ record }) => {
-        return (
-          <div class="flex items-center gap-2 w-full">
-            <div>
-              <Avatar size={32}>
-                <img src={record.avatar + `?t=${Math.random()}`} width={32} height={32} />
-              </Avatar>
-            </div>
-            <div class="flex-1 overflow-hidden">
-              <span class="ml-0">{record.nickname}</span>
-              <div class="text-xs text-gray-400 mt-1 truncate">{record.description}</div>
-            </div>
+      render: ({ record }) => (
+        <div class="flex items-center gap-2 w-full">
+          <div>
+            <Avatar size={32}>
+              <img src={record.avatar + `?t=${Math.random()}`} width={32} height={32} />
+            </Avatar>
           </div>
-        );
-      },
+          <div class="flex-1 overflow-hidden">
+            <span class="ml-0">{record.nickname}</span>
+            <div class="text-xs text-gray-400 mt-1 truncate">{record.description}</div>
+          </div>
+        </div>
+      ),
     },
     {
       title: "昵称",
@@ -49,9 +47,7 @@ const table = useTable({
         return (
           <div class="">
             <span class="ml-0">{record.username}</span>
-            <div class="text-xs text-gray-400 mt-1 truncate">
-              创建于 {dayjs(record.createAt).format()}
-            </div>
+            <div class="text-xs text-gray-400 mt-1 truncate">创建于 {dayjs(record.createAt).format()}</div>
           </div>
         );
       },
