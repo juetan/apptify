@@ -103,3 +103,5 @@ export type FormInstance = InstanceType<typeof Form>;
 export type FormProps = FormInstance["$props"];
 
 export type FormDefinedProps = Pick<FormProps, "model" | "items" | "submit" | "formProps">;
+
+export default Form;

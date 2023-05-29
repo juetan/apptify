@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="tsx">
-import { ContentType, api } from "@/api";
-import { Table, useTable } from "@/components";
 import { dayjs } from "@/plugins";
 import { Avatar } from "@arco-design/web-vue";
 
@@ -51,7 +49,9 @@ const table = useTable({
         return (
           <div class="">
             <span class="ml-0">{record.username}</span>
-            <div class="text-xs text-gray-400 mt-1 truncate">创建于 {dayjs(record.createAt).format()}</div>
+            <div class="text-xs text-gray-400 mt-1 truncate">
+              创建于 {dayjs(record.createAt).format()}
+            </div>
           </div>
         );
       },

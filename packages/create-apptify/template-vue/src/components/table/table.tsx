@@ -209,3 +209,5 @@ export const Table = defineComponent({
 export type TableInstance = InstanceType<typeof Table>;
 
 export type TableProps = TableInstance["$props"];
+
+export default Table;

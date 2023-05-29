@@ -1,0 +1,29 @@
+{
+  "useform": {
+    "scope": "javascript,typescript,vue,vue-html",
+    "prefix": "useform",
+    "description": "useForm code",
+    "body": [
+      "const ${1:form} = useForm({",
+      "  formProps: {},",
+      "  model: {},",
+      "  items: [",
+      "    {",
+      "      name: '${2:name}',",
+      "      label: '${3:label}',",
+      "      type: '${4:input}',",
+      "    },",
+      "  ],",
+      "  submit: async ({ model }) => {",
+      "    console.log(model);",
+      "  },",
+      "});"
+    ]
+  },
+  "table component": {
+    "scope": "vue,vue-html,html",
+    "prefix": "etable",
+    "description": "Table Component Code",
+    "body": ["<Table ref=\"${1:table}\" v-bind=\"${2:table}\"></Table>"]
+  }
+}

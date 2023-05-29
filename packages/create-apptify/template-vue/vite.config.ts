@@ -42,7 +42,14 @@ export default defineConfig({
      * @see https://github.com/antfu/unplugin-auto-import#readme
      */
     AutoImport({
-      imports: ["vue", "vue-router"],
+      imports: [
+        "vue",
+        "vue-router",
+        {
+          "@/components": ["useForm", "useFormModal", "useTable"],
+          "@/api": ["api", "useRequest", "ContentType"],
+        },
+      ],
       resolvers: [ArcoResolver()],
       dts: "./src/types/auto-import.d.ts",
     }),
@@ -51,7 +58,20 @@ export default defineConfig({
      * @see https://github.com/antfu/unplugin-vue-components
      */
     AutoComponent({
-      resolvers: [ArcoResolver({ sideEffect: false })],
+      resolvers: [
+        ArcoResolver({ sideEffect: false }),
+        (() => {
+          const components = ["Form", "FormModal", "Table"];
+          return {
+            type: "component",
+            resolve: (name) => {
+              if (components.includes(name)) {
+                return { name, from: `@/components` };
+              }
+            },
+          };
+        })(),
+      ],
       dts: "./src/types/auto-component.d.ts",
     }),
     /**

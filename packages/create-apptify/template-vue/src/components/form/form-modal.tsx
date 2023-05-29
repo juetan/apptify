@@ -1,5 +1,5 @@
 import { Button, ButtonInstance, FormInstance, Message, Modal } from "@arco-design/web-vue";
-import { assign, cloneDeep, defaultsDeep, omit } from "lodash-es";
+import { assign, cloneDeep, omit } from "lodash-es";
 import { PropType, defineComponent } from "vue";
 import { Form } from "./form";
 import { IFormItem } from "./form-item";
@@ -176,3 +176,5 @@ export const FormModal = defineComponent({
 export type FormModalInstance = InstanceType<typeof FormModal>;
 
 export type FormModalProps = FormModalInstance["$props"];
+
+export default FormModal;

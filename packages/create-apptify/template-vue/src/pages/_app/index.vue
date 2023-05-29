@@ -70,6 +70,7 @@
 
 <script lang="ts" setup>
 import { useAppStore } from "@/store";
+import { Message } from "@arco-design/web-vue";
 import Menu from "./components/menu.vue";
 
 const appStore = useAppStore();
@@ -109,6 +110,7 @@ const userButtons = [
     icon: "icon-park-outline-logout",
     text: "退出登录",
     onClick: () => {
+      Message.success(`提示: 已成功退出登录!`)
       router.push({ name: "_login" });
     },
   },
