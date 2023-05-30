@@ -35,9 +35,8 @@ api.instance.interceptors.request.use(
 api.instance.interceptors.response.use(
   (res) => {
     const { data } = res;
-    console.log("res", res);
     if (data?.code && data.code !== 2000) {
-      return Promise.reject(data);
+      return Promise.reject(res);
     }
     return res;
   },

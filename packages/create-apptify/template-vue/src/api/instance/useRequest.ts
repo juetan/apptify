@@ -78,14 +78,26 @@ const log = (...args: any[]) => {
  * @param options 请求配置
  */
 export function useRequest<T extends PromiseFn>(fn: T, options: Options<T> = {}) {
-  const { initialParams, retry, retryDelay = 0, interval, initialData } = options;
-  const { onBefore, onSuccess, onError, onFinally } = options;
+  const {
+    initialParams,
+    retry,
+    retryDelay = 0,
+    interval,
+    initialData,
+    onBefore,
+    onSuccess,
+    onError,
+    onFinally,
+  } = options;
+
   const state = reactive<State<T>>({
     data: initialData,
     error: null,
     loading: false,
     send: null,
+    cancel: null,
   } as any);
+
   const inner = {
     canceled: false,
     retryCount: 0,
