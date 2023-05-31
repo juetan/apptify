@@ -7,8 +7,6 @@
 <script setup lang="tsx">
 import { Form, useForm } from "@/components";
 
-const url = ref<any>(null);
-
 const sleep = (wait: number) => new Promise((res) => setTimeout(res, wait));
 
 const form = useForm({
@@ -17,57 +15,138 @@ const form = useForm({
       field: "username",
       label: "姓名",
       type: "input",
-      nodeProps: {},
       required: true,
+      itemProps: {
+        hideLabel: false,
+      },
+      rules: ['password'],
     },
     {
       field: "nickname",
       label: "昵称",
       type: "input",
+      disable: ({ model }) => !model.username,
+      rules: [
+        {
+          message: "昵称不能超过 10 个字符",
+          required: true,
+          disable: ({ model }) => !model.username,
+        },
+      ],
     },
     {
       field: "password",
       label: "密码",
       type: "password",
+      visible: ({ model }) => model.username,
       nodeProps: {
         class: "w-full",
       },
     },
     {
-      label: "头像",
-      field: "avatar",
-      type: "input",
-      render: ({ model, field }) => {
-        const onInputChange = (e: Event) => {
-          const target = e.target as HTMLInputElement;
-          const file = target.files?.[0];
-          if (!file) {
-            return;
-          }
-          model[field] = file;
-          console.log(file);
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            url.value = e.target?.result;
-          };
-          reader.readAsDataURL(file);
-        };
-        return (
-          <div class="w-full h-12 flex gap-4 items-center justify-between">
-            <input type="file" onChange={onInputChange} class="flex-1" />
-            {url.value && (
-              <a-avatar size={40}>
-                <img src={url.value} />
-              </a-avatar>
-            )}
-          </div>
-        );
+      field: "gender",
+      label: "性别",
+      type: "select",
+      options: [
+        {
+          label: "男",
+          value: 1,
+        },
+        {
+          label: "女",
+          value: 2,
+        },
+      ],
+    },
+    {
+      field: "startTime:endTime",
+      label: "时间",
+      type: "time",
+      nodeProps: {
+        type: "time-range",
       },
+      help: "时间段",
+    },
+    {
+      field: "startDate:endDate",
+      label: "日期",
+      type: "dateRange",
+    },
+    {
+      field: "checkbox",
+      label: "多选",
+      type: "checkbox",
+      options: [
+        {
+          label: "选项1",
+          value: 1,
+        },
+        {
+          label: "选项2",
+          value: 2,
+        },
+      ],
+    },
+    {
+      field: "radio",
+      label: "单选",
+      type: "radio",
+      options: [
+        {
+          label: "选项1",
+          value: 1,
+        },
+        {
+          label: "选项2",
+          value: 2,
+        },
+      ],
+    },
+    {
+      field: "slider",
+      label: "音量",
+      type: "slider",
+    },
+    {
+      field: "provice:city:town",
+      label: "城市",
+      type: "cascader",
+      nodeProps: {
+        checkStrictly: true,
+        pathMode: true,
+      },
+      options: [
+        {
+          label: "广西",
+          value: "gx",
+          children: [
+            {
+              label: "南宁",
+              value: "nn",
+            },
+            {
+              label: "桂林",
+              value: "gl",
+              children: [
+                {
+                  label: "阳朔",
+                  value: "ys",
+                },
+                {
+                  label: "临桂",
+                  value: "lg",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
   submit: async ({ model }) => {
     await sleep(3000);
-    return { message: 'ok' }
+    console.log("submit", model);
+    return { message: "操作成功" };
   },
 });
 </script>

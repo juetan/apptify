@@ -109,9 +109,15 @@ const userButtons = [
   {
     icon: "icon-park-outline-logout",
     text: "退出登录",
-    onClick: () => {
-      Message.success(`提示: 已成功退出登录!`)
-      router.push({ name: "_login" });
+    onClick: async () => {
+      Message.loading({
+        content: '提示: 正在退出，请稍后...',
+        duration: 2000,
+        onClose: () => {
+          Message.success(`提示: 已成功退出登录!`)
+          router.push({ name: "_login" });
+        }
+      })
     },
   },
 ];

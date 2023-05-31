@@ -1,4 +1,41 @@
-import { Button, Input, InputNumber, InputPassword, Select } from "@arco-design/web-vue";
+import {
+  Button,
+  Cascader,
+  CheckboxGroup,
+  DatePicker,
+  Input,
+  InputNumber,
+  InputPassword,
+  RadioGroup,
+  RangePicker,
+  Select,
+  Slider,
+  Textarea,
+  TimePicker,
+} from "@arco-design/web-vue";
+
+const initOptions = ({ item, model }: any) => {
+  if (Array.isArray(item.options)) {
+    item.nodeProps.options = item.options;
+    return;
+  }
+  if (typeof item.options !== "function") {
+    return;
+  }
+  item.nodeProps.options = reactive([]);
+  const fetchData = item.options;
+  item._updateOptions = async () => {
+    let data = await fetchData({ item, model });
+    if (Array.isArray(data?.data)) {
+      data = data.data.map((i: any) => ({ label: i.name, value: i.id }));
+    }
+    if (Array.isArray(data)) {
+      item.nodeProps.options.splice(0);
+      item.nodeProps.options.push(...data);
+    }
+  };
+  item._updateOptions();
+};
 
 /**
  * 表单项组件映射
@@ -13,6 +50,16 @@ export const nodeMap = {
       placeholder: "请输入",
       allowClear: true,
     } as InstanceType<typeof Input>["$props"],
+  },
+  /**
+   * 文本域
+   */
+  textarea: {
+    component: Textarea,
+    initialProps: {
+      placeholder: "请输入",
+      allowClear: true,
+    } as InstanceType<typeof Textarea>["$props"],
   },
   /**
    * 数值输入框
@@ -43,48 +90,93 @@ export const nodeMap = {
       placeholder: "请选择",
       allowClear: true,
       allowSearch: true,
-      options: [],
+      options: [{}],
     } as InstanceType<typeof Select>["$props"],
-    init({ item, model }: any) {
-      if (Array.isArray(item.options)) {
-        item.inputProps.options = item.options;
-        return;
-      }
-      if (typeof item.options !== "function") {
-        return;
-      }
-      item.inputProps.options = reactive([]);
-      const fetchData = item.options;
-      item._updateOptions = async () => {
-        let data = await fetchData({ item, model });
-        if (Array.isArray(data?.data)) {
-          data = data.data.map(({ id: value, name: label }: any) => ({ label, value }));
-        }
-        if (Array.isArray(data)) {
-          item.inputProps.options.splice(0);
-          item.inputProps.options.push(...data);
-        }
-      };
-      item._updateOptions();
-    },
+    init: initOptions,
+  },
+  /**
+   * 级联选择框
+   */
+  cascader: {
+    component: Cascader,
+    initialProps: {
+      placeholder: "请选择",
+      allowClear: true,
+      expandTrigger: "hover",
+    } as InstanceType<typeof Cascader>["$props"],
+    init: initOptions,
+  },
+  /**
+   * 时间选择框
+   */
+  time: {
+    component: TimePicker,
+    initialProps: {
+      allowClear: true,
+    } as InstanceType<typeof TimePicker>["$props"],
+  },
+  /**
+   * 日期选择框
+   */
+  date: {
+    component: DatePicker,
+    initialProps: {
+      allowClear: true,
+    } as InstanceType<typeof DatePicker>["$props"],
+  },
+  /**
+   * 日期范围选择框
+   */
+  dateRange: {
+    component: RangePicker,
+    initialProps: {
+      allowClear: true,
+    } as InstanceType<typeof RangePicker>["$props"],
+  },
+  /**
+   * 复选框
+   */
+  checkbox: {
+    component: CheckboxGroup,
+    initialProps: {
+      allowClear: true,
+    } as InstanceType<typeof CheckboxGroup>["$props"],
+    init: initOptions,
+  },
+  /**
+   * 复选框
+   */
+  radio: {
+    component: RadioGroup,
+    initialProps: {
+      allowClear: true,
+    } as InstanceType<typeof RadioGroup>["$props"],
+    init: initOptions,
+  },
+  /**
+   * 滑动输入条
+   */
+  slider: {
+    component: Slider,
+    initialProps: {
+      allowClear: true,
+    } as InstanceType<typeof Slider>["$props"],
   },
   /**
    * 底部
    */
   submit: {
+    component: (props: any, { emit }: any) => (
+      <>
+        <Button type="primary" loading={props.loading} onClick={() => emit("submit")} class="mr-3">
+          立即提交
+        </Button>
+        {/* <Button loading={props.loading} onClick={() => emit("cancel")}>
+        重置
+      </Button> */}
+      </>
+    ),
     initialProps: {},
-    component: (props: any, { emit }: any) => {
-      return (
-        <>
-          <Button type="primary" loading={props.loading} onClick={() => emit("submit")} class="mr-3">
-            立即提交
-          </Button>
-          {/* <Button loading={props.loading} onClick={() => emit("cancel")}>
-            重置
-          </Button> */}
-        </>
-      );
-    },
   },
   /**
    * 自定义组件

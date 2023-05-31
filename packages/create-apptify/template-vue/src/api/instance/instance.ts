@@ -7,6 +7,7 @@ class Service extends Api<unknown> {}
 
 /**
  * api实例
+ * @see src/api/instance/instance.ts
  */
 const api = new Service({
   baseURL: "http://127.0.0.1:3030",

@@ -86,7 +86,8 @@ export const FormModal = defineComponent({
         return false;
       }
       try {
-        const res = await props.submit?.({ items: props.items, model: props.model });
+        const model = formRef.value?.getModel() || {};
+        const res = await props.submit?.({ items: props.items, model });
         res?.message && Message.success(`提示: ${res.message}`);
         emit("submited", res);
       } catch (error: any) {

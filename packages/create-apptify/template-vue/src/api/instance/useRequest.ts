@@ -74,8 +74,7 @@ const log = (...args: any[]) => {
 
 /**
  * 包装请求函数，返回响应式状态和请求方法
- * @param fn 请求函数，需要返回 Promise
- * @param options 请求配置
+ * @see src/api/instance/useRequest.ts
  */
 export function useRequest<T extends PromiseFn>(fn: T, options: Options<T> = {}) {
   const {

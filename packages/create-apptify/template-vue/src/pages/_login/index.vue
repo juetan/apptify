@@ -1,8 +1,8 @@
 <template>
-  <div class="page-login w-full h-full flex items-center justify-center bg-[#c9e5fc]">
+  <div class="page-login w-full h-full flex items-center justify-center bg-slate-200">
     <dvi class="bg fixed w-full h-full"></dvi>
     <div class="fixed flex items-center justify-between top-0 m-0 h-13 w-full px-10 z-10">
-      <div class="flex items-center">
+      <!-- <div class="flex items-center">
         <img src="/favicon.ico" alt="" width="20" height="20" class="mr-1" />
         <h1 class="text-lg m-0">
           {{ appStore.title }}
@@ -10,15 +10,15 @@
           <span class="text-slate-500 font-normal text-sm">{{ appStore.subtitle }}</span>
         </h1>
       </div>
-      <div>敬请期待</div>
+      <div>敬请期待</div> -->
     </div>
-    <div class="relative grid grid-cols-[1fr_500px] rounded overflow-hidden w-[1020px] h-[600px] shadow">
-      <div class="relative w-full h-full overflow-hidden bg-gradient-to-br from-[#7af] to-[#09f] px-4">
+    <div class="relative mx:2 grid  md:grid-cols-[1fr_500px] rounded overflow-hidden w-[1020px] h-[600px] shadow">
+      <div class="relative hidden md:block w-full h-full overflow-hidden bg-gradient-to-br from-[#7af] to-[#09f] px-4">
         <img src="@/assets/td.svg" :alt="appStore.title" class="w-full h-full" />
       </div>
       <div class="relative p-20 px-14 bg-white shadow-sm rounded">
         <div class="text-2xl">欢迎登陆</div>
-        <div class="text-base text-gray-500 mt-2">{{ meridiem }}好，欢迎登陆{{ appStore.title }}!</div>
+        <div class="text-base text-gray-500 mt-3">{{ meridiem }}好，欢迎登陆{{ appStore.title }}!</div>
         <a-form ref="loginForm" :model="model" layout="vertical" class="mt-8">
           <a-form-item field="username" label="账号" hide-asterisk>
             <a-input v-model="model.username" placeholder="请输入账号/手机号/邮箱" allow-clear>

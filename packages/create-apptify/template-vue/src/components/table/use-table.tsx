@@ -13,12 +13,13 @@ import { UseTableOptions } from "./use-interface";
 
 /**
  * 提供便捷语法，构建传给Table组件的参数
+ * @see src/components/table/use-table.tsx
  */
 export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions)): any => {
   const options: UseTableOptions = typeof optionsOrFn === "function" ? optionsOrFn() : optionsOrFn;
   const columns: TableColumnData[] = [];
 
-  const getTable = (): TableInstance => (columns as any)?.getInstance?.();
+  const getTable = (): TableInstance => (columns as any).instance;
 
   options.columns.forEach((column) => {
     // 序号
@@ -99,8 +100,9 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
       type: "custom",
       itemProps: {
         class: "table-search-item col-start-4 !mr-0 grid grid-cols-[0_1fr]",
+        hideLabel: true,
       },
-      render: () => (
+      contentRender: () => (
         <div class="w-full flex gap-x-2 justify-end">
           {(options.search?.items?.length || 0) > 3 && (
             <Button disabled={getTable().loading} onClick={() => getTable().reloadData()}>
@@ -115,13 +117,22 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
     });
   }
 
-  const merge = (...args: any[]) =>
-    mergeWith({}, ...args, (obj: any, src: any) => {
+  const merge = (...args: any[]) => {
+    return mergeWith({}, ...args, (obj: any, src: any) => {
       if (Array.isArray(obj) && Array.isArray(src)) {
         return obj.concat(src);
       }
       return undefined;
     });
+  };
+
+  if (options.create) {
+    options.create = merge(options.common, options.create);
+  }
+
+  if (options.modify) {
+    options.modify = merge(options.common, options.modify);
+  }
 
   return reactive({ ...options, columns });
 };

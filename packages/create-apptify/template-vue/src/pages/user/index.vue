@@ -11,11 +11,7 @@ import { Avatar } from "@arco-design/web-vue";
 const url = ref<any>(null);
 
 const table = useTable({
-  api: async (model, paging) => {
-    const res = await api.user.selectUsers({ ...paging, ...model });
-    console.log("dr", res);
-    return res;
-  },
+  api: async (model, paging) => api.user.selectUsers({ ...paging, ...model }),
   columns: [
     {
       title: "姓名",
@@ -61,11 +57,12 @@ const table = useTable({
   ],
   common: {
     modalProps: {
-      width: 432,
+      width: 772,
       maskClosable: false,
     },
     formProps: {
       layout: "vertical",
+      class: '!grid grid-cols-2 gap-x-3',
     },
     model: {
       avatar: "11",
@@ -81,6 +78,15 @@ const table = useTable({
         field: "nickname",
         label: "昵称",
         type: "input",
+        rules: [
+          {
+            message: "昵称不能超过 10 个字符",
+            disable(arg) {
+              console.log("rule", arg);
+              return arg.model.username === "admin";
+            },
+          },
+        ],
       },
       {
         field: "description",
@@ -96,7 +102,10 @@ const table = useTable({
         label: "头像",
         field: "avatar",
         type: "input",
-        render: ({ model, field }) => {
+        itemProps: {
+          class: 'col-span-2',
+        },
+        contentRender: ({ model, field }) => {
           const onInputChange = (e: Event) => {
             const target = e.target as HTMLInputElement;
             const file = target.files?.[0];
