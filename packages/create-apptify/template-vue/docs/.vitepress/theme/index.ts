@@ -1,8 +1,12 @@
-// https://vitepress.dev/guide/custom-theme
 import { h } from 'vue'
 import Theme from 'vitepress/theme'
 import './style.css'
+import { EnhanceAppContext } from 'vitepress'
 
+/**
+ * 自定义主题
+ * @see https://vitepress.dev/guide/custom-theme
+ */
 export default {
   ...Theme,
   Layout: () => {
@@ -10,7 +14,7 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
     })
   },
-  enhanceApp({ app, router, siteData }) {
+  enhanceApp({ app, router, siteData }: EnhanceAppContext) {
     // ...
   }
 }

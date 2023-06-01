@@ -19,7 +19,7 @@ const form = useForm({
       itemProps: {
         hideLabel: false,
       },
-      rules: ['password'],
+      rules: ["password"],
     },
     {
       field: "nickname",

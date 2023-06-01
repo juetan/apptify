@@ -30,20 +30,21 @@ const { theme, page, frontmatter } = useData()
 <script setup>
 import { useData } from 'vitepress'
 
-const { site, theme, page, frontmatter } = useData()
+const { site, theme, page, frontmatter, localeIndex } = useData()
 </script>
 
-## Results
+## 输出结果
 
-### Theme Data
+### 主题数据
+{{localeIndex}}
 <pre>{{ theme }}</pre>
 
-### Page Data
+### 页面数据
 <pre>{{ page }}</pre>
 
-### Page Frontmatter
+### 页面前置数据
 <pre>{{ frontmatter }}</pre>
 
-## More
+## 更多
 
 Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).

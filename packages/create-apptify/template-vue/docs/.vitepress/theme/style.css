@@ -7,7 +7,17 @@
  * Colors
  * -------------------------------------------------------------------------- */
 
- :root {
+:root {
+  --vp-c-brand: #09f;
+  --vp-c-brand-light: #0099ffe0;
+  --vp-c-brand-lighter: #0099ffa0;
+  --vp-c-brand-lightest: #0099ffc0;
+  --vp-c-brand-dark: #535bf2;
+  --vp-c-brand-darker: #454ce1;
+  --vp-c-brand-dimm: rgba(100, 108, 255, 0.08);
+  --vp-sidebar-bg-color: transparent;
+}
+/* :root {
   --vp-c-brand: #646cff;
   --vp-c-brand-light: #747bff;
   --vp-c-brand-lighter: #9499ff;
@@ -15,7 +25,8 @@
   --vp-c-brand-dark: #535bf2;
   --vp-c-brand-darker: #454ce1;
   --vp-c-brand-dimm: rgba(100, 108, 255, 0.08);
-}
+  --vp-sidebar-bg-color: transparent;
+} */
 
 /**
  * Component: Button
@@ -39,17 +50,9 @@
 
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #bd34fe 30%,
-    #41d1ff
-  );
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
 
-  --vp-home-hero-image-background-image: linear-gradient(
-    -45deg,
-    #bd34fe 50%,
-    #47caff 50%
-  );
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
   --vp-home-hero-image-filter: blur(40px);
 }
 
@@ -62,6 +65,13 @@
 @media (min-width: 960px) {
   :root {
     --vp-home-hero-image-filter: blur(72px);
+  }
+  .VPContent .VPDoc {
+    padding: 20px 0 32px;
+  }
+  .VPDoc .container > .content {
+    background: #fff;
+    padding: 32px;
   }
 }
 
@@ -89,3 +99,88 @@
   --docsearch-primary-color: var(--vp-c-brand) !important;
 }
 
+.Layout {
+  background-color: #f1f3f5;
+}
+
+#VPContent .VPDoc.has-aside .content-container {
+  max-width: initial;
+  margin: 0;
+}
+
+.VPNav {
+  border-bottom: 1px solid #e3e5e7;
+  background: #fff;
+  box-shadow: 0 1px 4px #f3f5f7;
+}
+
+.curtain,
+.aside-curtain {
+  display: none;
+}
+
+#VPContent .aside {
+  padding-left: 20px;
+}
+
+@media (min-width: 640px) {
+  .vp-doc div[class*="language-"] {
+    border-radius: 2px;
+  }
+}
+
+#VPSidebarNav {
+  margin-top: 20px;
+  background: #fff;
+  padding: 16px;
+}
+
+#VPSidebarNav .group {
+  padding-top: 0;
+}
+
+#app .VPSidebar {
+  width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 20px);
+  padding-right: 24px;
+}
+
+#app .aside-container {
+  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 20px);
+}
+
+#app .aside {
+  max-width: 228px;
+}
+
+#app .pager-link {
+  border-radius: 4px;
+}
+
+#app .VPNavBarTitle.has-sidebar .title {
+  border-bottom-color: transparent;
+}
+
+#app .VPMenu {
+  border-radius: 2px;
+}
+
+/**
+* Component: Home
+* -------------------------------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

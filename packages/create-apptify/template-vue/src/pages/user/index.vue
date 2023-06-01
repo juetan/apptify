@@ -1,14 +1,10 @@
 <template>
-  <bread-page>
+  <BreadPage>
     <Table v-bind="table"></Table>
-  </bread-page>
+  </BreadPage>
 </template>
 
 <script setup lang="tsx">
-import { dayjs } from "@/plugins";
-import { Avatar } from "@arco-design/web-vue";
-
-const url = ref<any>(null);
 
 const table = useTable({
   api: async (model, paging) => api.user.selectUsers({ ...paging, ...model }),
@@ -17,42 +13,26 @@ const table = useTable({
       title: "姓名",
       dataIndex: "username",
       width: 200,
-      render: ({ record }) => (
-        <div class="flex items-center gap-2 w-full">
-          <div>
-            <Avatar size={32}>
-              <img src={record.avatar + `?t=${Math.random()}`} width={32} height={32} />
-            </Avatar>
-          </div>
-          <div class="flex-1 overflow-hidden">
-            <span class="ml-0">{record.nickname}</span>
-            <div class="text-xs text-gray-400 mt-1 truncate">{record.description}</div>
-          </div>
-        </div>
-      ),
     },
     {
       title: "昵称",
-      dataIndex: "username",
+      dataIndex: "name",
     },
     {
-      title: "昵称",
-      dataIndex: "username",
+      title: "创建时间",
+      dataIndex: "createdAt",
       width: 200,
-      render: ({ record }) => {
-        return (
-          <div class="">
-            <span class="ml-0">{record.username}</span>
-            <div class="text-xs text-gray-400 mt-1 truncate">创建于 {dayjs(record.createAt).format()}</div>
-          </div>
-        );
-      },
     },
     {
       title: "操作",
       type: "buttons",
       width: 70,
-      buttons: [],
+      buttons: [
+        {
+          action: "modify",
+          text: '修改',
+        }
+      ],
     },
   ],
   common: {
@@ -62,10 +42,10 @@ const table = useTable({
     },
     formProps: {
       layout: "vertical",
-      class: '!grid grid-cols-2 gap-x-3',
+      class: "!grid grid-cols-2 gap-x-3",
     },
     model: {
-      avatar: "11",
+      avatarUrl: "",
     },
     items: [
       {
@@ -78,15 +58,6 @@ const table = useTable({
         field: "nickname",
         label: "昵称",
         type: "input",
-        rules: [
-          {
-            message: "昵称不能超过 10 个字符",
-            disable(arg) {
-              console.log("rule", arg);
-              return arg.model.username === "admin";
-            },
-          },
-        ],
       },
       {
         field: "description",
@@ -103,7 +74,7 @@ const table = useTable({
         field: "avatar",
         type: "input",
         itemProps: {
-          class: 'col-span-2',
+          class: "col-span-2",
         },
         contentRender: ({ model, field }) => {
           const onInputChange = (e: Event) => {
@@ -113,19 +84,18 @@ const table = useTable({
               return;
             }
             model[field] = file;
-            console.log(file);
             const reader = new FileReader();
             reader.onload = (e) => {
-              url.value = e.target?.result;
+              model.avatarUrl = e.target?.result;
             };
             reader.readAsDataURL(file);
           };
           return (
             <div class="w-full h-12 flex gap-4 items-center justify-between">
               <input type="file" onChange={onInputChange} class="flex-1" />
-              {url.value && (
+              {model.avatarUrl && (
                 <a-avatar size={40}>
-                  <img src={url.value} />
+                  <img src={model.avatarUrl} />
                 </a-avatar>
               )}
             </div>
