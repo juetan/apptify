@@ -5,9 +5,8 @@
 </template>
 
 <script setup lang="tsx">
-
 const table = useTable({
-  api: async (model, paging) => api.user.selectUsers({ ...paging, ...model }),
+  data: async (model, paging) => api.user.selectUsers({ ...paging, ...model }),
   columns: [
     {
       title: "姓名",
@@ -25,25 +24,17 @@ const table = useTable({
     },
     {
       title: "操作",
-      type: "buttons",
+      type: "button",
       width: 70,
       buttons: [
         {
-          action: "modify",
-          text: '修改',
-        }
+          type: "modify",
+          text: "修改",
+        },
       ],
     },
   ],
   common: {
-    modalProps: {
-      width: 772,
-      maskClosable: false,
-    },
-    formProps: {
-      layout: "vertical",
-      class: "!grid grid-cols-2 gap-x-3",
-    },
     model: {
       avatarUrl: "",
     },
@@ -73,36 +64,16 @@ const table = useTable({
         label: "头像",
         field: "avatar",
         type: "input",
-        itemProps: {
-          class: "col-span-2",
-        },
-        contentRender: ({ model, field }) => {
-          const onInputChange = (e: Event) => {
-            const target = e.target as HTMLInputElement;
-            const file = target.files?.[0];
-            if (!file) {
-              return;
-            }
-            model[field] = file;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              model.avatarUrl = e.target?.result;
-            };
-            reader.readAsDataURL(file);
-          };
-          return (
-            <div class="w-full h-12 flex gap-4 items-center justify-between">
-              <input type="file" onChange={onInputChange} class="flex-1" />
-              {model.avatarUrl && (
-                <a-avatar size={40}>
-                  <img src={model.avatarUrl} />
-                </a-avatar>
-              )}
-            </div>
-          );
-        },
       },
     ],
+    modalProps: {
+      width: 772,
+      maskClosable: false,
+    },
+    formProps: {
+      layout: "vertical",
+      class: "!grid grid-cols-2 gap-x-3",
+    },
   },
   search: {
     items: [

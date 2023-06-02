@@ -28,7 +28,7 @@ export const FormModal = defineComponent({
       default: true,
     },
     /**
-     * 透传给Modal组件的props
+     * 传递给Modal组件的props
      */
     modalProps: {
       type: Object as PropType<Omit<InstanceType<typeof Modal>["$props"], "visible" | "title" | "onBeforeOk">>,
@@ -55,7 +55,7 @@ export const FormModal = defineComponent({
       default: () => true,
     },
     /**
-     * 透传给Form组件的props
+     * 传递给Form组件的props
      */
     formProps: {
       type: Object as PropType<Omit<FormInstance["$props"], "model">>,

@@ -28,7 +28,7 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
     }
 
     // 操作
-    if (column.type === "buttons" && isArray(column.buttons)) {
+    if (column.type === "button" && isArray(column.buttons)) {
       if (options.detail) {
         column.buttons.unshift({
           text: "详情",
@@ -95,14 +95,29 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
   });
 
   if (options.search && options.search.items) {
-    options.search.items.push({
+    const itemsMap = options.common?.items?.reduce((map, item) => {
+      map[item.field] = item;
+      return map;
+    }, {} as any);
+    const searchItems: any[] = [];
+    options.search.items.forEach((item) => {
+      if (typeof item === "string") {
+        if (!itemsMap[item]) {
+          throw new Error(`search item ${item} not found in common items`);
+        }
+        searchItems.push(itemsMap[item]);
+      } else {
+        searchItems.push(item);
+      }
+    });
+    searchItems.push({
       field: "id",
       type: "custom",
       itemProps: {
         class: "table-search-item col-start-4 !mr-0 grid grid-cols-[0_1fr]",
         hideLabel: true,
       },
-      contentRender: () => (
+      component: () => (
         <div class="w-full flex gap-x-2 justify-end">
           {(options.search?.items?.length || 0) > 3 && (
             <Button disabled={getTable().loading} onClick={() => getTable().reloadData()}>
@@ -115,6 +130,7 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
         </div>
       ),
     });
+    options.search.items = searchItems;
   }
 
   const merge = (...args: any[]) => {

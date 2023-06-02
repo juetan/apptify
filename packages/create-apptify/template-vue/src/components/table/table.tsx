@@ -18,13 +18,9 @@ export const Table = defineComponent({
      * 表格数据
      */
     data: {
-      type: Array as PropType<BaseData[]>,
-    },
-    /**
-     * 获取数据的函数
-     */
-    api: {
-      type: Function as PropType<(model: Record<string, any>, paging: { page: number; size: number }) => Promise<any>>,
+      type: [Array, Function] as PropType<
+        BaseData[] | ((search: Record<string, any>, paging: { page: number; size: number }) => Promise<any>)
+      >,
     },
     /**
      * 表格列设置
@@ -47,12 +43,6 @@ export const Table = defineComponent({
       type: Object as PropType<FormProps>,
     },
     /**
-     * 传递给 Table 组件的属性
-     */
-    tableProps: {
-      type: Object as PropType<InstanceType<typeof BaseTable>["$props"]>,
-    },
-    /**
      * 新建弹窗配置
      */
     create: {
@@ -69,6 +59,12 @@ export const Table = defineComponent({
      */
     detail: {
       type: Object as PropType<any>,
+    },
+    /**
+     * 传递给 Table 组件的属性
+     */
+    tableProps: {
+      type: Object as PropType<InstanceType<typeof BaseTable>["$props"]>,
     },
   },
   setup(props) {
@@ -87,7 +83,10 @@ export const Table = defineComponent({
     };
 
     const loadData = async (pagination: Partial<any> = {}) => {
-      if (!props.api) {
+      if (!props.data) {
+        return;
+      }
+      if (Array.isArray(props.data)) {
         if (!props.search?.model) {
           return;
         }
@@ -109,7 +108,7 @@ export const Table = defineComponent({
       const paging = getPaging(pagination);
       try {
         loading.value = true;
-        const resData = await props.api(model, paging);
+        const resData = await props.data(model, paging);
         const { data = [], meta = {} } = resData || {};
         const { page: pageNum, total } = meta;
         renderData.value = data;

@@ -1,6 +1,7 @@
 import { TableData, TableColumnData, Link } from "@arco-design/web-vue";
 import { FormModalProps, FormProps } from "../form";
 import { TableProps } from "./table";
+import { IFormItem } from "../form/form-item";
 
 interface UseColumnRenderOptions {
   /**
@@ -17,67 +18,74 @@ interface UseColumnRenderOptions {
   rowIndex: number;
 }
 
-export interface UseColumnAction extends Omit<InstanceType<typeof Link>["$props"], "onClick" | "disabled"> {
-  type?: string;
-
+export interface TableColumnButton {
   /**
-   * 操作按钮的文本
+   * button text
    */
   text?: string;
 
   /**
-   * 操作类型
+   * button type
    */
-  action?: "delete" | "modify";
+  type?: "delete" | "modify";
 
   /**
-   * 操作按钮的点击事件
+   * onClick callback
    */
   onClick?: (data: UseColumnRenderOptions, openModify?: (model: Record<string, any>) => void) => void;
 
   /**
-   * 是否禁止
+   * disable button dynamicly
    */
   disabled?: (data: UseColumnRenderOptions) => boolean;
 
   /**
-   * 是否可见
+   * show or hide button dynamicly
    */
   visible?: (data: UseColumnRenderOptions) => boolean;
+
+  /**
+   * props for `Button`
+   */
+  buttonProps?: Partial<Omit<InstanceType<typeof Link>["$props"], "onClick" | "disabled">>;
 }
 
 export interface UseTableColumn extends TableColumnData {
   /**
-   * 表格列类型: index(索引)、buttons(按钮操作)
+   * column type
    */
-  type?: "index" | "buttons";
+  type?: "index" | "button";
+
   /**
-   * 当type为action时的操作数组
+   * only for `type: "button"`
    */
-  buttons?: UseColumnAction[];
+  buttons?: TableColumnButton[];
 }
 
 export interface UseTableOptions extends Omit<TableProps, "search" | "create" | "modify" | "columns"> {
   /**
-   * 表格列配置
+   * columns config, extends from `TableColumnData`
+   * @see https://arco.design/web-vue/components/table/#tablecolumn
    */
   columns: UseTableColumn[];
   /**
-   * 搜索表单配置
+   * search form config
+   * @see FormProps
    */
-  search?: Partial<FormProps>;
+  search?: Partial<{ [k in keyof FormProps]: k extends "items" ? (string | IFormItem)[] : FormProps[k] }>;
   /**
-   * 表单弹窗通用配置
+   * common props for `create` and `modify` modal
+   * @see FormModalProps
    */
   common?: Partial<FormModalProps>;
   /**
    * 新建弹窗配置
    */
-  create?: Partial<FormModalProps>;
+  create?: Partial<{ [k in keyof FormModalProps]: k extends "items" ? (string | IFormItem)[] : FormModalProps[k] }>;
   /**
    * 新建弹窗配置
    */
-  modify?: Partial<FormModalProps>;
+  modify?: Partial<{ [k in keyof FormModalProps]: k extends "items" ? (string | IFormItem)[] : FormModalProps[k] }>;
   /**
    * 详情弹窗配置
    */

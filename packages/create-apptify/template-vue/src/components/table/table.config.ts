@@ -20,7 +20,9 @@ export const TABLE_COLUMN_DEFAULTS = {
  * 行操作按钮默认参数
  */
 export const TABLE_ACTION_DEFAULTS = {
-  type: "primary",
+  buttonProps: {
+    type: "primary",
+  }
 };
 
 /**

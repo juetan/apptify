@@ -18,19 +18,19 @@ const ruleMap = defineRuleMap({
   },
   email: {
     type: "email",
-    message: "邮箱格式错误，例: xx@abc.com",
+    message: "邮箱格式错误，示例: xx@abc.com",
   },
   url: {
     type: "url",
-    message: "URL格式错误, 例: www.abc.com",
+    message: "URL格式错误, 示例: www.abc.com",
   },
   ip: {
     type: "ip",
-    message: "IP格式错误, 例: 101.10.10.30",
+    message: "IP格式错误, 示例: 101.10.10.30",
   },
   phone: {
     match: /^(?:(?:\+|00)86)?1\d{10}$/,
-    message: "手机格式错误, 例(11位): 15912345678",
+    message: "手机格式错误, 示例(11位): 15912345678",
   },
   idcard: {
     match: /^[1-9]\d{5}(?:18|19|20)\d{2}(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\d|30|31)\d{3}[\dXx]$/,
@@ -46,7 +46,13 @@ const ruleMap = defineRuleMap({
   },
 });
 
-export type RuleType = keyof typeof ruleMap;
+export type FieldStringRule = keyof typeof ruleMap;
+
+export type FieldObjectRule = FieldRule & {
+  disable?: (arg: { item: IFormItem; model: Record<string, any> }) => boolean;
+};
+
+export type FieldRuleType = FieldStringRule | FieldObjectRule;
 
 /**
  * 表单项
@@ -65,7 +71,7 @@ export const FormItem = (props: any, { emit }: any) => {
     }
     item.rules?.forEach((rule: any) => {
       if (typeof rule === "string") {
-        result.push(ruleMap[rule as RuleType]);
+        result.push(ruleMap[rule as FieldStringRule]);
         return;
       }
       if (!rule.disable) {
@@ -97,10 +103,13 @@ export const FormItem = (props: any, { emit }: any) => {
     <BaseFormItem rules={rules.value} disabled={disabled.value} field={item.field} {...item.itemProps}>
       {{
         default: () => {
-          if (item.contentRender) {
-            return item.contentRender(args);
+          if (item.component) {
+            return <item.component {...item.nodeProps} />;
           }
           const comp = nodeMap[item.type as NodeType]?.component;
+          if (!comp) {
+            return null;
+          }
           if (item.type === "submit") {
             return <comp loading={props.loading} onSubmit={() => emit("submit")} onCancel={emit("cancel")} />;
           }
@@ -143,7 +152,7 @@ type FormItemBase = {
   /**
    * 校验规则数组
    */
-  rules?: (RuleType | (FieldRule & { disable?: (arg: { item: IFormItem; model: Record<string, any> }) => boolean }))[];
+  rules?: FieldRuleType[];
 
   /**
    * 是否可见
@@ -163,7 +172,7 @@ type FormItemBase = {
   /**
    * 表单项内容的渲染函数
    */
-  contentRender?: (args: { item: IFormItem; model: Record<string, any>; field: string }) => any;
+  component?: (args: { item: IFormItem; model: Record<string, any>; field: string }) => any;
 
   /**
    * 帮助提示

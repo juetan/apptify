@@ -46,7 +46,7 @@ export const nodeMap = {
    */
   input: {
     component: Input,
-    initialProps: {
+    nodeProps: {
       placeholder: "请输入",
       allowClear: true,
     } as InstanceType<typeof Input>["$props"],
@@ -56,7 +56,7 @@ export const nodeMap = {
    */
   textarea: {
     component: Textarea,
-    initialProps: {
+    nodeProps: {
       placeholder: "请输入",
       allowClear: true,
     } as InstanceType<typeof Textarea>["$props"],
@@ -66,7 +66,7 @@ export const nodeMap = {
    */
   number: {
     component: InputNumber,
-    initialProps: {
+    nodeProps: {
       placeholder: "请输入",
       defaultValue: 0,
       allowClear: true,
@@ -77,7 +77,7 @@ export const nodeMap = {
    */
   password: {
     component: InputPassword,
-    initialProps: {
+    nodeProps: {
       placeholder: "请输入",
     } as InstanceType<typeof InputPassword>["$props"],
   },
@@ -86,7 +86,7 @@ export const nodeMap = {
    */
   select: {
     component: Select,
-    initialProps: {
+    nodeProps: {
       placeholder: "请选择",
       allowClear: true,
       allowSearch: true,
@@ -99,7 +99,7 @@ export const nodeMap = {
    */
   cascader: {
     component: Cascader,
-    initialProps: {
+    nodeProps: {
       placeholder: "请选择",
       allowClear: true,
       expandTrigger: "hover",
@@ -111,7 +111,7 @@ export const nodeMap = {
    */
   time: {
     component: TimePicker,
-    initialProps: {
+    nodeProps: {
       allowClear: true,
     } as InstanceType<typeof TimePicker>["$props"],
   },
@@ -120,7 +120,7 @@ export const nodeMap = {
    */
   date: {
     component: DatePicker,
-    initialProps: {
+    nodeProps: {
       allowClear: true,
     } as InstanceType<typeof DatePicker>["$props"],
   },
@@ -129,7 +129,7 @@ export const nodeMap = {
    */
   dateRange: {
     component: RangePicker,
-    initialProps: {
+    nodeProps: {
       allowClear: true,
     } as InstanceType<typeof RangePicker>["$props"],
   },
@@ -138,7 +138,7 @@ export const nodeMap = {
    */
   checkbox: {
     component: CheckboxGroup,
-    initialProps: {
+    nodeProps: {
       allowClear: true,
     } as InstanceType<typeof CheckboxGroup>["$props"],
     init: initOptions,
@@ -148,7 +148,7 @@ export const nodeMap = {
    */
   radio: {
     component: RadioGroup,
-    initialProps: {
+    nodeProps: {
       allowClear: true,
     } as InstanceType<typeof RadioGroup>["$props"],
     init: initOptions,
@@ -158,7 +158,7 @@ export const nodeMap = {
    */
   slider: {
     component: Slider,
-    initialProps: {
+    nodeProps: {
       allowClear: true,
     } as InstanceType<typeof Slider>["$props"],
   },
@@ -176,13 +176,13 @@ export const nodeMap = {
       </Button> */}
       </>
     ),
-    initialProps: {},
+    nodeProps: {},
   },
   /**
    * 自定义组件
    */
   custom: {
-    initialProps: {},
+    nodeProps: {},
     component: () => null,
   },
 };
@@ -210,6 +210,6 @@ export type NodeUnion = {
     /**
      * 传递给`type`属性对应组件的参数
      */
-    nodeProps?: NodeMap[key]["initialProps"];
+    nodeProps?: NodeMap[key]["nodeProps"];
   };
 }[NodeType];
