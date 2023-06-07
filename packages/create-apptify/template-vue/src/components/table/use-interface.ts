@@ -62,6 +62,17 @@ export interface UseTableColumn extends TableColumnData {
   buttons?: TableColumnButton[];
 }
 
+type ExtendableFormItem = (
+  | string
+  | ({
+    /**
+     * 继承common.items中指定field值的项
+    */
+   extend: string;
+  } & Partial<IFormItem>)
+  | IFormItem
+)[];
+
 export interface UseTableOptions extends Omit<TableProps, "search" | "create" | "modify" | "columns"> {
   /**
    * columns config, extends from `TableColumnData`
@@ -72,7 +83,9 @@ export interface UseTableOptions extends Omit<TableProps, "search" | "create" | 
    * search form config
    * @see FormProps
    */
-  search?: Partial<{ [k in keyof FormProps]: k extends "items" ? (string | IFormItem)[] : FormProps[k] }>;
+  search?: Partial<{
+    [k in keyof FormProps]: k extends "items" ? ExtendableFormItem : FormProps[k];
+  }>;
   /**
    * common props for `create` and `modify` modal
    * @see FormModalProps
@@ -81,7 +94,9 @@ export interface UseTableOptions extends Omit<TableProps, "search" | "create" | 
   /**
    * 新建弹窗配置
    */
-  create?: Partial<{ [k in keyof FormModalProps]: k extends "items" ? (string | IFormItem)[] : FormModalProps[k] }>;
+  create?: Partial<{
+    [k in keyof FormModalProps]: k extends "items" ? (string | (IFormItem & { extend: string }))[] : FormModalProps[k];
+  }>;
   /**
    * 新建弹窗配置
    */

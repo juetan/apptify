@@ -37,5 +37,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('@/components')['Table']
+    Toast: typeof import('./../components/toast/toast.vue')['default']
   }
 }

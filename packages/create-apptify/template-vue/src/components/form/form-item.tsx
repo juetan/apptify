@@ -125,7 +125,8 @@ export const FormItem = (props: any, { emit }: any) => {
 
 type FormItemBase = {
   /**
-   * 字段名，会用于表单校验和输入框绑定
+   * 字段名，用于表单校验和输入框绑定，支持以下特殊语法：
+   * @example 以`:`分隔的字段名，将用作数组值解构。例如：`v1:v2`提交`{ v1: xxx, v2: xxx }`的数据，对于日期范围框、级联框等非常有用
    */
   field: string;
 

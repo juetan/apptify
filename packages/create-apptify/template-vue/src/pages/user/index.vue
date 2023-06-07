@@ -6,7 +6,7 @@
 
 <script setup lang="tsx">
 const table = useTable({
-  data: async (model, paging) => api.user.selectUsers({ ...paging, ...model }),
+  data: async (model, paging) => api.user.selectUsers({ ...paging, ...model }, { toast: "数据加载中，请稍等..." }),
   columns: [
     {
       title: "姓名",
@@ -41,7 +41,7 @@ const table = useTable({
     items: [
       {
         field: "username",
-        label: "姓名",
+        label: "姓名1",
         type: "input",
         required: true,
       },
@@ -62,7 +62,7 @@ const table = useTable({
       },
       {
         label: "头像",
-        field: "avatar",
+        field: "avatar?avatarUrl",
         type: "input",
       },
     ],
@@ -78,9 +78,8 @@ const table = useTable({
   search: {
     items: [
       {
-        field: "username",
-        label: "姓名",
-        type: "input",
+        extend: "username",
+        required: false,
       },
     ],
   },

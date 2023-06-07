@@ -37,6 +37,10 @@ const initOptions = ({ item, model }: any) => {
   item._updateOptions();
 };
 
+const defineNodeMap = <T extends { [key: string]: { component: any, nodeProps: any } }>(map: T) => {
+  return map
+}
+
 /**
  * 表单项组件映射
  */
@@ -166,16 +170,20 @@ export const nodeMap = {
    * 底部
    */
   submit: {
-    component: (props: any, { emit }: any) => (
-      <>
-        <Button type="primary" loading={props.loading} onClick={() => emit("submit")} class="mr-3">
-          立即提交
-        </Button>
-        {/* <Button loading={props.loading} onClick={() => emit("cancel")}>
-        重置
-      </Button> */}
-      </>
-    ),
+    component: (props: any, { emit }: any) => {
+      const state = inject("tableInstance");
+      console.log("st", state);
+      return (
+        <>
+          <Button type="primary" loading={props.loading} onClick={() => emit("submit")} class="mr-3">
+            立即提交
+          </Button>
+          {/* <Button loading={props.loading} onClick={() => emit("cancel")}>
+          重置
+        </Button> */}
+        </>
+      );
+    },
     nodeProps: {},
   },
   /**

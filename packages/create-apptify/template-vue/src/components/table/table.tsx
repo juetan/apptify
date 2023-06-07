@@ -159,7 +159,7 @@ export const Table = defineComponent({
       loadData();
     });
 
-    return {
+    const state = {
       loading,
       searchRef,
       createRef,
@@ -173,6 +173,10 @@ export const Table = defineComponent({
       onCreateOk,
       onModifyOk,
     };
+
+    provide("ref:table", { ...state, ...props  });
+
+    return state;
   },
   render() {
     (this.columns as any).instance = this;

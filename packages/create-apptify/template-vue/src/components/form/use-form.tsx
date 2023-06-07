@@ -32,6 +32,14 @@ export const useForm = (options: Options) => {
     if (!item.nodeProps) {
       item.nodeProps = {} as any;
     }
+    if (/(.+)\?(.+)/.test(item.field)) {
+      const [field, condition] = item.field.split("?");
+      model[field] = item.initialValue ?? model[item.field];
+      const params = new URLSearchParams(condition);
+      for (const [key, value] of params.entries()) {
+        model[key] = value;
+      }
+    }
     model[item.field] = model[item.field] ?? item.initialValue;
     const _item = { ...item };
     items.push(_item);

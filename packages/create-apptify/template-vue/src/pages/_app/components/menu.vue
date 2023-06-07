@@ -20,30 +20,21 @@ export default defineComponent({
   methods: {
     goto(route: MenuItem) {
       if (route.external) {
-        location.href = route.path;
+        window.open(route.path, "_blank");
         return;
       }
-
       this.$router.push(route);
     },
 
     renderItem(routes: MenuItem[], isTop = false) {
       return routes.map((route) => {
-        const icon =
-          route.icon && isTop ? () => <i class={route.icon} /> : null;
+        const icon = route.icon && isTop ? () => <i class={route.icon} /> : null;
         const node = route.children?.length ? (
-          <a-sub-menu
-            key={route.path}
-            v-slots={{ icon, title: () => route.title }}
-          >
+          <a-sub-menu key={route.path} v-slots={{ icon, title: () => route.title }}>
             {this.renderItem(route?.children)}
           </a-sub-menu>
         ) : (
-          <a-menu-item
-            key={route.path}
-            v-slots={{ icon }}
-            onClick={() => this.goto(route)}
-          >
+          <a-menu-item key={route.path} v-slots={{ icon }} onClick={() => this.goto(route)}>
             {route.title}
           </a-menu-item>
         );

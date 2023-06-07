@@ -21,8 +21,12 @@
         </a-tooltip>
         <a-dropdown>
           <span class="cursor-pointer">
-            <a-avatar :size="28">A</a-avatar>
-            <span class="mx-2">admin</span>
+            <a-avatar :size="28">
+              <img :src="userStore.avatar" :alt="userStore.name">
+            </a-avatar>
+            <span class="mx-2">
+              {{ userStore.name }}
+            </span>
             <i class="icon-park-outline-down"></i>
           </span>
           <template #content>
@@ -69,11 +73,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from "@/store";
+import { useAppStore, useUserStore } from "@/store";
 import { Message } from "@arco-design/web-vue";
 import Menu from "./components/menu.vue";
 
 const appStore = useAppStore();
+const userStore = useUserStore();
 const isCollapsed = ref(false);
 const router = useRouter();
 const themeConfig = ref({ visible: false });

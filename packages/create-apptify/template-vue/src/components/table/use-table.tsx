@@ -11,6 +11,15 @@ import {
 } from "./table.config";
 import { UseTableOptions } from "./use-interface";
 
+const merge = (...args: any[]) => {
+  return mergeWith({}, ...args, (obj: any, src: any) => {
+    if (Array.isArray(obj) && Array.isArray(src)) {
+      return obj.concat(src);
+    }
+    return undefined;
+  });
+};
+
 /**
  * 提供便捷语法，构建传给Table组件的参数
  * @see src/components/table/use-table.tsx
@@ -94,11 +103,15 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
     columns.push({ ...TABLE_COLUMN_DEFAULTS, ...column });
   });
 
+  const itemsMap = options.common?.items?.reduce((map, item) => {
+    map[item.field] = item;
+    return map;
+  }, {} as any);
+
+  /**
+   * 搜索表单的处理
+   */
   if (options.search && options.search.items) {
-    const itemsMap = options.common?.items?.reduce((map, item) => {
-      map[item.field] = item;
-      return map;
-    }, {} as any);
     const searchItems: any[] = [];
     options.search.items.forEach((item) => {
       if (typeof item === "string") {
@@ -106,9 +119,13 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
           throw new Error(`search item ${item} not found in common items`);
         }
         searchItems.push(itemsMap[item]);
-      } else {
-        searchItems.push(item);
+        return;
       }
+      if ("extend" in item && item.extend && itemsMap[item.extend]) {
+        searchItems.push(merge({}, itemsMap[item.extend], item));
+        return;
+      }
+      searchItems.push(item);
     });
     searchItems.push({
       field: "id",
@@ -117,30 +134,25 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
         class: "table-search-item col-start-4 !mr-0 grid grid-cols-[0_1fr]",
         hideLabel: true,
       },
-      component: () => (
-        <div class="w-full flex gap-x-2 justify-end">
-          {(options.search?.items?.length || 0) > 3 && (
-            <Button disabled={getTable().loading} onClick={() => getTable().reloadData()}>
-              {{ icon: () => <IconRefresh></IconRefresh>, default: () => "重置" }}
+      component: () => {
+        const tableRef = inject<any>("ref:table");
+        console.log("ii", tableRef);
+        return (
+          <div class="w-full flex gap-x-2 justify-end">
+            {(options.search?.items?.length || 0) > 3 && (
+              <Button disabled={tableRef?.loading.value} onClick={() => tableRef?.reloadData()}>
+                {{ icon: () => <IconRefresh></IconRefresh>, default: () => "重置" }}
+              </Button>
+            )}
+            <Button type="primary" loading={tableRef?.loading.value} onClick={() => tableRef?.loadData()}>
+              {{ icon: () => <IconSearch></IconSearch>, default: () => "查询" }}
             </Button>
-          )}
-          <Button type="primary" loading={getTable().loading} onClick={() => getTable().loadData()}>
-            {{ icon: () => <IconSearch></IconSearch>, default: () => "查询" }}
-          </Button>
-        </div>
-      ),
+          </div>
+        );
+      },
     });
     options.search.items = searchItems;
   }
-
-  const merge = (...args: any[]) => {
-    return mergeWith({}, ...args, (obj: any, src: any) => {
-      if (Array.isArray(obj) && Array.isArray(src)) {
-        return obj.concat(src);
-      }
-      return undefined;
-    });
-  };
 
   if (options.create) {
     options.create = merge(options.common, options.create);
