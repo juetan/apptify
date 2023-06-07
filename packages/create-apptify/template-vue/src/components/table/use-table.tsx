@@ -37,7 +37,7 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
       }
 
       if (options.modify) {
-        const modifyAction = column.buttons.find((i) => i.action === "modify");
+        const modifyAction = column.buttons.find((i) => i.type === "modify");
         if (modifyAction) {
           const { onClick } = modifyAction;
           modifyAction.onClick = (columnData) => {
@@ -59,7 +59,7 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
       column.buttons = column.buttons?.map((action) => {
         let onClick = action?.onClick;
 
-        if (action.action === "delete") {
+        if (action.type === "delete") {
           onClick = (data) => {
             Modal.warning({
               ...TABLE_DELTE_DEFAULTS,
@@ -72,7 +72,7 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
           };
         }
 
-        return { ...TABLE_ACTION_DEFAULTS, ...action, onClick };
+        return { ...TABLE_ACTION_DEFAULTS, ...action, onClick } as any;
       });
 
       column.render = (columnData) =>
