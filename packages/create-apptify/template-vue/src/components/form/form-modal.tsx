@@ -13,6 +13,7 @@ export const FormModal = defineComponent({
   props: {
     /**
      * 弹窗标题
+     * @default '新建'
      */
     title: {
       type: [String, Function] as PropType<
@@ -48,10 +49,11 @@ export const FormModal = defineComponent({
       required: true,
     },
     /**
-     * 提交函数
+     * 提交表单的函数
+     * @description 可返回`{ message }`类型，用于显示提示信息
      */
     submit: {
-      type: Function as PropType<(arg: { model: Record<string, any>; items: IFormItem[] }) => Promise<any>>,
+      type: Function as PropType<(arg: { model: Record<string, any>; items: IFormItem[] }) => any | Promise<any>>,
       default: () => true,
     },
     /**

@@ -125,63 +125,99 @@ export const FormItem = (props: any, { emit }: any) => {
 
 type FormItemBase = {
   /**
-   * 字段名，用于表单校验和输入框绑定，支持以下特殊语法：
-   * @example 以`:`分隔的字段名，将用作数组值解构。例如：`v1:v2`提交`{ v1: xxx, v2: xxx }`的数据，对于日期范围框、级联框等非常有用
+   * 字段名，用于表单数据、表单校验和输入框值绑定，支持特殊语法。
+   * @example
+   * ```typescript
+   * // 1. 以:分隔的字段名，将用作数组值解构。例如：
+   * {
+   *   field: 'v1:v2',
+   *   type: 'dateRange',
+   * }
+   * // 将得到
+   * {
+   *   v1: '2021-01-01',
+   *   v2: '2021-01-02',
+   * }
+   * ```
    */
   field: string;
 
   /**
    * 初始值
+   * @description 默认值为undefined，优先级比model中的同名属性高。
    */
   initialValue?: any;
 
   /**
    * 标签名
+   * @description 同FormItem组件的label属性
    */
   label?: string | ((item: IFormItem, model: Record<string, any>) => any);
 
   /**
    * 传递给`FormItem`组件的参数
+   * @description 部分属性会不可用，如field、label、required、rules、disabled等
    */
   itemProps?: Partial<Omit<FormItemInstance["$props"], "field" | "label" | "required" | "rules" | "disabled">>;
 
   /**
    * 是否必填
+   * @description 默认值为false
    */
   required?: boolean;
 
   /**
    * 校验规则数组
+   * @description 支持字符串(内置)、对象形式
+   * @example
+   * ```typescript
+   * rules: [
+   *  'idcard', // 内置的身份证号校验规则
+   *   {
+   *    match: /\d+/,
+   *    message: '请输入数字',
+   *   },
+   * ]
+  *```
+  * @see https://arco.design/vue/component/form#FieldRule
    */
   rules?: FieldRuleType[];
 
   /**
    * 是否可见
+   * @description 动态控制表单项是否可见
    */
   visible?: (arg: { item: IFormItem; model: Record<string, any> }) => boolean;
 
   /**
    * 是否禁用
+   * @description 动态控制表单项是否禁用
    */
   disable?: (arg: { item: IFormItem; model: Record<string, any> }) => boolean;
 
   /**
    * 选项，数组或者函数
+   * @description 用于下拉框、单选框、多选框等组件, 支持动态加载
    */
   options?: SelectOptionData[] | ((arg: { item: IFormItem; model: Record<string, any> }) => Promise<any>);
 
   /**
    * 表单项内容的渲染函数
+   * @description 用于自定义表单项内容
    */
   component?: (args: { item: IFormItem; model: Record<string, any>; field: string }) => any;
 
   /**
    * 帮助提示
+   * @description 同FormItem组件的help插槽
+   * @see https://arco.design/vue/component/form#form-item%20Slots
    */
   help?: string | ((args: { item: IFormItem; model: Record<string, any> }) => any);
 
   /**
    * 额外内容
+   * @description 同FormItem组件的extra插槽
+   * @see https://arco.design/vue/component/form#form-item%20Slots
    */
   extra?: string | ((args: { item: IFormItem; model: Record<string, any> }) => any);
 };

@@ -29,7 +29,7 @@ export const useUserStore = defineStore({
       this.avatar = "";
       this.accessToken = "";
     },
-    setUser(user: any) {
+    setUser(user: { name: string; avatar: string; accessToken: string }) {
       this.name = user.name;
       this.avatar = user.avatar;
       this.accessToken = user.accessToken;
