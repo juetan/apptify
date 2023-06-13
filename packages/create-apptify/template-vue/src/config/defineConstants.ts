@@ -43,7 +43,6 @@ type ConstantType<T extends readonly Item[]> = MergeIntersection<
      * 所有值组成的数组
      */
     values: ArrayMap<T, "value">;
-  } & {
     /**
      * 获取指定值的项
      */
@@ -58,7 +57,8 @@ type ConstantType<T extends readonly Item[]> = MergeIntersection<
     each<K extends keyof T[number]>(key: K): T[number][K][];
     /**
      * 格式化
-     * @param value 值
+     * @param value value值
+     * @param key 指定返回的属性，默认为label
      */
     format<K extends T[number]["value"]>(value: K, key?: keyof T[number]): ArrayFind<T, K>;
   }
@@ -79,8 +79,8 @@ class Constanter {
   each(key: string) {
     return this.items.map((item) => item[key]);
   }
-  format(value: any, key?: string) {
-    return this.items.find((item) => item.value === value)?.[key || "label"];
+  format(value: any, key: string = "label") {
+    return this.items.find((item) => item.value === value)?.[key];
   }
 }
 

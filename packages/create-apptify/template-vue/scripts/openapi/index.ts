@@ -1,17 +1,20 @@
-import path from 'path';
-import { generateApi, } from 'swagger-typescript-api';
+import path from "path";
+import { generateApi } from "swagger-typescript-api";
+import { loadEnv } from "vite";
+import { fileURLToPath } from "url";
 
-const resolve = (p) => path.resolve(process.cwd(), p);
+const __dirname = path.join(fileURLToPath(new URL(import.meta.url)), "..");
+const env = loadEnv("development", process.cwd());
 
 const run = async () => {
   const output = await generateApi({
-    url: 'http://127.0.0.1:3030/openapi-json',
-    templates: resolve('./scripts/openapi/template'),
-    output: resolve('./src/api/service'),
-    name: 'index.ts',
+    url: env.VITE_API_DOCS_URL,
+    templates: path.resolve(__dirname, "./template"),
+    output: path.resolve(process.cwd(), "src/api/service"),
+    name: "index.ts",
     singleHttpClient: false,
-    httpClientType: 'axios',
-    unwrapResponseData: true,
+    httpClientType: "axios",
+    unwrapResponseData: false,
     moduleNameIndex: 1,
     moduleNameFirstTag: true,
     cleanOutput: true,
@@ -21,8 +24,8 @@ const run = async () => {
     prettier: {
       printWidth: 120,
       tabWidth: 2,
-      trailingComma: 'all',
-      parser: 'typescript',
+      trailingComma: "all",
+      parser: "typescript",
     },
   });
   // const { configuration, getTemplate, renderTemplate, createFile } = output
@@ -53,6 +56,7 @@ const run = async () => {
   // for (const file of files) {
   //   createFile(file)
   // }
+  debugger
   return output;
 };
 

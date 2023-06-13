@@ -8,17 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import { toast } from "@/components/toast";
-// toast({ cover: true });
-
-const run = async () => {
-  const res = await api.github.getRepoInfo();
-  console.log(res);
-}
-
-onMounted(() => {
-  run();
-})
 </script>
 
 <style scoped></style>

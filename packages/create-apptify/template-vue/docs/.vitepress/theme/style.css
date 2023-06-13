@@ -16,6 +16,7 @@
   --vp-c-brand-darker: #454ce1;
   --vp-c-brand-dimm: rgba(100, 108, 255, 0.08);
   --vp-sidebar-bg-color: transparent;
+  --vp-nav-height: 56px;
 }
 /* :root {
   --vp-c-brand: #646cff;
@@ -67,11 +68,14 @@
     --vp-home-hero-image-filter: blur(72px);
   }
   .VPContent .VPDoc {
-    padding: 20px 0 32px;
+    padding: 20px 0 40px;
   }
   .VPDoc .container > .content {
     background: #fff;
-    padding: 32px;
+    padding: 28px 24px;
+    box-shadow: 0 0 8px #f1f3f5;
+    border: 1px solid #f1f3f5;
+    border-radius: 4px;
   }
 }
 
@@ -109,9 +113,8 @@
 }
 
 .VPNav {
-  border-bottom: 1px solid #e3e5e7;
+  border-bottom: 1px solid #f1f3f5;
   background: #fff;
-  box-shadow: 0 1px 4px #f3f5f7;
 }
 
 .curtain,
@@ -183,4 +186,66 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.content img {
+  border: 1px solid #e1f1f1;
+  border-radius: 2px;
+}
+
+.item {
+  width: 100%;
+  overflow: hidden;
+}
+
+.link {
+  width: 100%;
+}
+
+.text {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body {
+  font-size: 14px;
+}
+
+.VPSidebarItem {
+  /* padding: 0 8px; */
+}
+
+.items > .VPSidebarItem.level-1 {
+  margin-top: 4px;
+  padding: 0 8px;
+}
+
+.items > .VPSidebarItem.level-1.is-active {
+  background: hsl(204 100% 95% / 1);
+  /* padding: 0 8px; */
+  border-radius: 2px;
+}
+
+.vp-doc tr:nth-child(2n) {
+  background-color: transparent;
+}
+
+.vp-doc h2 {
+  margin: 32px 0 16px;
+  border-top: none;
+  padding-top: 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding-bottom: 8px;
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.vp-doc a {
+  display: none;
+}
+.VPNavBarTitle .title {
+  font-weight: 400;
 }

@@ -28,7 +28,7 @@ class Service extends Api<unknown> {
  * @see src/api/instance/instance.ts
  */
 const api = new Service({
-  baseURL: "http://127.0.0.1:3030",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 /**

@@ -9,77 +9,85 @@
  * ---------------------------------------------------------------
  */
 
-export interface CreateUserDto {
-  username: string;
-  password: string;
-  nickname: string;
-  avatar: string;
+export interface ApiResponse {
+  /** @format int32 */
+  code?: number;
+  type?: string;
+  message?: string;
+}
+
+export interface Category {
+  /** @format int64 */
+  id?: number;
+  name?: string;
+}
+
+export interface Pet {
+  /** @format int64 */
+  id?: number;
+  category?: Category;
+  /** @example "doggie" */
+  name: string;
+  photoUrls: string[];
+  tags?: Tag[];
+  /** pet status in the store */
+  status?: "available" | "pending" | "sold";
+}
+
+export interface Tag {
+  /** @format int64 */
+  id?: number;
+  name?: string;
+}
+
+export interface Order {
+  /** @format int64 */
+  id?: number;
+  /** @format int64 */
+  petId?: number;
+  /** @format int32 */
+  quantity?: number;
+  /** @format date-time */
+  shipDate?: string;
+  /** Order Status */
+  status?: "placed" | "approved" | "delivered";
+  complete?: boolean;
 }
 
 export interface User {
-  /** 用户角色 */
-  roles: Role[];
+  /** @format int64 */
+  id?: number;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
   /**
-   * 登录账号
-   * @example "juetan"
+   * User Status
+   * @format int32
    */
+  userStatus?: number;
+}
+
+export interface FindPetsByStatusParams {
+  /** Status values that need to be considered for filter */
+  status: ("available" | "pending" | "sold")[];
+}
+
+export interface FindPetsByTagsParams {
+  /** Tags to filter by */
+  tags: string[];
+}
+
+export interface LoginUserParams {
+  /** The user name for login */
   username: string;
-  /**
-   * 用户昵称
-   * @example "绝弹"
-   */
-  nickname: string;
-  /**
-   * 用户介绍
-   * @example "这个人很懒, 什么也没有留下!"
-   */
-  description: string;
-  /**
-   * 用户头像(URL)
-   * @example "./assets/222421415123.png "
-   */
-  avatar: string;
-  /**
-   * 用户密码
-   * @example "password"
-   */
+  /** The password for login in clear text */
   password: string;
 }
 
-export interface Role {
-  id: number;
-  user: User;
-}
-
-export interface UpdateUserDto {
-  username?: string;
-  password?: string;
-  nickname?: string;
-  avatar?: string;
-}
-
-export type CreateRoleDto = object;
-
-export type UpdateRoleDto = object;
-
-export type CreateUploadDto = object;
-
-export type UpdateUploadDto = object;
-
-export interface SelectUsersParams {
-  /**
-   * 页码
-   * @min 1
-   */
-  page: number;
-  /**
-   * 每页条数
-   * @min 1
-   */
-  size: number;
-}
-
-import axios, { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -123,7 +131,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private format?: ResponseType;
 
   constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "" });
+    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "https://petstore.swagger.io/v2" });
     this.secure = secure;
     this.format = format;
     this.securityWorker = securityWorker;
@@ -178,7 +186,7 @@ export class HttpClient<SecurityDataType = unknown> {
     format,
     body,
     ...params
-  }: FullRequestParams): Promise<T> => {
+  }: FullRequestParams): Promise<AxiosResponse<T>> => {
     const secureParams =
       ((typeof secure === "boolean" ? secure : this.secure) &&
         this.securityWorker &&
@@ -195,46 +203,58 @@ export class HttpClient<SecurityDataType = unknown> {
       body = JSON.stringify(body);
     }
 
-    return this.instance
-      .request({
-        ...requestParams,
-        headers: {
-          ...(requestParams.headers || {}),
-          ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
-        },
-        params: query,
-        responseType: responseFormat,
-        data: body,
-        url: path,
-      })
-      .then((response) => response.data);
+    return this.instance.request({
+      ...requestParams,
+      headers: {
+        ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+      },
+      params: query,
+      responseType: responseFormat,
+      data: body,
+      url: path,
+    });
   };
 }
 
 /**
- * @title 接口文档
- * @version 1.0
- * @externalDocs /openapi-json
- * @contact
+ * @title Swagger Petstore
+ * @version 1.0.6
+ * @license Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+ * @termsOfService http://swagger.io/terms/
+ * @baseUrl https://petstore.swagger.io/v2
+ * @externalDocs http://swagger.io
+ * @contact <apiteam@swagger.io>
  *
- * Openapi 3.0文档
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
-  user = {
+  pet = {
     /**
      * No description
      *
-     * @tags user
-     * @name CreateUser
-     * @summary 创建用户
-     * @request POST:/api/v1/users
+     * @tags pet
+     * @name UploadFile
+     * @summary uploads an image
+     * @request POST:/pet/{petId}/uploadImage
+     * @secure
      */
-    createUser: (data: CreateUserDto, params: RequestParams = {}) => {
-      return this.request<number, any>({
-        path: `/api/v1/users`,
+    uploadFile: (
+      petId: number,
+      data: {
+        /** Additional data to pass to server */
+        additionalMetadata?: string;
+        /** file to upload */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) => {
+      return this.request<ApiResponse, any>({
+        path: `/pet/${petId}/uploadImage`,
         method: "POST",
         body: data,
-        type: ContentType.Json,
+        secure: true,
+        type: ContentType.FormData,
         format: "json",
         ...params,
       });
@@ -243,14 +263,321 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @tags user
-     * @name SelectUsers
-     * @summary 批量查询
-     * @request GET:/api/v1/users
+     * @tags pet
+     * @name AddPet
+     * @summary Add a new pet to the store
+     * @request POST:/pet
+     * @secure
      */
-    selectUsers: (query: SelectUsersParams, params: RequestParams = {}) => {
-      return this.request<User[], any>({
-        path: `/api/v1/users`,
+    addPet: (body: Pet, params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/pet`,
+        method: "POST",
+        body: body,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags pet
+     * @name UpdatePet
+     * @summary Update an existing pet
+     * @request PUT:/pet
+     * @secure
+     */
+    updatePet: (body: Pet, params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/pet`,
+        method: "PUT",
+        body: body,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      });
+    },
+
+    /**
+     * @description Multiple status values can be provided with comma separated strings
+     *
+     * @tags pet
+     * @name FindPetsByStatus
+     * @summary Finds Pets by status
+     * @request GET:/pet/findByStatus
+     * @secure
+     */
+    findPetsByStatus: (query: FindPetsByStatusParams, params: RequestParams = {}) => {
+      return this.request<Pet[], void>({
+        path: `/pet/findByStatus`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * @tags pet
+     * @name FindPetsByTags
+     * @summary Finds Pets by tags
+     * @request GET:/pet/findByTags
+     * @deprecated
+     * @secure
+     */
+    findPetsByTags: (query: FindPetsByTagsParams, params: RequestParams = {}) => {
+      return this.request<Pet[], void>({
+        path: `/pet/findByTags`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * @description Returns a single pet
+     *
+     * @tags pet
+     * @name GetPetById
+     * @summary Find pet by ID
+     * @request GET:/pet/{petId}
+     * @secure
+     */
+    getPetById: (petId: number, params: RequestParams = {}) => {
+      return this.request<Pet, void>({
+        path: `/pet/${petId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags pet
+     * @name UpdatePetWithForm
+     * @summary Updates a pet in the store with form data
+     * @request POST:/pet/{petId}
+     * @secure
+     */
+    updatePetWithForm: (
+      petId: number,
+      data: {
+        /** Updated name of the pet */
+        name?: string;
+        /** Updated status of the pet */
+        status?: string;
+      },
+      params: RequestParams = {},
+    ) => {
+      return this.request<any, void>({
+        path: `/pet/${petId}`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.FormData,
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags pet
+     * @name DeletePet
+     * @summary Deletes a pet
+     * @request DELETE:/pet/{petId}
+     * @secure
+     */
+    deletePet: (petId: number, params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/pet/${petId}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      });
+    },
+  };
+  store = {
+    /**
+     * No description
+     *
+     * @tags store
+     * @name PlaceOrder
+     * @summary Place an order for a pet
+     * @request POST:/store/order
+     */
+    placeOrder: (body: Order, params: RequestParams = {}) => {
+      return this.request<Order, void>({
+        path: `/store/order`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * @description For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions
+     *
+     * @tags store
+     * @name GetOrderById
+     * @summary Find purchase order by ID
+     * @request GET:/store/order/{orderId}
+     */
+    getOrderById: (orderId: number, params: RequestParams = {}) => {
+      return this.request<Order, void>({
+        path: `/store/order/${orderId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * @description For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
+     *
+     * @tags store
+     * @name DeleteOrder
+     * @summary Delete purchase order by ID
+     * @request DELETE:/store/order/{orderId}
+     */
+    deleteOrder: (orderId: number, params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/store/order/${orderId}`,
+        method: "DELETE",
+        ...params,
+      });
+    },
+
+    /**
+     * @description Returns a map of status codes to quantities
+     *
+     * @tags store
+     * @name GetInventory
+     * @summary Returns pet inventories by status
+     * @request GET:/store/inventory
+     * @secure
+     */
+    getInventory: (params: RequestParams = {}) => {
+      return this.request<Record<string, number>, any>({
+        path: `/store/inventory`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      });
+    },
+  };
+  user = {
+    /**
+     * No description
+     *
+     * @tags user
+     * @name CreateUsersWithArrayInput
+     * @summary Creates list of users with given input array
+     * @request POST:/user/createWithArray
+     */
+    createUsersWithArrayInput: (body: User[], params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/user/createWithArray`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags user
+     * @name CreateUsersWithListInput
+     * @summary Creates list of users with given input array
+     * @request POST:/user/createWithList
+     */
+    createUsersWithListInput: (body: User[], params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/user/createWithList`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags user
+     * @name GetUserByName
+     * @summary Get user by user name
+     * @request GET:/user/{username}
+     */
+    getUserByName: (username: string, params: RequestParams = {}) => {
+      return this.request<User, void>({
+        path: `/user/${username}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      });
+    },
+
+    /**
+     * @description This can only be done by the logged in user.
+     *
+     * @tags user
+     * @name UpdateUser
+     * @summary Updated user
+     * @request PUT:/user/{username}
+     */
+    updateUser: (username: string, body: User, params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/user/${username}`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      });
+    },
+
+    /**
+     * @description This can only be done by the logged in user.
+     *
+     * @tags user
+     * @name DeleteUser
+     * @summary Delete user
+     * @request DELETE:/user/{username}
+     */
+    deleteUser: (username: string, params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/user/${username}`,
+        method: "DELETE",
+        ...params,
+      });
+    },
+
+    /**
+     * No description
+     *
+     * @tags user
+     * @name LoginUser
+     * @summary Logs user into the system
+     * @request GET:/user/login
+     */
+    loginUser: (query: LoginUserParams, params: RequestParams = {}) => {
+      return this.request<string, void>({
+        path: `/user/login`,
         method: "GET",
         query: query,
         format: "json",
@@ -262,236 +589,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags user
-     * @name SelectUserv2
-     * @summary 查询用户
-     * @request GET:/api/v2/users/{id}
+     * @name LogoutUser
+     * @summary Logs out current logged in user session
+     * @request GET:/user/logout
      */
-    selectUserv2: (id: number, params: RequestParams = {}) => {
-      return this.request<User, any>({
-        path: `/api/v2/users/${id}`,
+    logoutUser: (params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/user/logout`,
         method: "GET",
-        format: "json",
         ...params,
       });
     },
 
     /**
-     * No description
+     * @description This can only be done by the logged in user.
      *
      * @tags user
-     * @name UpdateUser
-     * @summary 更新用户
-     * @request PATCH:/api/v1/users/{id}
+     * @name CreateUser
+     * @summary Create user
+     * @request POST:/user
      */
-    updateUser: (id: number, data: UpdateUserDto, params: RequestParams = {}) => {
-      return this.request<void, any>({
-        path: `/api/v1/users/${id}`,
-        method: "PATCH",
-        body: data,
-        type: ContentType.Json,
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags user
-     * @name DeleteUser
-     * @summary 删除用户
-     * @request DELETE:/api/v1/users/{id}
-     */
-    deleteUser: (id: number, params: RequestParams = {}) => {
-      return this.request<void, any>({
-        path: `/api/v1/users/${id}`,
-        method: "DELETE",
-        ...params,
-      });
-    },
-  };
-  auth = {
-    /**
-     * No description
-     *
-     * @tags auth
-     * @name Login
-     * @summary 账号登录
-     * @request POST:/api/v1/auth/login
-     */
-    login: (params: RequestParams = {}) => {
-      return this.request<void, void>({
-        path: `/api/v1/auth/login`,
+    createUser: (body: User, params: RequestParams = {}) => {
+      return this.request<any, void>({
+        path: `/user`,
         method: "POST",
-        ...params,
-      });
-    },
-  };
-  role = {
-    /**
-     * No description
-     *
-     * @tags role
-     * @name RoleControllerCreate
-     * @request POST:/api/v1/role
-     */
-    roleControllerCreate: (data: CreateRoleDto, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/role`,
-        method: "POST",
-        body: data,
+        body: body,
         type: ContentType.Json,
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags role
-     * @name RoleControllerFindAll
-     * @request GET:/api/v1/role
-     */
-    roleControllerFindAll: (params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/role`,
-        method: "GET",
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags role
-     * @name RoleControllerFindOne
-     * @request GET:/api/v1/role/{id}
-     */
-    roleControllerFindOne: (id: string, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/role/${id}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags role
-     * @name RoleControllerUpdate
-     * @request PATCH:/api/v1/role/{id}
-     */
-    roleControllerUpdate: (id: string, data: UpdateRoleDto, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/role/${id}`,
-        method: "PATCH",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags role
-     * @name RoleControllerRemove
-     * @request DELETE:/api/v1/role/{id}
-     */
-    roleControllerRemove: (id: string, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/role/${id}`,
-        method: "DELETE",
-        format: "json",
-        ...params,
-      });
-    },
-  };
-  upload = {
-    /**
-     * No description
-     *
-     * @tags upload
-     * @name UploadControllerCreate
-     * @request POST:/api/v1/upload
-     */
-    uploadControllerCreate: (data: CreateUploadDto, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/upload`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags upload
-     * @name UploadControllerFindAll
-     * @request GET:/api/v1/upload
-     */
-    uploadControllerFindAll: (params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/upload`,
-        method: "GET",
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags upload
-     * @name UploadControllerFindOne
-     * @request GET:/api/v1/upload/{id}
-     */
-    uploadControllerFindOne: (id: string, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/upload/${id}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags upload
-     * @name UploadControllerUpdate
-     * @request PATCH:/api/v1/upload/{id}
-     */
-    uploadControllerUpdate: (id: string, data: UpdateUploadDto, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/upload/${id}`,
-        method: "PATCH",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      });
-    },
-
-    /**
-     * No description
-     *
-     * @tags upload
-     * @name UploadControllerRemove
-     * @request DELETE:/api/v1/upload/{id}
-     */
-    uploadControllerRemove: (id: string, params: RequestParams = {}) => {
-      return this.request<string, any>({
-        path: `/api/v1/upload/${id}`,
-        method: "DELETE",
-        format: "json",
         ...params,
       });
     },
