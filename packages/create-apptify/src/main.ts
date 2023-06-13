@@ -1,12 +1,11 @@
+import { spawn } from 'child_process';
+import { program } from 'commander';
+import enquirer from 'enquirer';
 import fs from 'fs';
+import { blue, bold, gray, green, red } from 'kolorist';
+import ora from 'ora';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import minimist from 'minimist';
-import enquirer from 'enquirer';
-import { blue, bold, green, red } from 'kolorist';
-import { program } from 'commander';
-import { spawn } from 'child_process';
-import ora from 'ora';
 
 const __dirname = path.join(fileURLToPath(new URL(import.meta.url)), '..');
 
@@ -31,7 +30,7 @@ const exec = (command: string, args: string[] = []) => {
       result += data.toString();
     });
     p.on('error', (e) => {
-      error = e;
+      reject(e);
     });
     p.on('close', (code: number) => {
       if (code !== 0) {
@@ -59,14 +58,29 @@ export const addToPkg = (key: string, value: any) => {
   savePkg(pkg);
 };
 
+export const isObject = (val: any): val is Record<string, any> => val !== null && typeof val === 'object';
+
+export const assign = (target: Record<string, any>, ...sources: Record<string, any>[]) => {
+  sources.forEach((source) => {
+    Object.keys(source).forEach((key) => {
+      if (isObject(target[key]) && isObject(source[key])) {
+        assign(target[key], source[key]);
+        return;
+      }
+      target[key] = source[key];
+    });
+  });
+  return target;
+};
+
 print(LOGO);
 
 program
   .command('install <name>')
   .alias('i')
-  .description('安装对应库并作对应初始化')
-  .option('--installer', '指定包管理器', 'pnpm')
-  .action(async (name) => {
+  .description('安装依赖并进行初始化操作')
+  .option('--installer', '指定包管理器, 默认为pnpm', 'pnpm')
+  .action(async (name: string) => {
     if (name === 'release-it') {
       print(bold(`安装: release-it\n`));
       const option = await enquirer.prompt<{ dir: string; packageManager: string }>([
@@ -157,7 +171,7 @@ program
       }
       print();
 
-      const spinner3 = ora(`安装 husky 为开发依赖`);
+      const spinner3 = ora(`安装 husky 依赖`);
       const inst = packageManager === 'yarn' ? 'add' : 'install';
       const cmd = `${packageManager} ${inst} -D husky`;
       try {
@@ -169,7 +183,9 @@ program
         return print(error);
       }
 
-      const spin1 = ora(`执行 husky install 命令，将创建 ${dir} 目录并设置 git config core.hooksPath 指向该目录`);
+      const spin1 = ora(
+        `执行 husky install 命令: ${gray(`创建 ${dir} 目录并设置 git config core.hooksPath 指向该目录`)}`,
+      );
       try {
         spin1.start();
         await exec(`npx husky install "${dir}"`);
@@ -279,81 +295,15 @@ program
 
       print(`${bold(green('\n恭喜'))}, 安装完成！, 接下来你可以通过以下命令添加钩子:\n`);
     } else {
-      print(`${red('x ')} ${bold('抱歉，暂不支持该库的安装')}\n`);
+      print(`${red('x')} ${`抱歉，暂不支持该库的安装。当前支持的库有:\n`}`);
+      print(`  [ husky      ]: git 钩子管理工具`);
+      print(`  [ commitlint ]: git 提交信息校验工具`);
+      print(`  [ release-it ]: git 版本发布工具`);
+      print(`  [ prettier   ]: 代码格式化工具`);
+      print(`  [ eslint     ]: 代码检查工具`);
+      print(`  [ stylelint  ]: 样式检查工具`);
+      print();
     }
   });
-
-export const start = async () => {
-  const options = minimist(process.argv.slice(2));
-  const $name = options._[0];
-  const $template = options.t || options.template;
-
-  print(LOGO);
-
-  const answers: any = await enquirer.prompt([
-    {
-      name: 'name',
-      type: 'text',
-      message: '请输入你要创建的项目名称',
-      initial: 'app',
-      skip: () => !!$name,
-    },
-    {
-      name: 'template',
-      message: '请选择你要创建的项目类型',
-      type: 'select',
-      choices: [
-        {
-          name: 'vue',
-          value: 'vue',
-          hint: '  - 基于vite, 包含自动导入、自动路由和初始布局的vue项目模板',
-        },
-        {
-          name: 'nest',
-          value: 'nest',
-          hint: '- 创建NestJS项目',
-        },
-        {
-          name: 'monkey',
-          value: 'monkey',
-          hint: '创建油猴脚本(Tampermonkey)项目',
-        },
-      ],
-      initial: 0,
-      skip: () => !!$template,
-    },
-  ]);
-
-  const name = $name || answers.name;
-  const template = $template || answers.template;
-
-  const templateDir = path.join(__dirname, `../template-${template}`);
-  if (!fs.existsSync(templateDir)) {
-    print(`${red('x')} ${bold('模板不存在, 请检查模板名称是否正确')}`);
-    return;
-  }
-
-  const targetDir = path.join(process.cwd(), `./${name}`);
-  if (fs.existsSync(targetDir)) {
-    const ask: any = await enquirer.prompt([
-      {
-        name: 'overwrite',
-        type: 'confirm',
-        message: '是否覆盖已存在的同名项目',
-      },
-    ]);
-    if (!ask.overwrite) {
-      print(`${red('×')} ${bold('因用户取消覆盖已中止创建')}`);
-      return;
-    }
-  }
-
-  fs.cpSync(templateDir, targetDir, { recursive: true });
-
-  print(`${bold(green('\n创建完成!'))} 接下来你可以参照如下命令启动项目：`);
-  print(`  cd ./${name}`);
-  print('  npm install');
-  print('  npm run dev\n');
-};
 
 program.parse();
