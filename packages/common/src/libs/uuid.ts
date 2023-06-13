@@ -1,2 +1,1 @@
-export { v1 as uuidv1, v3 as uuidv2, v5 as uuid } from 'uuid';
-
+export { v1 as uuidv1, v3 as uuidv2, v4 as uuid } from 'uuid';

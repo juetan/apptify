@@ -175,3 +175,9 @@ if (!(prop in receiver) && prop in adapter) {
   };
 }
 ```
+## TODO
+- media video image text audio
+- name size author path
+- user
+- tag color place thing
+- category

@@ -1,19 +1,19 @@
 /**
  * 数组化
- * @param val 任意值或数组
+ * @param value 任意值或数组
  * @returns
  */
-export const arraify = <T>(val: T | T[]): T[] => {
-  return Array.isArray(val) ? val : [val];
+export const arraify = <T>(value: T | T[]): T[] => {
+  return Array.isArray(value) ? value : [value];
 };
 
 /**
  * 是否为空数组，非数组返回 false
- * @param val 任意值或数组
+ * @param value 任意值或数组
  * @returns
  */
-export const isEmptyArray = <T>(val: T | T[]): boolean => {
-  return Array.isArray(val) ? val.length === 0 : false;
+export const isEmptyArray = (value: any): value is Array<any> => {
+  return Array.isArray(value) && value.length > 0;
 };
 
 /**

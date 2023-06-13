@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { Response as _Response } from 'express';
 import { Response, ResponseCode } from '../response';
 
@@ -10,6 +10,6 @@ export class AllExecptionFilter implements ExceptionFilter {
     const message = exception.message;
     const code = ResponseCode.UNKNOWN_ERROR;
 
-    response.status(500).json(Response.create({ code, message, data: null }));
+    response.status(HttpStatus.INTERNAL_SERVER_ERROR).json(Response.create({ code, message, data: null }));
   }
 }
