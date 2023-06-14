@@ -9,7 +9,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: [...builtinModules],
+      external: [...builtinModules, ...builtinModules.map((i) => `node:${i}`)],
       output: {
         banner: `#!/usr/bin/env node`,
       },
