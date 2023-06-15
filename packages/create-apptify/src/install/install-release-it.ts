@@ -1,7 +1,7 @@
 import fs from 'fs';
-import path from 'path';
-import { defineWorkflow, exec } from '../utils';
 import inquirer from 'inquirer';
+import path from 'path';
+import { addToPackage, defineWorkflow, exec, getCliDir } from '../utils';
 
 export const installReleaseIt = async (args: any) => {
   const answers = await inquirer.prompt([
@@ -27,7 +27,7 @@ export const installReleaseIt = async (args: any) => {
 
   const workflow = defineWorkflow([
     {
-      name: '安装 release-it 依赖',
+      name: '安装 release-it 和 @release-it/conventional-changelog 依赖',
       job: async () => {
         const inst = opts.installer === 'yarn' ? 'add' : 'install';
         const cmd = `${opts.installer} ${inst} -D release-it @release-it/conventional-changelog`;
@@ -35,9 +35,9 @@ export const installReleaseIt = async (args: any) => {
       },
     },
     {
-      name: '复制 配置文件 到 scripts/release-it 目录下',
+      name: `复制 配置文件 到 ${opts.dir} 目录下`,
       job: async () => {
-        const from = path.join(opts.dir, '../files/release-it');
+        const from = path.join(getCliDir(), './files/release-it');
         const to = path.join(process.cwd(), opts.dir);
         fs.cpSync(from, to, { recursive: true });
       },
@@ -45,11 +45,7 @@ export const installReleaseIt = async (args: any) => {
     {
       name: '添加 release 命令到 package.json 文件中',
       job: async () => {
-        const packageJsonPath = path.join(process.cwd(), 'package.json');
-        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-        packageJson.scripts = packageJson.scripts || {};
-        packageJson.scripts.release = `release-it --config ${opts.dir}/release-it.cjs`;
-        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+        addToPackage('scripts', { release: `release-it --config ${opts.dir}/release-it.cjs` });
       },
     },
   ]);

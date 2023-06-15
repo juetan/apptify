@@ -8,11 +8,7 @@
     "template-*"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "release": "release-it --config scripts/release-it/release-it.cjs",
-    "commit": "cz",
-    "prepare": "husky install ./scripts/husky"
+    "release": "release-it --config ./scripts/release-it/release-it.cjs"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
@@ -25,11 +21,15 @@
     "cz-conventional-changelog": "^3.3.0",
     "download-git-repo": "^3.0.2",
     "enquirer": "^2.3.6",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "inquirer": "^9.2.7",
     "kolorist": "^1.7.0",
     "minimist": "^1.2.8",
     "ora": "^6.3.1",
+    "prettier": "^2.8.8",
     "release-it": "^15.10.1",
     "typescript": "^4.6.4",
     "vite": "^4.3.9"
@@ -43,25 +43,72 @@
     }
   },
   "eslintConfig": {
-    "env": {
-      "browser": true,
-      "es2021": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:vue/vue3-essential"
+    "name": "my-app",
+    "version": "0.0.4",
+    "type": "module",
+    "bin": "dist/index.js",
+    "files": [
+      "dist",
+      "template-*"
     ],
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "parser": "@typescript-eslint/parser",
-      "sourceType": "module"
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc && vite build",
+      "release": "release-it --config scripts/release-it/release-it.cjs",
+      "commit": "cz"
     },
-    "plugins": [
-      "@typescript-eslint",
-      "vue"
-    ],
-    "rules": {}
+    "devDependencies": {
+      "@commitlint/cli": "^17.4.4",
+      "@commitlint/config-conventional": "^17.4.4",
+      "@release-it/conventional-changelog": "^5.1.1",
+      "@types/inquirer": "^9.0.3",
+      "@types/minimist": "^1.2.2",
+      "commander": "^10.0.1",
+      "commitizen": "^4.3.0",
+      "cz-conventional-changelog": "^3.3.0",
+      "download-git-repo": "^3.0.2",
+      "enquirer": "^2.3.6",
+      "eslint": "^8.42.0",
+      "eslint-config-prettier": "^8.8.0",
+      "eslint-plugin-prettier": "^4.2.1",
+      "husky": "^8.0.3",
+      "inquirer": "^9.2.7",
+      "kolorist": "^1.7.0",
+      "minimist": "^1.2.8",
+      "ora": "^6.3.1",
+      "prettier": "^2.8.8",
+      "release-it": "^15.10.1",
+      "typescript": "^4.6.4",
+      "vite": "^4.3.9"
+    },
+    "release-it": {
+      "plugins": {
+        "@release-it/conventional-changelog": {
+          "preset": "angular",
+          "infile": "CHANGELOG.md"
+        }
+      }
+    },
+    "eslintConfig": {
+      "extends": [
+        "plugin:prettier/recommended"
+      ]
+    },
+    "commitlint": {
+      "extends": [
+        "@commitlint/config-conventional"
+      ]
+    },
+    "config": {
+      "commitizen": {
+        "path": "cz-conventional-changelog"
+      }
+    },
+    "prettier": {
+      "printWidth": 120,
+      "singleQuote": true,
+      "crlf": "auto"
+    }
   },
   "commitlint": {
     "extends": [
@@ -72,5 +119,10 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "endOfLine": "auto"
   }
 }

@@ -1,10 +1,17 @@
-import fs from 'fs';
-import { bold, green } from 'kolorist';
-import path from 'path';
-import { defineWorkflow, exec, installerOptions, print } from '../utils';
 import inquirer from 'inquirer';
+import { bold, green } from 'kolorist';
+import { defineWorkflow, exec, installerOptions, isCurrentDirGitRepository, isGitInstalled, print } from '../utils';
 
 export const installHusky = async (args: any) => {
+  if (!(await isGitInstalled())) {
+    print(`\n抱歉, Git未安装, 可通过 https://git-scm.com/downloads 下载安装。\n`);
+    return;
+  }
+  if (!(await isCurrentDirGitRepository())) {
+    print(`\n抱歉, 当前目录不是Git仓库, 请先通过 git init 命令进行初始化。\n`);
+    return;
+  }
+
   const answers = await inquirer.prompt([
     {
       name: 'dir',
@@ -23,10 +30,6 @@ export const installHusky = async (args: any) => {
     },
   ]);
   const opts: { dir: string; installer: string } = { ...args, ...answers };
-
-  if (!fs.existsSync(path.join(process.cwd(), opts.dir))) {
-    fs.mkdirSync(path.join(process.cwd(), opts.dir), { recursive: true });
-  }
 
   const workflow = defineWorkflow([
     {

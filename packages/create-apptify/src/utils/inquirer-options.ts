@@ -21,5 +21,4 @@ export const buildInstallCmd = (installer: string, pkg?: string) => {
   if(!pkg && installer === 'yarn') {
     install = 'install';
   }
-
 }

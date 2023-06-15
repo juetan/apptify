@@ -1,11 +1,13 @@
 import { program } from 'commander';
+import inquirer from 'inquirer';
 import { red } from 'kolorist';
 import path, { join } from 'path';
 import { fileURLToPath } from 'url';
-import { installCommitlint, installHusky, installReleaseIt } from './install';
-import { LOGO, print, readPackage } from './utils';
 import { initProject } from './init';
-import inquirer from 'inquirer';
+import { installCommitlint, installHusky, installReleaseIt } from './install';
+import { installEslint } from './install/install-eslint';
+import { installPrettier } from './install/install-prettier';
+import { LOGO, print, readPackage } from './utils';
 
 const __dirname = path.join(fileURLToPath(import.meta.url), '..');
 const pkg = readPackage(join(__dirname, '..'));
@@ -30,27 +32,27 @@ program
             {
               value: 'husky',
               short: 'husky',
-              name: '[ husky      ]: git 钩子管理工具',
-            },
-            {
-              value: 'commitlint',
-              short: 'commitlint',
-              name: '[ commitlint ]: git 提交信息校验工具',
+              name: 'husky     : git 钩子管理工具',
             },
             {
               value: 'release-it',
               short: 'release-it',
-              name: '[ release-it ]: git 版本发布工具',
+              name: 'release-it: git 版本发布工具',
             },
             {
-              value: 'prettier',
-              short: 'prettier',
-              name: '[ prettier   ]: 代码格式化工具',
+              value: 'commitlint',
+              short: 'commitlint',
+              name: 'commitlint: git 提交信息校验工具',
             },
             {
               value: 'eslint',
               short: 'eslint',
-              name: '[ eslint     ]: 代码检查工具',
+              name: 'eslint    : 代码检查工具',
+            },
+            {
+              value: 'prettier',
+              short: 'prettier',
+              name: 'prettier  : 代码格式化工具',
             },
           ],
         },
@@ -66,7 +68,13 @@ program
     if (name === 'commitlint') {
       installCommitlint(options);
     }
-    if (!['release-it', 'husky', 'commitlint'].includes(name)) {
+    if (name === 'eslint') {
+      installEslint(options);
+    }
+    if (name === 'prettier') {
+      installPrettier(options);
+    }
+    if (!['release-it', 'husky', 'commitlint', 'eslint', 'prettier'].includes(name)) {
       print(`${red('x')} ${`抱歉，暂不支持该库的安装。当前支持的库有:\n`}`);
       print(`  [ husky      ]: git 钩子管理工具`);
       print(`  [ commitlint ]: git 提交信息校验工具`);
