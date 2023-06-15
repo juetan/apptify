@@ -1,34 +1,72 @@
 import { program } from 'commander';
-import Enquirer from 'enquirer';
-import { bold, green, red } from 'kolorist';
-import ora from 'ora';
-import path from 'path';
+import { red } from 'kolorist';
+import path, { join } from 'path';
 import { fileURLToPath } from 'url';
-import { installCommitlint } from './install/install-commitlint';
-import { installHusky } from './install/install-husky';
-import { installReleaseIt } from './install/install-release-it';
-import { LOGO, print } from './utils';
+import { installCommitlint, installHusky, installReleaseIt } from './install';
+import { LOGO, print, readPackage } from './utils';
+import { initProject } from './init';
+import inquirer from 'inquirer';
 
 const __dirname = path.join(fileURLToPath(import.meta.url), '..');
-
-print(LOGO);
+const pkg = readPackage(join(__dirname, '..'));
+const printLOGO = () => {
+  print(LOGO);
+  print(`${'欢迎使用 Apptify CLI 工具'}! 版本: v${pkg.version}\n`);
+};
 
 program
-  .command('install <name>')
+  .command('install [name]')
   .alias('i')
   .description('安装依赖并进行初始化操作')
-  .option('--installer', '指定包管理器, 默认为pnpm', 'pnpm')
+  .option('--installer <installer>', '指定包管理器')
   .action(async (name: string, options: Record<string, any>) => {
+    if (!name) {
+      const answers = await inquirer.prompt<any>([
+        {
+          name: 'name',
+          message: '请选择要安装的库',
+          type: 'rawlist',
+          choices: [
+            {
+              value: 'husky',
+              short: 'husky',
+              name: '[ husky      ]: git 钩子管理工具',
+            },
+            {
+              value: 'commitlint',
+              short: 'commitlint',
+              name: '[ commitlint ]: git 提交信息校验工具',
+            },
+            {
+              value: 'release-it',
+              short: 'release-it',
+              name: '[ release-it ]: git 版本发布工具',
+            },
+            {
+              value: 'prettier',
+              short: 'prettier',
+              name: '[ prettier   ]: 代码格式化工具',
+            },
+            {
+              value: 'eslint',
+              short: 'eslint',
+              name: '[ eslint     ]: 代码检查工具',
+            },
+          ],
+        },
+      ]);
+      name = answers.name;
+    }
     if (name === 'release-it') {
-      print(bold(`安装: release-it\n`));
       installReleaseIt({ ...options, workDir: __dirname });
-    } else if (name === 'husky') {
-      print(bold(`安装: husky\n`));
-      installHusky();
-    } else if (name === 'commitlint') {
-      print(bold(`安装: commitlint 和 commitizen\n`));
-      installCommitlint();
-    } else {
+    }
+    if (name === 'husky') {
+      installHusky(options);
+    }
+    if (name === 'commitlint') {
+      installCommitlint(options);
+    }
+    if (!['release-it', 'husky', 'commitlint'].includes(name)) {
       print(`${red('x')} ${`抱歉，暂不支持该库的安装。当前支持的库有:\n`}`);
       print(`  [ husky      ]: git 钩子管理工具`);
       print(`  [ commitlint ]: git 提交信息校验工具`);
@@ -41,61 +79,20 @@ program
   });
 
 program
-  .command('init <name>')
+  .command('init [name]')
   .description('初始化项目')
-  .action(async (name: string) => {
-    print(bold(`初始化项目: ${name}\n`));
-
-    const options = await Enquirer.prompt<any>([
-      {
-        name: 'type',
-        message: '请选择项目类型',
-        type: 'select',
-        choices: [
-          {
-            name: 'vue-admin',
-            hint: '基于 vue 的后台管理系统起始模板',
-          },
-          {
-            name: 'nest     ',
-            hint: '基于 nest 的后端项目起始模板',
-          },
-        ],
-      },
-      {
-        name: 'projectName',
-        message: '请输入项目名称',
-        type: 'input',
-        initial: 'my-app',
-      },
-    ]);
-    print();
-
-    const spinner = ora(`[1] 下载 ${options.type} 模板`);
-    try {
-      spinner.start();
-      await new Promise((res) => setTimeout(res, 2000));
-      spinner.succeed();
-    } catch (error) {
-      spinner.fail();
-      return print(error);
-    }
-
-    const spinner2 = ora(`[2] 移动模板文件到 ${options.projectName} 目录下`);
-    try {
-      spinner2.start();
-      await new Promise((res) => setTimeout(res, 2000));
-      spinner2.succeed();
-    } catch (error) {
-      spinner2.fail();
-      return print(error);
-    }
-
-    print(`\n${green('初始化完成')}, 接下来你可以运行以下命令进行开发:\n`);
-    print(`$ cd ${options.projectName}`);
-    print(`$ ${options.installer || 'pnpm'} install`);
-    print(`$ ${options.installer || 'pnpm'} run dev`);
-    print();
+  .option('-p, --path <path>', '指定项目路径')
+  .option('-desc, --description <description>', '项目描述')
+  .option('-t, --type <type>', '指定项目类型')
+  .option('--install', '是否自动安装依赖')
+  .option('--installer <installer>', '指定包管理器, 默认为pnpm')
+  .action(async (name: string, args: any) => {
+    initProject({ name, ...args });
   });
 
-program.parse();
+const run = () => {
+  printLOGO();
+  program.parse();
+};
+
+run();

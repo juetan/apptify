@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { SpawnOptions, spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
@@ -6,41 +6,35 @@ export const print = (...args: any[]) => {
   console.log(...args);
 };
 
-export const exec = (command: string, args: string[] = []) => {
+export const exec = (command: string, args: string[] = [], options: SpawnOptions = {}) => {
   let result = '';
-  let error: any = null;
+  let error = '';
   return new Promise<string>((resolve, reject) => {
-    const p = spawn(command, args, { cwd: process.cwd(), shell: true });
-    p.stdout.on('data', (data) => {
+    const p = spawn(command, args, { cwd: process.cwd(), shell: true, ...options });
+    p.stdout?.on('data', (data) => {
       result += data.toString();
     });
-    p.on('error', (e) => {
-      error = e;
+    p.stderr?.on('data', (data) => {
+      error += data.toString('utf-8');
     });
-    p.on('close', (code: number) => {
-      if (code !== 0) {
-        reject(error);
-        return;
-      }
-      resolve(result);
-    });
+    p.on('close', (code: number) => (code === 0 ? resolve(result) : reject(error)));
   });
 };
 
-export const readPackage = () => {
-  const packageJsonPath = path.join(process.cwd(), 'package.json');
+export const readPackage = (dir: string = process.cwd()) => {
+  const packageJsonPath = path.join(dir, 'package.json');
   return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 };
 
-export const savePackage = (pkg: Record<string, any>) => {
-  const packageJsonPath = path.join(process.cwd(), 'package.json');
+export const savePackage = (pkg: Record<string, any>, dir: string = process.cwd()) => {
+  const packageJsonPath = path.join(dir, 'package.json');
   fs.writeFileSync(packageJsonPath, JSON.stringify(pkg, null, 2));
 };
 
-export const addToPackage = (key: string, value: any) => {
-  const pkg = readPackage();
+export const addToPackage = (key: string, value: any, opts?: { dir?: string }) => {
+  const pkg = readPackage(opts?.dir);
   Object.assign(pkg, { [key]: value });
-  savePackage(pkg);
+  savePackage(pkg, opts?.dir);
 };
 
 export const isObject = (val: any): val is Record<string, any> => val !== null && typeof val === 'object';
