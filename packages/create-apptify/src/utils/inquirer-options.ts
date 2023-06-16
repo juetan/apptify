@@ -18,7 +18,8 @@ export const installerOptions = [
 
 export const buildInstallCmd = (installer: string, pkg?: string) => {
   let install = installer === 'yarn' ? 'add' : 'install';
-  if(!pkg && installer === 'yarn') {
+  if (!pkg && installer === 'yarn') {
     install = 'install';
   }
-}
+  return pkg;
+};

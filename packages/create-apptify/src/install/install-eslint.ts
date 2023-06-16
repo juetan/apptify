@@ -1,16 +1,9 @@
 import inquirer from 'inquirer';
-import { bold, green } from 'kolorist';
+import { bold, green, gray, blue } from 'kolorist';
 import { addToPackage, defineWorkflow, exec, installerOptions, print } from '../utils';
 
-export const installEslint = async (args: any) => {
+export const installEslint = async (args: { gitHooksPath?: string; installer?: string; silent?: boolean } = {}) => {
   const answers = await inquirer.prompt([
-    {
-      name: 'dir',
-      message: '请输入存放配置的目录',
-      type: 'input',
-      default: './scripts/husky',
-      when: () => !args.dir,
-    },
     {
       name: 'installer',
       message: '请选择包管理器',
@@ -20,7 +13,7 @@ export const installEslint = async (args: any) => {
       when: () => !args.installer,
     },
   ]);
-  const opts: { dir: string; installer: string } = { ...args, ...answers };
+  const opts: { gitHooksPath: string; installer: string } = { ...args, ...answers };
 
   const workflow = defineWorkflow([
     {
@@ -34,12 +27,26 @@ export const installEslint = async (args: any) => {
     {
       name: `添加 eslint 配置到 package.json 文件中`,
       job: async () => {
-        addToPackage('eslintConfig', {});
+        const config = {
+          env: {
+            browser: true,
+            es2021: true,
+          },
+          parserOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+          },
+        };
+        addToPackage('eslintConfig', config);
       },
     },
   ]);
-  await workflow.run();
+  await workflow.run({ silent: args.silent });
 
-  print(`${bold(green('\n恭喜'))}, 安装完成！, 接下来你可以通过以下命令添加钩子:\n`);
-  print(`npx husky add scripts/husky/<pre-commit> "<钩子内容>"\n`);
+  if (args.silent) {
+    return;
+  }
+  print(`${bold(green('安装完成'))}! 接下来你可以通过以下命令测试:\n`);
+  print(gray('# 检查特定文件'));
+  print(`${gray('$')} ${blue(`npx eslint ./test.js`)}\n`);
 };

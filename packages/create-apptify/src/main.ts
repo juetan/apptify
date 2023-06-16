@@ -4,7 +4,7 @@ import { red } from 'kolorist';
 import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 import { initProject } from './init';
-import { installCommitlint, installHusky, installReleaseIt } from './install';
+import { installCommitlint, installHusky, installLintStaged, installReleaseIt, installSpec } from './install';
 import { installEslint } from './install/install-eslint';
 import { installPrettier } from './install/install-prettier';
 import { LOGO, print, readPackage } from './utils';
@@ -32,56 +32,73 @@ program
             {
               value: 'husky',
               short: 'husky',
-              name: 'husky     : git 钩子管理工具',
+              name: 'husky      : git 钩子管理工具',
             },
             {
               value: 'release-it',
               short: 'release-it',
-              name: 'release-it: git 版本发布工具',
+              name: 'release-it : git 版本发布工具',
             },
             {
               value: 'commitlint',
               short: 'commitlint',
-              name: 'commitlint: git 提交信息校验工具',
+              name: 'commitlint : git 提交信息校验工具',
             },
             {
               value: 'eslint',
               short: 'eslint',
-              name: 'eslint    : 代码检查工具',
+              name: 'eslint     : 代码检查工具',
             },
             {
               value: 'prettier',
               short: 'prettier',
-              name: 'prettier  : 代码格式化工具',
+              name: 'prettier   : 代码格式化工具',
+            },
+            {
+              value: 'lint-staged',
+              short: 'lint-staged',
+              name: 'lint-staged: 代码格式化工具',
+            },
+            {
+              value: 'allinone',
+              short: 'allinone',
+              name: 'allinone   : 一键部署',
             },
           ],
         },
       ]);
       name = answers.name;
     }
+    if (name === 'allinone') {
+      return installSpec();
+    }
     if (name === 'release-it') {
-      installReleaseIt({ ...options, workDir: __dirname });
+      return installReleaseIt({ ...options, workDir: __dirname });
     }
     if (name === 'husky') {
-      installHusky(options);
+      return installHusky(options);
     }
     if (name === 'commitlint') {
-      installCommitlint(options);
+      return installCommitlint(options);
     }
     if (name === 'eslint') {
-      installEslint(options);
+      return installEslint(options);
     }
     if (name === 'prettier') {
-      installPrettier(options);
+      return installPrettier(options);
     }
-    if (!['release-it', 'husky', 'commitlint', 'eslint', 'prettier'].includes(name)) {
+    if (name === 'lint-staged') {
+      return installLintStaged(options);
+    }
+    {
       print(`${red('x')} ${`抱歉，暂不支持该库的安装。当前支持的库有:\n`}`);
-      print(`  [ husky      ]: git 钩子管理工具`);
-      print(`  [ commitlint ]: git 提交信息校验工具`);
-      print(`  [ release-it ]: git 版本发布工具`);
-      print(`  [ prettier   ]: 代码格式化工具`);
-      print(`  [ eslint     ]: 代码检查工具`);
-      print(`  [ stylelint  ]: 样式检查工具`);
+      print(`  [ husky       ]: git 钩子管理工具`);
+      print(`  [ commitlint  ]: git 提交信息校验工具`);
+      print(`  [ release-it  ]: git 版本发布工具`);
+      print(`  [ prettier    ]: 代码格式化工具`);
+      print(`  [ eslint      ]: 代码检查工具`);
+      print(`  [ stylelint   ]: 样式检查工具`);
+      print(`  [ lint-staged ]: 只检查提交的代码`);
       print();
     }
   });

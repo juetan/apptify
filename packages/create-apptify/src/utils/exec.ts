@@ -77,6 +77,10 @@ export const assign = (target: Record<string, any>, ...sources: Record<string, a
         assign(target[key], source[key]);
         return;
       }
+      if (Array.isArray(target[key]) && Array.isArray(source[key])) {
+        target[key] = [...target[key], ...source[key]];
+        return;
+      }
       target[key] = source[key];
     });
   });

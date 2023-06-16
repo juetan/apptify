@@ -9,7 +9,7 @@ export const installCommitlint = async (args: any) => {
   const answers = await inquirer.prompt([
     {
       name: 'dir',
-      message: '请输入存放配置文件的目录',
+      message: '请输入 Git hooksPath 目录',
       type: 'input',
       default: './scripts/husky',
     },
@@ -76,5 +76,5 @@ export const installCommitlint = async (args: any) => {
 
   await workflow.run();
 
-  print(`${bold(green('\n恭喜'))}, 安装完成！, 接下来你可以通过以下命令添加钩子:\n`);
+  print(`${bold(green('\n安装完成'))}! 接下来你可以通过以下命令添加钩子:\n`);
 };

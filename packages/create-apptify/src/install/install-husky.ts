@@ -2,14 +2,13 @@ import inquirer from 'inquirer';
 import { bold, green } from 'kolorist';
 import { defineWorkflow, exec, installerOptions, isCurrentDirGitRepository, isGitInstalled, print } from '../utils';
 
-export const installHusky = async (args: any) => {
+export const installHusky = async (args: { dir?: string; installer?: string; silent?: boolean } = {}) => {
   if (!(await isGitInstalled())) {
-    print(`\n抱歉, Git未安装, 可通过 https://git-scm.com/downloads 下载安装。\n`);
-    return;
+    throw Error(`Git未安装, 可通过 https://git-scm.com/downloads 下载安装`);
   }
+
   if (!(await isCurrentDirGitRepository())) {
-    print(`\n抱歉, 当前目录不是Git仓库, 请先通过 git init 命令进行初始化。\n`);
-    return;
+    throw Error(`当前目录不是Git仓库, 请先通过 git init 命令进行初始化。`);
   }
 
   const answers = await inquirer.prompt([
@@ -18,7 +17,7 @@ export const installHusky = async (args: any) => {
       message: '请输入存放配置的目录',
       type: 'input',
       default: './scripts/husky',
-      when: () => !args.dir,
+      when: () => !args?.dir,
     },
     {
       name: 'installer',
@@ -26,7 +25,7 @@ export const installHusky = async (args: any) => {
       type: 'list',
       choices: installerOptions,
       default: 'pnpm',
-      when: () => !args.installer,
+      when: () => !args?.installer,
     },
   ]);
   const opts: { dir: string; installer: string } = { ...args, ...answers };
