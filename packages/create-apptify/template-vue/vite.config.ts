@@ -50,14 +50,14 @@ export default defineConfig(({ mode }) => {
        * 提供 Vue 3 单文件组件支持
        * @see https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue
        */
-      Vue({
+      Vue({}),
 
-      }),
       /**
        * 提供 Vue 3 JSX 支持
        * @see https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue-jsx
        */
       VueJsx(),
+
       /**
        * 提供vue等api的自动导入
        * @see https://github.com/antfu/unplugin-auto-import#readme
@@ -74,6 +74,7 @@ export default defineConfig(({ mode }) => {
         resolvers: [ArcoResolver()],
         dts: "./src/types/auto-import.d.ts",
       }),
+
       /**
        * 提供vue组件的自动导入
        * @see https://github.com/antfu/unplugin-vue-components
@@ -93,6 +94,7 @@ export default defineConfig(({ mode }) => {
         ],
         dts: "./src/types/auto-component.d.ts",
       }),
+
       /**
        * 提供基于文件系统的路由生成
        * @see https://github.com/hannoeru/vite-plugin-pages
@@ -100,25 +102,16 @@ export default defineConfig(({ mode }) => {
       Page({
         exclude: ["**/components/*.vue", "**/*.*.vue"],
       }),
+
       /**
        * 提供CSS和图标的按需生成
        * @see https://github.com/unocss/unocss#readme
        */
       Unocss({
         include: ["src/**/*.{vue,ts,tsx,css,scss,sass,less,styl}"],
-        presets: [
-          presetUno(),
-          presetIcons({
-            prefix: "",
-            extraProperties: {
-              display: "inline-block",
-              "vertical-align": "middle",
-              width: "16px",
-              height: "16px",
-            },
-          }),
-        ],
+        presets: [presetUno(), presetIcons({ prefix: "" })],
       }),
+
       /**
        * 项目插件，打包时注入版本信息、基于文件后缀打包等
        * @see ./scripts/vite/plugin.ts

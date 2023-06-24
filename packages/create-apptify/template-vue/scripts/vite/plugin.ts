@@ -47,7 +47,7 @@ const getBuildInfo = async () => {
   const latestTag = await exec("git describe --tags --abbrev=0");
   const commits = await exec(`git rev-list --count ${latestTag}..HEAD`);
   const version = commits ? `${latestTag}.${commits}` : `v${pkg.version}`;
-  const content = `                          version：${version}  hash：${hash}  buildedAt：${time}`;
+  const content = ` 欢迎访问！版本: ${version}  标识: ${hash}  构建时间: ${time}`;
   const style = `"color: #09f; font-weight: 900;", "font-size: 12px; color: #09f; font-family: ''"`;
   const script = `console.log(\`%c${LOGO} \n%c${content}\n\`, ${style});\n`;
   return script;
@@ -64,11 +64,13 @@ export default function plugin(): Plugin {
   return {
     name: "vite:customizer",
     enforce: "pre",
+
     configResolved(resolvedConfig) {
       config = resolvedConfig;
       const defaultExt = config.mode === "development" ? "dev" : "prod";
       extension = config.env.VITE_BUILD_EXTENTION || defaultExt;
     },
+
     async transformIndexHtml(html) {
       const script = await getBuildInfo();
       const replacedHtml = html.replace(/__((\w|_|-)+)__/g, (match, p1) => {
@@ -85,6 +87,7 @@ export default function plugin(): Plugin {
         ],
       };
     },
+
     async resolveId(id, importer, options) {
       if (!extension || !id.startsWith("/src")) {
         return;
@@ -95,6 +98,7 @@ export default function plugin(): Plugin {
         return targetPath;
       }
     },
+
     load(id) {
       if (!extension || !id.includes("src")) {
         return;

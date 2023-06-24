@@ -68,7 +68,8 @@ const onForgetPasswordClick = () => {
   });
 };
 
-const onSubmitClick = () => {
+const onSubmitClick = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   router.push({ path: "/" });
 };
 </script>

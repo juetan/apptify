@@ -1,5 +1,4 @@
-import { Button, Link, Message, Modal, TableColumnData } from "@arco-design/web-vue";
-import { IconRefresh, IconSearch } from "@arco-design/web-vue/es/icon";
+import { Link, Message, Modal, TableColumnData } from "@arco-design/web-vue";
 import { defaultsDeep, isArray, isFunction, mergeWith, omit } from "lodash-es";
 import { reactive } from "vue";
 import { TableInstance } from "./table";
@@ -8,6 +7,7 @@ import {
   TABLE_COLUMN_DEFAULTS,
   TABLE_DELTE_DEFAULTS,
   TALBE_INDEX_DEFAULTS,
+  searchItem,
 } from "./table.config";
 import { UseTableOptions } from "./use-interface";
 
@@ -19,6 +19,10 @@ const merge = (...args: any[]) => {
     return undefined;
   });
 };
+
+const has = (obj: any, key: string) => Object.prototype.hasOwnProperty.call(obj, key);
+
+const propTruly = (obj: any, key: string) => !has(obj, key) || !!obj[key];
 
 /**
  * 提供便捷语法，构建传给Table组件的参数
@@ -39,10 +43,7 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
     // 操作
     if (column.type === "button" && isArray(column.buttons)) {
       if (options.detail) {
-        column.buttons.unshift({
-          text: "详情",
-          onClick: (data) => {},
-        });
+        column.buttons.unshift({ text: "详情", onClick: (data) => {} });
       }
 
       if (options.modify) {
@@ -127,38 +128,15 @@ export const useTable = (optionsOrFn: UseTableOptions | (() => UseTableOptions))
       }
       searchItems.push(item);
     });
-    searchItems.push({
-      field: "id",
-      type: "custom",
-      itemProps: {
-        class: "table-search-item col-start-4 !mr-0 grid grid-cols-[0_1fr]",
-        hideLabel: true,
-      },
-      component: () => {
-        const tableRef = inject<any>("ref:table");
-        console.log("ii", tableRef);
-        return (
-          <div class="w-full flex gap-x-2 justify-end">
-            {(options.search?.items?.length || 0) > 3 && (
-              <Button disabled={tableRef?.loading.value} onClick={() => tableRef?.reloadData()}>
-                {{ icon: () => <IconRefresh></IconRefresh>, default: () => "重置" }}
-              </Button>
-            )}
-            <Button type="primary" loading={tableRef?.loading.value} onClick={() => tableRef?.loadData()}>
-              {{ icon: () => <IconSearch></IconSearch>, default: () => "查询" }}
-            </Button>
-          </div>
-        );
-      },
-    });
+    searchItems.push(searchItem);
     options.search.items = searchItems;
   }
 
-  if (options.create) {
+  if (options.create && propTruly(options.create, "extend")) {
     options.create = merge(options.common, options.create);
   }
 
-  if (options.modify) {
+  if (options.modify && propTruly(options.modify, "extend")) {
     options.modify = merge(options.common, options.modify);
   }
 

@@ -8,7 +8,7 @@ import { PropType, computed, defineComponent, reactive, ref, watch } from "vue";
 import { Form, FormInstance, FormModal, FormModalInstance, FormModalProps, FormProps } from "../form";
 
 /**
- * CRUD表格组件
+ * 表格组件
  * @see src/components/table/table.tsx
  */
 export const Table = defineComponent({
@@ -104,6 +104,9 @@ export const Table = defineComponent({
         props.pagination.current = 1;
         return;
       }
+      if (typeof props.data !== "function") {
+        return;
+      }
       const model = searchRef.value?.getModel() || {};
       const paging = getPaging(pagination);
       try {
@@ -174,7 +177,7 @@ export const Table = defineComponent({
       onModifyOk,
     };
 
-    provide("ref:table", { ...state, ...props  });
+    provide("ref:table", { ...state, ...props });
 
     return state;
   },

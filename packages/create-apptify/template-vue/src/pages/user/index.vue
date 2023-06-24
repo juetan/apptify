@@ -92,6 +92,7 @@ const table = useTable({
     },
   },
   modify: {
+    extend: true,
     title: "修改用户",
     submit: ({ model }) => {
       return api.user.updateUser(model.id, model);

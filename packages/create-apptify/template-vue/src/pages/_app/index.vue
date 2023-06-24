@@ -62,7 +62,7 @@
             <a-tag class="cursor-pointer">首页</a-tag>
           </div>
         </a-layout-header>
-        <a-layout-content>
+        <a-layout-content class="overflow-x-auto">
           <router-view v-slot="{ Component }">
             <component :is="Component"></component>
           </router-view>

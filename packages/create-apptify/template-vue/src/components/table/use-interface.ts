@@ -1,7 +1,7 @@
-import { TableData, TableColumnData, Link } from "@arco-design/web-vue";
+import { Link, TableColumnData, TableData } from "@arco-design/web-vue";
 import { FormModalProps, FormProps } from "../form";
-import { TableProps } from "./table";
 import { IFormItem } from "../form/form-item";
+import { TableProps } from "./table";
 
 interface UseColumnRenderOptions {
   /**
@@ -65,11 +65,11 @@ export interface UseTableColumn extends TableColumnData {
 type ExtendableFormItem = (
   | string
   | ({
-    /**
-     * 继承common.items中指定field值的项
-    */
-   extend: string;
-  } & Partial<IFormItem>)
+      /**
+       * 继承common.items中指定field值的项
+       */
+      extend: string;
+    } & Partial<IFormItem>)
   | IFormItem
 )[];
 
@@ -94,13 +94,21 @@ export interface UseTableOptions extends Omit<TableProps, "search" | "create" | 
   /**
    * 新建弹窗配置
    */
-  create?: Partial<{
-    [k in keyof FormModalProps]: k extends "items" ? (string | (IFormItem & { extend: string }))[] : FormModalProps[k];
-  }>;
+  create?: Partial<
+    {
+      [k in keyof FormModalProps]: k extends "items"
+        ? (string | (IFormItem & { extend: string }))[]
+        : FormModalProps[k];
+    } & { extend: boolean }
+  >;
   /**
    * 新建弹窗配置
    */
-  modify?: Partial<{ [k in keyof FormModalProps]: k extends "items" ? (string | IFormItem)[] : FormModalProps[k] }>;
+  modify?: Partial<
+    { [k in keyof FormModalProps]: k extends "items" ? (string | IFormItem)[] : FormModalProps[k] } & {
+      extend: boolean;
+    }
+  >;
   /**
    * 详情弹窗配置
    */
