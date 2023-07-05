@@ -6,6 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+<<<<<<< HEAD
+.release-it.js
+scripts/*
+=======
+>>>>>>> e4bb72c (feat: 优化目录结构和输出样式)
 
 node_modules
 dist

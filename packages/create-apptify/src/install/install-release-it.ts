@@ -1,7 +1,15 @@
 import fs from 'fs';
 import inquirer from 'inquirer';
 import path from 'path';
-import { addToPackage, defineWorkflow, exec, getCliDir } from '../utils';
+import {
+  addToPackage,
+  defineWorkflow,
+  exec,
+  getCliDir,
+  installerOptions,
+  printCmd,
+  printInstallSuccessuly,
+} from '../utils';
 
 export const installReleaseIt = async (args: any) => {
   const answers = await inquirer.prompt([
@@ -15,7 +23,7 @@ export const installReleaseIt = async (args: any) => {
       name: 'installer',
       message: '请选择包管理器',
       type: 'list',
-      choices: ['npm', 'yarn', 'pnpm'],
+      choices: installerOptions,
       default: 'pnpm',
     },
   ]);
@@ -27,7 +35,7 @@ export const installReleaseIt = async (args: any) => {
 
   const workflow = defineWorkflow([
     {
-      name: '安装 release-it 和 @release-it/conventional-changelog 依赖',
+      name: '安装依赖: release-it @release-it/conventional-changelog',
       job: async () => {
         const inst = opts.installer === 'yarn' ? 'add' : 'install';
         const cmd = `${opts.installer} ${inst} -D release-it @release-it/conventional-changelog`;
@@ -35,7 +43,7 @@ export const installReleaseIt = async (args: any) => {
       },
     },
     {
-      name: `复制 配置文件 到 ${opts.dir} 目录下`,
+      name: `复制模板和配置文件到 ${opts.dir} 目录下`,
       job: async () => {
         const from = path.join(getCliDir(), './files/release-it');
         const to = path.join(process.cwd(), opts.dir);
@@ -43,11 +51,15 @@ export const installReleaseIt = async (args: any) => {
       },
     },
     {
-      name: '添加 release 命令到 package.json 文件中',
+      name: '添加命令到 package.json 文件中',
       job: async () => {
         addToPackage('scripts', { release: `release-it --config ${opts.dir}/release-it.cjs` });
       },
     },
   ]);
   await workflow.run();
+
+  printInstallSuccessuly();
+  printCmd(`npm run release\n`, '发布新版本');
+  printCmd(`https://github.com/release-it/release-it\n`, '官方文档');
 };

@@ -1,9 +1,8 @@
 import fs from 'fs';
-import { bold, green } from 'kolorist';
 import path from 'path';
-import { addToPackage, exec, installerOptions, print } from '../utils';
+import { addToPackage, exec, installerOptions, printCmd, printInstallSuccessuly } from '../utils';
 import inquirer from 'inquirer';
-import { defineWorkflow } from '../utils/try-run';
+import { defineWorkflow } from '../utils/workflow';
 
 export const installCommitlint = async (args: any) => {
   const answers = await inquirer.prompt([
@@ -11,14 +10,14 @@ export const installCommitlint = async (args: any) => {
       name: 'dir',
       message: '请输入 Git hooksPath 目录',
       type: 'input',
-      default: './scripts/husky',
+      default: './husky',
     },
     {
       name: 'installer',
       message: '请选择包管理器',
       type: 'list',
-      choices: installerOptions,
       default: 'pnpm',
+      choices: installerOptions,
     },
   ]);
   const opts: { dir: string; installer: string } = { ...args, ...answers };
@@ -29,7 +28,7 @@ export const installCommitlint = async (args: any) => {
 
   const workflow = defineWorkflow([
     {
-      name: '安装 @commitlint/cli 和 @commitlint/config-conventional 依赖',
+      name: '安装依赖: @commitlint/cli @commitlint/config-conventional',
       job: async () => {
         const inst = opts.installer === 'yarn' ? 'add' : 'install';
         const cmd = `${opts.installer} ${inst} -D @commitlint/cli @commitlint/config-conventional`;
@@ -43,17 +42,14 @@ export const installCommitlint = async (args: any) => {
       },
     },
     {
-      name: '添加 commitlint 配置到 git commit-msg 钩子中',
+      name: '添加 commitlint 命令到 git commit-msg 钩子中',
       job: async () => {
-        const fullPath = path.join(opts.dir, 'commit-msg');
-        fs.writeFileSync(fullPath, `npx --no-install commitlint --edit $1`);
+        const hookPath = path.join(opts.dir, 'commit-msg');
+        fs.writeFileSync(hookPath, `npx --no-install commitlint --edit $1`);
       },
     },
     {
-      name: `安装 commitizen 和 cz-convetional-hangelog 依赖`,
-      onBefore() {
-        print();
-      },
+      name: `安装依赖: commitizen cz-convetional-hangelog`,
       job: async () => {
         const inst = opts.installer === 'yarn' ? 'add' : 'install';
         const cmd = `${opts.installer} ${inst} -D commitizen cz-conventional-changelog`;
@@ -67,14 +63,15 @@ export const installCommitlint = async (args: any) => {
       },
     },
     {
-      name: `添加 commit 命令到 package.json 文件中`,
+      name: `添加 commitizen 命令到 package.json 文件中`,
       async job() {
         await exec(`npm set-script commit "cz"`);
       },
     },
   ]);
-
   await workflow.run();
 
-  print(`${bold(green('\n安装完成'))}! 接下来你可以通过以下命令添加钩子:\n`);
+  printInstallSuccessuly();
+  printCmd(`https://github.com/conventional-changelog/commitlint\n`, '官方文档');
+  printCmd(`https://github.com/commitizen/cz-cli\n`, '官方文档');
 };

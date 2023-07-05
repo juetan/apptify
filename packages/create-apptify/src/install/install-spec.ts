@@ -12,13 +12,13 @@ export const installSpec = async (): Promise<void> => {
     {
       name: '安装 husky 依赖',
       job: async () => {
-        await installHusky({ dir: './scripts/husky', installer: 'pnpm' });
+        await installHusky({ dir: './husky', installer: 'pnpm' });
       },
     },
     {
       name: '安装 commitlint 依赖',
       job: async () => {
-        await installCommitlint({ dir: './scripts/husky', installer: 'pnpm' });
+        await installCommitlint({ dir: './husky', installer: 'pnpm' });
       },
     },
     {

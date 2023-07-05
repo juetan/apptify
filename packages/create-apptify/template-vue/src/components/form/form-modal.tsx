@@ -42,7 +42,7 @@ export const FormModal = defineComponent({
       required: true,
     },
     /**
-     * 表单各项
+     * 表单项
      */
     items: {
       type: Array as PropType<IFormItem[]>,

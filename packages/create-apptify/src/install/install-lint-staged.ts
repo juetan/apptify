@@ -8,6 +8,7 @@ import {
   isCurrentDirGitRepository,
   isGitInstalled,
   print,
+  printCmd,
 } from '../utils';
 import fs from 'fs';
 import path from 'path';
@@ -26,10 +27,27 @@ export const installLintStaged = async (args: any) => {
   const answers = await inquirer.prompt([
     {
       name: 'dir',
-      message: '请输入存放配置的目录',
+      message: '请输入Git Hooks目录',
       type: 'input',
-      default: './scripts/husky',
+      default: '.husky',
       when: () => !args.dir,
+    },
+    {
+      name: 'configPath',
+      message: '请选择配置格式',
+      type: 'list',
+      default: '.husky',
+      when: () => !args.configPath,
+      choices: [
+        {
+          name: 'package.json',
+          value: 'package.json',
+        },
+        {
+          name: '.lintstagedrc.json',
+          value: '.lintstagedrc.json',
+        },
+      ],
     },
     {
       name: 'installer',
@@ -40,33 +58,35 @@ export const installLintStaged = async (args: any) => {
       when: () => !args.installer,
     },
   ]);
-  const opts: { dir: string; installer: string } = { ...args, ...answers };
+  const config: { dir: string; installer: string; configPath: string } = { ...args, ...answers };
 
   const workflow = defineWorkflow([
     {
       name: '安装 lint-staged 依赖',
       job: async () => {
-        const inst = opts.installer === 'yarn' ? 'add' : 'install';
-        const cmd = `${opts.installer} ${inst} -D lint-staged`;
+        const inst = config.installer === 'yarn' ? 'add' : 'install';
+        const cmd = `${config.installer} ${inst} -D lint-staged`;
         await exec(cmd);
       },
     },
     {
-      name: `创建 lint-staged 配置到 package.json 文件中`,
+      name: `添加配置到 package.json 文件中`,
       job: async () => {
         addToPackage('lint-staged', {});
       },
     },
     {
-      name: '添加 lint-staged 命令到 git pre-commit 钩子中',
+      name: '添加命令到 git pre-commit 钩子中',
       job: async () => {
-        const fullPath = path.join(opts.dir, 'commit-msg');
-        fs.writeFileSync(fullPath, `npx --no-install commitlint --edit $1`);
+        const hookPath = path.join(config.dir, 'commit-msg');
+        fs.writeFileSync(hookPath, `npx --no-install commitlint --edit $1`);
       },
     },
   ]);
   await workflow.run();
 
-  print(`${bold(green('\n恭喜'))}, 安装完成！, 接下来你可以通过以下命令测试:\n`);
-  print(`npx lint-staged\n`);
+  print(`${bold(green('安装完成'))}! 接下来你可以参考以下内容进行操作:\n`);
+  printCmd(`vim ${config.configPath}\n`, '添加命令');
+  printCmd(`npx lint-staged\n`, '手动执行');
+  printCmd(`https://github.com/okonet/lint-staged\n`, '官方文档');
 };

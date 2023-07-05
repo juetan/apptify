@@ -46,6 +46,8 @@ export const TALBE_INDEX_DEFAULTS = {
   render: ({ rowIndex }: any) => rowIndex + 1,
 };
 
+export const TABLE_INJECT_KEY = "ref:table";
+
 export const searchItem = {
   field: "id",
   type: "custom",
@@ -54,7 +56,7 @@ export const searchItem = {
     hideLabel: true,
   },
   component: () => {
-    const tableRef = inject<any>("ref:table");
+    const tableRef = inject<any>(TABLE_INJECT_KEY);
     return (
       <div class="w-full flex gap-x-2 justify-end">
         {(tableRef.search?.items?.length || 0) > 3 && (

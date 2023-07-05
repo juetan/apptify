@@ -1,0 +1,62 @@
+{
+  "name": "my-app",
+  "version": "0.0.4",
+  "type": "module",
+  "bin": "dist/index.js",
+  "files": [
+    "dist",
+    "template-*"
+  ],
+  "scripts": {
+    "release": "release-it --config ./scripts/release-it/release-it.cjs"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@release-it/conventional-changelog": "^5.1.1",
+    "@types/inquirer": "^9.0.3",
+    "@types/minimist": "^1.2.2",
+    "commander": "^10.0.1",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "download-git-repo": "^3.0.2",
+    "enquirer": "^2.3.6",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "inquirer": "^9.2.7",
+    "kolorist": "^1.7.0",
+    "minimist": "^1.2.8",
+    "ora": "^6.3.1",
+    "prettier": "^2.8.8",
+    "release-it": "^15.10.1",
+    "typescript": "^4.6.4",
+    "vite": "^4.3.9"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "crlf": "auto"
+  }
+}

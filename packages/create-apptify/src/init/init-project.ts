@@ -1,13 +1,14 @@
-import { green, gray, blue } from 'kolorist';
 import path from 'path';
-import { addToPackage, defineWorkflow, exec, installerOptions, print, saveGithubRepoTo } from '../utils';
+import {
+  addToPackage,
+  defineWorkflow,
+  exec,
+  installerOptions,
+  printCmd,
+  printInstallSuccessuly,
+  saveGithubRepoTo,
+} from '../utils';
 import inquirer from 'inquirer';
-
-const repoMap: Record<string, any> = {
-  vueAdmin: 'juetan/apptify-admin',
-  nest: 'juetan/apptify-admin',
-  tampermonkey: 'juetan/apptify-admin',
-};
 
 export const initProject = async (args: any) => {
   const answers = await inquirer.prompt<any>([
@@ -38,17 +39,17 @@ export const initProject = async (args: any) => {
       type: 'list',
       choices: [
         {
-          value: 'vueAdmin',
+          value: 'juetan/apptify-admin',
           short: 'vue-admin',
           name: '[vue-admin   ] - B端后台管理系统起始模板',
         },
         {
-          value: 'nest',
+          value: 'juetan/apptify-admin',
           short: 'nest-admin',
           name: '[nest-admin  ] - NodeJS后端项目起始模板',
         },
         {
-          value: 'tampermonkey',
+          value: 'juetan/apptify-admin',
           short: 'tampermonkey',
           name: '[tampermonkey] - 开发油猴插件的起始模板',
         },
@@ -56,53 +57,44 @@ export const initProject = async (args: any) => {
       when: () => !args.type,
     },
     {
-      name: 'install',
-      message: '是否自动安装依赖',
-      type: 'confirm',
-      default: true,
-    },
-    {
       name: 'installer',
       message: '请选择包管理器',
       type: 'list',
       choices: installerOptions,
-      when: (answers: any) => answers.install,
+      when: () => !args.installer,
     },
   ]);
-  const opts = { ...args, ...answers } as any;
-  const isCurrentDir = opts.path === '.' || opts.path === './';
-  const repoUrl = repoMap[opts.type];
+  const options = { ...args, ...answers } as any;
+  const isCurrentDir = options.path === '.' || options.path === './';
 
   const workflow = defineWorkflow([
     {
-      name: `下载模板到 ${opts.path} 目录中`,
+      name: `下载模板到 ${isCurrentDir ? '当前' : options.path} 目录中`,
       async job() {
-        return saveGithubRepoTo(repoUrl, opts.path);
+        await saveGithubRepoTo(options.type, options.path);
       },
     },
     {
-      name: `设置 ${opts.path} 目录中的 package.json 信息`,
+      name: `保存配置到 package.json 文件中`,
       async job() {
-        const options = { dir: path.join(process.cwd(), opts.path) };
-        addToPackage('name', opts.name, options);
-        addToPackage('description', opts.description, options);
+        const opts = { dir: path.join(process.cwd(), options.path) };
+        addToPackage('name', options.name, opts);
+        addToPackage('description', options.description, opts);
       },
     },
     {
       name: `安装依赖中, 时间可能较长请耐心等待`,
+      skip: () => !options.installer,
       async job() {
-        const installName = opts.installer === 'yarn' ? '' : 'install';
-        await exec(`cd ${opts.path} && ${opts.installer} ${installName}`);
+        const installName = options.installer === 'yarn' ? '' : 'install';
+        await exec(`cd ${options.path} && ${options.installer} ${installName}`);
       },
     },
   ]);
   await workflow.run();
 
-  print(`${green('初始化完成!')} 接下来你可以参照以下命令进行开发:\n`);
-  !isCurrentDir && print(gray('# 进入项目'));
-  !isCurrentDir && print(`${gray('$')} ${blue(`cd ${opts.path}`)}\n`);
-  !opts.install && print(gray('# 安装依赖'));
-  !opts.install && print(`${gray('$')} ${blue(`npm install`)}\n`);
-  print(gray('# 启动项目'));
-  print(`${gray('$')} ${blue(`${opts.installer || 'npm'} run dev`)}\n`);
+  printInstallSuccessuly();
+  !isCurrentDir && printCmd(`cd ${options.path}\n`, '进入项目目录');
+  options.installer === 'none' && printCmd(`npm install\n`, '安装依赖');
+  printCmd(`${options.installer || 'npm'} run dev\n`, '启动项目');
 };

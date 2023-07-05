@@ -1,20 +1,23 @@
 import { program } from 'commander';
 import inquirer from 'inquirer';
 import { red } from 'kolorist';
-import path, { join } from 'path';
+import path from 'path';
 import { fileURLToPath } from 'url';
 import { initProject } from './init';
-import { installCommitlint, installHusky, installLintStaged, installReleaseIt, installSpec } from './install';
-import { installEslint } from './install/install-eslint';
-import { installPrettier } from './install/install-prettier';
-import { LOGO, print, readPackage } from './utils';
+import { print, printBanner } from './utils';
+import {
+  installCommitlint,
+  installHusky,
+  installLintStaged,
+  installReleaseIt,
+  installSpec,
+  installEslint,
+  installPrettier,
+} from './install';
 
 const __dirname = path.join(fileURLToPath(import.meta.url), '..');
-const pkg = readPackage(join(__dirname, '..'));
-const printLOGO = () => {
-  print(LOGO);
-  print(`${'欢迎使用 Apptify CLI 工具'}! 版本: v${pkg.version}\n`);
-};
+
+program.option('--dry-run', '打印执行命令, 但不执行命令');
 
 program
   .command('install [name]')
@@ -27,42 +30,42 @@ program
         {
           name: 'name',
           message: '请选择要安装的库',
-          type: 'rawlist',
+          type: 'list',
           choices: [
             {
               value: 'husky',
               short: 'husky',
-              name: 'husky      : git 钩子管理工具',
-            },
-            {
-              value: 'release-it',
-              short: 'release-it',
-              name: 'release-it : git 版本发布工具',
-            },
-            {
-              value: 'commitlint',
-              short: 'commitlint',
-              name: 'commitlint : git 提交信息校验工具',
-            },
-            {
-              value: 'eslint',
-              short: 'eslint',
-              name: 'eslint     : 代码检查工具',
-            },
-            {
-              value: 'prettier',
-              short: 'prettier',
-              name: 'prettier   : 代码格式化工具',
+              name: '[ husky       ]: 提交钩子管理工具(git)',
             },
             {
               value: 'lint-staged',
               short: 'lint-staged',
-              name: 'lint-staged: 代码格式化工具',
+              name: '[ lint-staged ]: 只校验提交的代码(git)',
+            },
+            {
+              value: 'release-it',
+              short: 'release-it',
+              name: '[ release-it  ]: 版本发布记录工具(git)',
+            },
+            {
+              value: 'commitlint',
+              short: 'commitlint',
+              name: '[ commitlint  ]: 提交信息校验工具(git)',
+            },
+            {
+              value: 'eslint',
+              short: 'eslint',
+              name: '[ eslint      ]: 代码质量检查工具',
+            },
+            {
+              value: 'prettier',
+              short: 'prettier',
+              name: '[ prettier    ]: 代码样式格式工具',
             },
             {
               value: 'allinone',
               short: 'allinone',
-              name: 'allinone   : 一键部署',
+              name: '[ allinone    ]: 一键安装以上工具',
             },
           ],
         },
@@ -91,7 +94,7 @@ program
       return installLintStaged(options);
     }
     {
-      print(`${red('x')} ${`抱歉，暂不支持该库的安装。当前支持的库有:\n`}`);
+      print(`${red('x')} ${`抱歉，暂不支持安装 ${name} 库, 目前仅支持:\n`}`);
       print(`  [ husky       ]: git 钩子管理工具`);
       print(`  [ commitlint  ]: git 提交信息校验工具`);
       print(`  [ release-it  ]: git 版本发布工具`);
@@ -116,7 +119,7 @@ program
   });
 
 const run = () => {
-  printLOGO();
+  printBanner();
   program.parse();
 };
 

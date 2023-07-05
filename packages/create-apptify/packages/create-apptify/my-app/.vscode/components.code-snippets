@@ -1,0 +1,55 @@
+{
+  "useform": {
+    "scope": "javascript,typescript,vue,vue-html",
+    "prefix": "useform",
+    "description": "useForm code",
+    "body": [
+      "const ${1:form} = useForm({",
+      "  formProps: {},",
+      "  model: {},",
+      "  items: [",
+      "    {",
+      "      name: '${2:name}',",
+      "      label: '${3:label}',",
+      "      type: '${4:input}',",
+      "    },",
+      "  ],",
+      "  submit: async ({ model }) => {",
+      "    console.log(model);",
+      "  },",
+      "});"
+    ]
+  },
+  "table component": {
+    "scope": "vue,vue-html,html",
+    "prefix": "etable",
+    "description": "Table Component Code",
+    "body": ["<Table ref=\"${1:table}\" v-bind=\"${2:table}\"></Table>"]
+  },
+  "route page": {
+    "scope": "vue,vue-html,html",
+    "prefix": "epage",
+    "description": "Table Component Code",
+    "body": [
+      "<template>",
+      "  <div class=\"p-4\">",
+      "    ",
+      "  </div>",
+      "</template>",
+      "",
+      "<script setup lang=\"ts\"></script>",
+      "",
+      "<style scoped></style>",
+      "",
+      "<route lang=\"json\">",
+      "{",
+      "  \"meta\": {",
+      "    \"sort\": 101,",
+      "    \"title\": \"${1:路由页面}\",",
+      "    \"icon\": \"icon-park-outline-home\"",
+      "  }",
+      "}",
+      "</route>"
+    ]
+  }
+}
